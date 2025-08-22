@@ -3,12 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Split Layout 60/40</title>
+    <title>Adrian Castillo - Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Guyot Text is not on Google Fonts; using a close serif fallback (Gloock) -->
     <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="split">
@@ -39,7 +38,7 @@
                 <h3 class="cat-title">U.A.E.</h3>
                 <p class="cat-text">Department <em>of</em> Culture and Tourism<br>
                 National Media Office<br>
-                <em>The</em> Founder’s Office - Zayed bin Sultan Al Nahyan<br>
+                <em>The</em> Founder's Office - Zayed bin Sultan Al Nahyan<br>
                 Tirb Emirati Coffee</p>
               </div>
               <div class="cat">
@@ -78,23 +77,6 @@
         </div>
       </section>
     </main>
-    <script type="module" src="/src/main.js"></script>
-    <script>
-      // Updates the clock in the top-left of the left column
-      function formatNow() {
-        // Kept as a fallback; main logic is in /src/main.js
-        const now = new Date()
-        const date = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
-        const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
-        return `${date} ${time}`
-      }
-      function startClock() {
-        const el = document.getElementById('clock')
-        if (!el) return
-        el.textContent = formatNow()
-        setInterval(() => { el.textContent = formatNow() }, 1000 * 30)
-      }
-      startClock()
-    </script>
+    <script src="src/main.js"></script>
   </body>
 </html>
