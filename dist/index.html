@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Split Layout 60/40</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Guyot Text is not on Google Fonts; using a close serif fallback (Gloock) -->
+    <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-Dpe_aCK-.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BB0nUu_o.css">
+  </head>
+  <body>
+    <main class="split">
+      <section class="col-left" aria-label="Left column">
+        <div class="left-top-bar">
+          <span id="clock" aria-live="polite"></span>
+          <span class="location">Los Angeles, California</span>
+        </div>
+        <div class="left-stack">
+          <h1 class="name">Adrian Castillo</h1>
+          <p class="tagline">A freelance multi-media designer.</p>
+          <p class="bio">Previously a design lead for branding, digital and physical products, and events at <a href="https://instagram.com/atwrap.ae" target="_blank" rel="noopener">Atwrap Studio</a>,<br>
+          a visual designer for websites and mobile applications at <a href="https://www.codeandtheory.com" target="_blank" rel="noopener">Code and Theory</a>,<br>
+          and an all-around graphic designer at a boutique design agency in Manila.</p>
+          <div class="left-categories">
+            <div class="left-col">
+              <div class="cat">
+                <h3 class="cat-title">Selected Clients</h3>
+                <p class="cat-text"></p>
+              </div>
+              <div class="cat">
+                <h3 class="cat-title">Philippines</h3>
+                <p class="cat-text">DX10 Corporation<br>
+                World Archery - Philippines<br>
+                Cignal</p>
+              </div>
+              <div class="cat">
+                <h3 class="cat-title">U.A.E.</h3>
+                <p class="cat-text">Department <em>of</em> Culture and Tourism<br>
+                National Media Office<br>
+                <em>The</em> Founder’s Office - Zayed bin Sultan Al Nahyan<br>
+                Tirb Emirati Coffee</p>
+              </div>
+              <div class="cat">
+                <h3 class="cat-title">U.S.A.</h3>
+                <p class="cat-text">1-800 Flowers<br>
+                ValleyBank<br>
+                Hotaling <em>&amp;</em> Co.<br>
+                National Council <em>on</em> Aging<br>
+                <em>The</em> Farm Sanctuary<br>
+                Relief International</p>
+              </div>
+            </div>
+            <div class="right-col">
+              <div class="cat">
+                <h3 class="cat-title">Things I Do</h3>
+                <p class="cat-text">Website visual and experience design<br>
+                Brand strategy and positioning<br>
+                Logo and visual identity design</p>
+              </div>
+              <div class="cat">
+                <h3 class="cat-title">Elsewhere</h3>
+                <p class="cat-text">
+                  <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a><br>
+                  <a href="https://linkedin.com/in/" target="_blank" rel="noopener">LinkedIn</a><br>
+                  <a href="mailto:hello@example.com">Email</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="col-right" aria-label="Right column">
+        <div class="right-top-bar">
+          <a href="#" class="work">Work</a>
+          <a href="#" class="musings">Musings</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      // Updates the clock in the top-left of the left column
+      function formatNow() {
+        // Kept as a fallback; main logic is in /src/main.js
+        const now = new Date()
+        const date = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+        const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+        return `${date} ${time}`
+      }
+      function startClock() {
+        const el = document.getElementById('clock')
+        if (!el) return
+        el.textContent = formatNow()
+        setInterval(() => { el.textContent = formatNow() }, 1000 * 30)
+      }
+      startClock()
+    </script>
+  </body>
+</html>
