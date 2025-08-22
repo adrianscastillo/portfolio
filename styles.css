@@ -2,6 +2,16 @@
 html, body { height: 100%; overflow: hidden; }
 body { font-family: 'Guyot Press', serif; }
 
+#background-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
 @font-face {
   font-family: 'Nautica';
   src: url('/fonts/Nautica Medium.otf') format('opentype');
@@ -27,7 +37,7 @@ body { font-family: 'Guyot Press', serif; }
 }
 
 .split { display: grid; grid-template-columns: 60% 40%; width: 100vw; height: 100vh; height: 100dvh; }
-.col-left { background: #0002AA; position: relative; }
+.col-left { background: transparent; position: relative; }
 .col-right { background: #F8F3E7; }
 .right-categories {
   padding: 40px;
