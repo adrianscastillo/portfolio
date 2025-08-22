@@ -36,4 +36,4 @@ npm run build
 
 Visit the live portfolio at: [https://adrianscastillo.github.io/portfolio](https://adrianscastillo.github.io/portfolio)
 
-**Status**: Deployed and working ✅
+**Status**: Testing deployment - CSS loading issue detected 🔧
