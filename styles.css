@@ -209,6 +209,57 @@ body {
 .col-right .cat-text a { color: #111; }
 .cat-text a:hover { color: #85774B; }
 
+.draggable-box {
+  width: 200px;
+  height: 120px;
+  background: #ffffff;
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  z-index: 1000;
+  left: 80vw;
+  transform: translateX(-50%);
+}
+
+.draggable-box:nth-child(1) { top: 100px; }
+.draggable-box:nth-child(2) { top: 240px; }
+.draggable-box:nth-child(3) { top: 380px; }
+.draggable-box:nth-child(4) { top: 520px; }
+.draggable-box:nth-child(5) { top: 660px; }
+.draggable-box:nth-child(6) { top: 800px; }
+.draggable-box:nth-child(7) { top: 940px; }
+.draggable-box:nth-child(8) { top: 1080px; }
+.draggable-box:nth-child(9) { top: 1220px; }
+.draggable-box:nth-child(10) { top: 1360px; }
+
+.projects-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  pointer-events: none;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.projects-container::-webkit-scrollbar {
+  display: none;
+}
+
+.projects-container .draggable-box {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Guyot Press', serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #0002AA;
+}
+
 
 
 
