@@ -1,4 +1,8 @@
-* { box-sizing: border-box; margin: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  cursor: none !important; /* Hide all system cursors */
+}
 html, body { height: 100%; overflow: hidden; }
 body { 
   font-family: 'Guyot Press', serif; 
@@ -52,8 +56,22 @@ body {
   font-size: 14px;
   line-height: 1.4;
 }
-.right-top-bar .work { justify-self: start; text-decoration: none; font-style: italic; text-transform: uppercase; }
-.right-top-bar .musings { justify-self: end; text-decoration: none; font-style: italic; text-transform: uppercase; }
+.right-top-bar .work { 
+  justify-self: start; 
+  text-decoration: none; 
+  font-style: italic; 
+  text-transform: uppercase; 
+  padding: 10px;
+  margin: -10px;
+}
+.right-top-bar .musings { 
+  justify-self: end; 
+  text-decoration: none; 
+  font-style: italic; 
+  text-transform: uppercase; 
+  padding: 10px;
+  margin: -10px;
+}
 .right-top-bar a { color: #111; transition: color 0.2s ease; position: relative; }
 .right-top-bar a:hover { color: #85774B; }
 

@@ -15,7 +15,7 @@ class CustomCursor {
     this.ctx = this.canvas.getContext('2d')
     this.mouse = { x: 0, y: 0 }
     this.trail = []
-    this.maxTrailLength = 12
+    this.maxTrailLength = 25
     
     this.init()
     this.bindEvents()
@@ -59,9 +59,29 @@ class CustomCursor {
     const element = document.elementFromPoint(x, y)
     if (!element) return 'white'
     
+    // Special handling for Work and Musings buttons
+    if (element.classList.contains('work') || element.classList.contains('musings')) {
+      return 'black'
+    }
+    
     const computedStyle = window.getComputedStyle(element)
     const backgroundColor = computedStyle.backgroundColor
     
+    // Check for transparent or rgba with alpha
+    if (backgroundColor === 'transparent' || backgroundColor === 'rgba(0, 0, 0, 0)') {
+      // Look at parent element
+      const parent = element.parentElement
+      if (parent) {
+        const parentStyle = window.getComputedStyle(parent)
+        const parentBg = parentStyle.backgroundColor
+        return this.parseBackgroundColor(parentBg)
+      }
+    }
+    
+    return this.parseBackgroundColor(backgroundColor)
+  }
+
+  parseBackgroundColor(backgroundColor) {
     // Parse RGB values
     if (backgroundColor.startsWith('rgb')) {
       const rgb = backgroundColor.match(/\d+/g)
@@ -71,7 +91,7 @@ class CustomCursor {
         const b = parseInt(rgb[2])
         
         // Check if background is light (high RGB values)
-        if (r > 200 && g > 200 && b > 200) {
+        if (r > 180 && g > 180 && b > 180) {
           return 'black'
         }
       }
@@ -105,7 +125,7 @@ class CustomCursor {
         // Get color for this trail point
         const trailColor = this.getColorAtPosition(point.x, point.y)
         this.ctx.strokeStyle = trailColor
-        this.ctx.globalAlpha = 0.4
+        this.ctx.globalAlpha = 1.0
         this.ctx.lineTo(point.x, point.y)
       }
       
@@ -115,12 +135,26 @@ class CustomCursor {
     
     // Draw cursor
     const cursorColor = this.getColorAtPosition(this.mouse.x, this.mouse.y) || 'white'
+    const element = document.elementFromPoint(this.mouse.x, this.mouse.y)
+    const isHoverable = element && (element.tagName === 'A' || element.onclick || element.style.cursor === 'pointer')
     
     this.ctx.save()
-    this.ctx.fillStyle = cursorColor
-    this.ctx.beginPath()
-    this.ctx.arc(this.mouse.x, this.mouse.y, 3, 0, Math.PI * 2)
-    this.ctx.fill()
+    this.ctx.strokeStyle = cursorColor
+    this.ctx.lineWidth = 1
+    
+    if (isHoverable) {
+      // Draw circle outline when hovering over clickable elements
+      this.ctx.beginPath()
+      this.ctx.arc(this.mouse.x, this.mouse.y, 8, 0, Math.PI * 2)
+      this.ctx.stroke()
+    } else {
+      // Draw filled dot for normal cursor
+      this.ctx.fillStyle = cursorColor
+      this.ctx.beginPath()
+      this.ctx.arc(this.mouse.x, this.mouse.y, 3, 0, Math.PI * 2)
+      this.ctx.fill()
+    }
+    
     this.ctx.restore()
     
     requestAnimationFrame(() => this.animate())

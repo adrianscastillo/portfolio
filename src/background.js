@@ -170,11 +170,11 @@ class UndulatingBackground {
     this.ctx.save()
     this.ctx.globalCompositeOperation = 'lighten'
     
-    const layers = 60
+    const layers = 80
     for (let i = 0; i < layers; i++) {
       const progress = i / layers
-      const opacity = Math.pow(1 - progress, 0.8) * wave.opacity * 0.1
-      const sizeMultiplier = 1 + (progress * 2)
+      const opacity = Math.pow(1 - progress, 0.6) * wave.opacity * 0.08
+      const sizeMultiplier = 1 + (progress * 2.5)
       
       this.ctx.globalAlpha = opacity
       
