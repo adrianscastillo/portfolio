@@ -1,16 +1,11 @@
 * { box-sizing: border-box; margin: 0; }
 html, body { height: 100%; overflow: hidden; }
-body { font-family: 'Guyot Press', serif; }
-
-#background-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
+body { 
+  font-family: 'Guyot Press', serif; 
+  background-color: #0002AA; /* Blue background matching blobs */
 }
+
+
 
 @font-face {
   font-family: 'Nautica';

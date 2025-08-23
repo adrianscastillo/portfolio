@@ -1,4 +1,4 @@
-// Moves inline clock logic into a module for Vite HMR
+// Clock functionality
 function formatNow() {
   const now = new Date()
   const date = now.toLocaleDateString('en-US', {
@@ -13,10 +13,18 @@ function formatNow() {
 let timer
 function startClock() {
   const el = document.getElementById('clock')
-  if (!el) return
+  if (!el) {
+    console.log('Clock element not found')
+    return
+  }
   el.textContent = formatNow()
-  timer = setInterval(() => { el.textContent = formatNow() }, 30_000)
+  timer = setInterval(() => { 
+    el.textContent = formatNow() 
+  }, 30_000)
+  console.log('Clock started')
 }
 
+// Start clock when script loads
 startClock()
+
 if (import.meta.hot) import.meta.hot.dispose(() => clearInterval(timer))

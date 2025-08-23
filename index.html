@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <canvas id="background-canvas"></canvas>
+  
     <main class="split">
       <section class="col-left" aria-label="Left column">
         <div class="left-top-bar">
@@ -19,7 +19,7 @@
         </div>
         <div class="left-stack">
           <h1 class="name">Adrian Castillo</h1>
-          <p class="tagline">A freelance multi-media designer.</p>
+          <p class="tagline">A freelance multi-disciplinary designer.</p>
           <p class="bio">Previously a design lead for branding, digital and physical products, and events at <a href="https://instagram.com/atwrap.ae" target="_blank" rel="noopener">Atwrap Studio</a>,<br>
           a visual designer for websites and mobile applications at <a href="https://www.codeandtheory.com" target="_blank" rel="noopener">Code and Theory</a>,<br>
           and an all-around graphic designer at a boutique design agency in Manila.</p>
@@ -78,7 +78,42 @@
         </div>
       </section>
     </main>
-    <script src="src/main.js"></script>
-    <script src="src/background.js"></script>
+          <script src="src/main.js"></script>
+      <script src="src/background.js"></script>
+      <script src="src/cursor.js"></script>
+      <script>
+      // Clock functionality
+      function formatNow() {
+        const now = new Date()
+        const laTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}))
+        const date = laTime.toLocaleDateString('en-US', {
+          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+        })
+        const time = laTime.toLocaleTimeString('en-US', {
+          hour: 'numeric', minute: '2-digit'
+        })
+        return `${date} ${time} PST`
+      }
+
+      function startClock() {
+        const el = document.getElementById('clock')
+        if (!el) {
+          console.log('Clock element not found')
+          return
+        }
+        el.textContent = formatNow()
+        setInterval(() => { 
+          el.textContent = formatNow() 
+        }, 1000) // Update every second
+        console.log('Clock started - real-time updates')
+      }
+
+      // Start clock when page loads
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', startClock)
+      } else {
+        startClock()
+      }
+    </script>
   </body>
 </html>
