@@ -114,45 +114,31 @@ class DraggableBoxes {
     }
   }
   
-  setRandomSizes() {
-    // Define 2 size variants with 2:3 aspect ratios
-    const sizeVariants = [
-      { width: 240, height: 360 }, // Medium vertical rectangle (2:3)
-      { width: 300, height: 450 }  // Large vertical rectangle (2:3)
-    ]
+    setRandomSizes() {
+    // Calculate cream column width (40% of viewport)
+    const creamColumnWidth = window.innerWidth * 0.4
+    const boxWidth = creamColumnWidth - 80 // Subtract padding (40px on each side)
     
+    // All boxes use the same square size (10% smaller)
+    const boxSize = boxWidth * 0.9
+
     let currentTop = 100 // Starting position
     
-    // Create a balanced array of size indices (5 medium, 5 large)
-    const sizeIndices = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1] // 5 medium (0), 5 large (1)
-    
-    // Shuffle the array for random order
-    for (let i = sizeIndices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[sizeIndices[i], sizeIndices[j]] = [sizeIndices[j], sizeIndices[i]]
-    }
-    
     this.boxes.forEach((box, index) => {
-      // Use the shuffled array to ensure balanced distribution
-      const sizeIndex = sizeIndices[index]
-      const variant = sizeVariants[sizeIndex]
-      
-            // Center aligned x position with small random scatter
+      // Center aligned x position (no random scatter)
       const xPosition = 80 // 80vw (center of cream column)
-      const xScatter = (Math.random() - 0.5) * 50 // Random offset between -25px and +25px
-      const finalXPosition = xPosition + (xScatter / window.innerWidth * 100) // Convert px to vw
 
-      box.style.width = `${variant.width}px`
-      box.style.height = `${variant.height}px`
-      box.style.left = `${finalXPosition}vw`
-              box.style.top = `${currentTop}px`
-        box.style.transform = `translateX(-50%)`
-        
-        // Add number to the box (1-10)
-        box.textContent = (index + 1).toString()
-        
-        // Calculate next position: current box bottom + 12px gap
-      currentTop += variant.height + 12
+      box.style.width = `${boxSize}px`
+      box.style.height = `${boxSize}px`
+      box.style.left = `${xPosition}vw`
+      box.style.top = `${currentTop}px`
+      box.style.transform = `translateX(-50%)`
+      
+      // Add number to the box (1-10)
+      box.textContent = (index + 1).toString()
+      
+      // Calculate next position: current box bottom + 12px gap
+      currentTop += boxSize + 12
     })
   }
   

@@ -71,7 +71,10 @@ body {
 .col-right .cat-text { color: #111; opacity: 0.9; }
 
 .right-top-bar {
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 40%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: start;
@@ -81,6 +84,8 @@ body {
   font-weight: 400;
   font-size: 14px;
   line-height: 1.4;
+  z-index: 10000;
+  pointer-events: auto;
 }
 .right-top-bar .work { 
   justify-self: start; 
@@ -98,7 +103,7 @@ body {
   padding: 10px;
   margin: -10px;
 }
-.right-top-bar a { color: #111; transition: color 0.2s ease; position: relative; }
+.right-top-bar a { transition: color 0.2s ease; position: relative; z-index: 10001; }
 .right-top-bar a:hover { color: #85774B; }
 
 .left-top-bar {
