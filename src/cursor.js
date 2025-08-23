@@ -15,7 +15,7 @@ class CustomCursor {
     this.ctx = this.canvas.getContext('2d')
     this.mouse = { x: 0, y: 0 }
     this.trail = []
-    this.maxTrailLength = 25
+    this.maxTrailLength = 160
     
     this.init()
     this.bindEvents()
@@ -51,6 +51,18 @@ class CustomCursor {
     
     document.addEventListener('mouseleave', () => {
       this.trail = []
+    })
+    
+    // Reset trail on click
+    document.addEventListener('click', (e) => {
+      // Only reset if clicking on non-interactive elements
+      const element = e.target
+      if (element.tagName !== 'A' && 
+          element.tagName !== 'BUTTON' && 
+          !element.onclick && 
+          element.style.cursor !== 'pointer') {
+        this.trail = []
+      }
     })
   }
 
@@ -92,14 +104,14 @@ class CustomCursor {
         
         // Check if background is light (high RGB values)
         if (r > 180 && g > 180 && b > 180) {
-          return 'black'
+          return '#0002aa'
         }
       }
     }
     
     // Check for white keyword
     if (backgroundColor === 'white' || backgroundColor === '#ffffff' || backgroundColor === '#fff') {
-      return 'black'
+      return '#0002aa'
     }
     
     return 'white'
@@ -109,27 +121,30 @@ class CustomCursor {
     // Clear canvas
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     
-    // Draw trail as a line
+    // Draw trail as individual line segments
     if (this.trail.length > 1) {
       this.ctx.save()
       this.ctx.lineWidth = 1
-      this.ctx.lineCap = 'butt'
-      this.ctx.lineJoin = 'miter'
-      
-      this.ctx.beginPath()
-      this.ctx.moveTo(this.trail[0].x, this.trail[0].y)
+      this.ctx.lineCap = 'round'
+      this.ctx.lineJoin = 'round'
+      this.ctx.globalAlpha = 1.0
       
       for (let i = 1; i < this.trail.length; i++) {
+        const prevPoint = this.trail[i - 1]
         const point = this.trail[i]
         
-        // Get color for this trail point
-        const trailColor = this.getColorAtPosition(point.x, point.y)
+        // Get color for the midpoint of this segment
+        const midX = (prevPoint.x + point.x) / 2
+        const midY = (prevPoint.y + point.y) / 2
+        const trailColor = this.getColorAtPosition(midX, midY)
+        
         this.ctx.strokeStyle = trailColor
-        this.ctx.globalAlpha = 1.0
+        this.ctx.beginPath()
+        this.ctx.moveTo(prevPoint.x, prevPoint.y)
         this.ctx.lineTo(point.x, point.y)
+        this.ctx.stroke()
       }
       
-      this.ctx.stroke()
       this.ctx.restore()
     }
     
