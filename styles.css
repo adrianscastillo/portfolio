@@ -210,27 +210,29 @@ body {
 .cat-text a:hover { color: #85774B; }
 
 .draggable-box {
-  width: 200px;
-  height: 120px;
-  background: #ffffff;
   position: absolute;
   cursor: grab;
   user-select: none;
   z-index: 1000;
   left: 80vw;
   transform: translateX(-50%);
+  transition: left 0.2s ease-out, top 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.draggable-box.dragging {
+  transition: none;
 }
 
 .draggable-box:nth-child(1) { top: 100px; }
-.draggable-box:nth-child(2) { top: 240px; }
-.draggable-box:nth-child(3) { top: 380px; }
-.draggable-box:nth-child(4) { top: 520px; }
-.draggable-box:nth-child(5) { top: 660px; }
-.draggable-box:nth-child(6) { top: 800px; }
-.draggable-box:nth-child(7) { top: 940px; }
-.draggable-box:nth-child(8) { top: 1080px; }
-.draggable-box:nth-child(9) { top: 1220px; }
-.draggable-box:nth-child(10) { top: 1360px; }
+.draggable-box:nth-child(2) { top: 332px; }
+.draggable-box:nth-child(3) { top: 564px; }
+.draggable-box:nth-child(4) { top: 796px; }
+.draggable-box:nth-child(5) { top: 1028px; }
+.draggable-box:nth-child(6) { top: 1260px; }
+.draggable-box:nth-child(7) { top: 1492px; }
+.draggable-box:nth-child(8) { top: 1724px; }
+.draggable-box:nth-child(9) { top: 1956px; }
+.draggable-box:nth-child(10) { top: 2188px; }
 
 .projects-container {
   position: fixed;
@@ -243,21 +245,72 @@ body {
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  padding: 40px;
+  padding-bottom: 500px;
 }
 
 .projects-container::-webkit-scrollbar {
   display: none;
 }
 
-.projects-container .draggable-box {
+.projects-container .draggable-box:nth-child(1) {
   pointer-events: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Guyot Press', serif;
-  font-size: 24px;
-  font-weight: bold;
-  color: #0002AA;
+  background: radial-gradient(circle at 30% 20%, #0002AA 0%, #000000 60%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(2) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 70% 80%, #0002AA 0%, #000000 95%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(3) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 20% 60%, #0002AA 0%, #000000 75%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(4) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 80% 30%, #0002AA 0%, #000000 98%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(5) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 40% 70%, #0002AA 0%, #000000 70%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(6) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 60% 40%, #0002AA 0%, #000000 85%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(7) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 10% 50%, #0002AA 0%, #000000 90%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(8) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 90% 10%, #0002AA 0%, #000000 80%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(9) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 50% 90%, #0002AA 0%, #000000 88%);
+  border-radius: 8px;
+}
+
+.projects-container .draggable-box:nth-child(10) {
+  pointer-events: auto;
+  background: radial-gradient(circle at 25% 80%, #0002AA 0%, #000000 92%);
+  border-radius: 8px;
 }
 
 
