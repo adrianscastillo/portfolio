@@ -223,16 +223,7 @@ body {
   transition: none;
 }
 
-.draggable-box:nth-child(1) { top: 100px; }
-.draggable-box:nth-child(2) { top: 332px; }
-.draggable-box:nth-child(3) { top: 564px; }
-.draggable-box:nth-child(4) { top: 796px; }
-.draggable-box:nth-child(5) { top: 1028px; }
-.draggable-box:nth-child(6) { top: 1260px; }
-.draggable-box:nth-child(7) { top: 1492px; }
-.draggable-box:nth-child(8) { top: 1724px; }
-.draggable-box:nth-child(9) { top: 1956px; }
-.draggable-box:nth-child(10) { top: 2188px; }
+
 
 .projects-container {
   position: fixed;
@@ -253,56 +244,59 @@ body {
   display: none;
 }
 
-.projects-container .draggable-box:nth-child(1) {
+.projects-container .draggable-box {
   pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Guyot Headline', serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.projects-container .draggable-box:nth-child(1) {
   background: radial-gradient(circle at 30% 20%, #0002AA 0%, #000000 60%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(2) {
-  pointer-events: auto;
   background: radial-gradient(circle at 70% 80%, #0002AA 0%, #000000 95%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(3) {
-  pointer-events: auto;
   background: radial-gradient(circle at 20% 60%, #0002AA 0%, #000000 75%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(4) {
-  pointer-events: auto;
   background: radial-gradient(circle at 80% 30%, #0002AA 0%, #000000 98%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(5) {
-  pointer-events: auto;
   background: radial-gradient(circle at 40% 70%, #0002AA 0%, #000000 70%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(6) {
-  pointer-events: auto;
   background: radial-gradient(circle at 60% 40%, #0002AA 0%, #000000 85%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(7) {
-  pointer-events: auto;
-  background: radial-gradient(circle at 10% 50%, #0002AA 0%, #000000 90%);
+  background: radial-gradient(circle at 20% 50%, #0002AA 0%, #000000 90%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(8) {
-  pointer-events: auto;
   background: radial-gradient(circle at 90% 10%, #0002AA 0%, #000000 80%);
   border-radius: 8px;
 }
 
 .projects-container .draggable-box:nth-child(9) {
-  pointer-events: auto;
   background: radial-gradient(circle at 50% 90%, #0002AA 0%, #000000 88%);
   border-radius: 8px;
 }

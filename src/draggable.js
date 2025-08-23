@@ -6,16 +6,25 @@ class DraggableBoxes {
       return
     }
     
+    // Cache DOM elements for better performance
+    this.container = document.querySelector('.projects-container')
+    this.scatterButton = document.querySelector('.musings')
+    
     this.draggedBox = null
     this.isDragging = false
     this.startX = 0
     this.startY = 0
+    this.highestZIndex = 1000 // Track the highest z-index used
     
     this.init()
     this.setRandomSizes()
   }
   
   init() {
+    if (!this.container) {
+      console.error('Projects container not found')
+      return
+    }
     this.bindEvents()
   }
   
@@ -29,14 +38,11 @@ class DraggableBoxes {
     // Add global scroll handler for the projects container
     document.addEventListener('wheel', (e) => this.handleScroll(e))
     
-
-    
     // Add scatter/put back button functionality
-    const scatterButton = document.querySelector('.musings')
-    if (scatterButton) {
-      scatterButton.addEventListener('click', (e) => {
+    if (this.scatterButton) {
+      this.scatterButton.addEventListener('click', (e) => {
         e.preventDefault()
-        if (scatterButton.textContent === 'Scatter') {
+        if (this.scatterButton.textContent === 'Scatter') {
           this.scatterBoxes()
         } else {
           this.putBackBoxes()
@@ -52,7 +58,10 @@ class DraggableBoxes {
     this.isDragging = true
     this.draggedBox = box
     box.style.cursor = 'grabbing'
-    box.style.zIndex = '1001'
+    
+    // Increment z-index to bring this box to the very front
+    this.highestZIndex += 1
+    box.style.zIndex = this.highestZIndex.toString()
     box.classList.add('dragging')
     
     // Change button text to "Put Back"
@@ -70,8 +79,7 @@ class DraggableBoxes {
     e.stopPropagation()
     
     // Get the projects container scroll position
-    const container = document.querySelector('.projects-container')
-    const scrollTop = container ? container.scrollTop : 0
+    const scrollTop = this.container ? this.container.scrollTop : 0
     
     const x = e.clientX - this.startX
     const y = e.clientY - this.startY + scrollTop
@@ -91,7 +99,7 @@ class DraggableBoxes {
     
     this.isDragging = false
     this.draggedBox.style.cursor = 'grab'
-    this.draggedBox.style.zIndex = '1000'
+    // Keep the box at its current z-index so it stays in front
     this.draggedBox.classList.remove('dragging')
     this.draggedBox = null
   }
@@ -100,45 +108,50 @@ class DraggableBoxes {
     // Only handle scroll if not currently dragging
     if (this.isDragging) return
     
-    const container = document.querySelector('.projects-container')
-    if (container) {
+    if (this.container) {
       e.preventDefault()
-      container.scrollTop += e.deltaY
+      this.container.scrollTop += e.deltaY
     }
   }
   
   setRandomSizes() {
-    // Define 4 size variants
+    // Define 2 size variants with 2:3 aspect ratios
     const sizeVariants = [
-      { width: 260, height: 330 }, // Small rectangle
-      { width: 290, height: 220 }, // Medium rectangle
-      { width: 330, height: 260 }, // Large rectangle
-      { width: 370, height: 240 }  // Wide rectangle
+      { width: 240, height: 360 }, // Medium vertical rectangle (2:3)
+      { width: 300, height: 450 }  // Large vertical rectangle (2:3)
     ]
     
     let currentTop = 100 // Starting position
-    let previousIndex = -1 // Track previous size index
+    
+    // Create a balanced array of size indices (5 medium, 5 large)
+    const sizeIndices = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1] // 5 medium (0), 5 large (1)
+    
+    // Shuffle the array for random order
+    for (let i = sizeIndices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[sizeIndices[i], sizeIndices[j]] = [sizeIndices[j], sizeIndices[i]]
+    }
     
     this.boxes.forEach((box, index) => {
-      // Select a different size from the previous box
-      let randomIndex
-      do {
-        randomIndex = Math.floor(Math.random() * sizeVariants.length)
-      } while (randomIndex === previousIndex)
+      // Use the shuffled array to ensure balanced distribution
+      const sizeIndex = sizeIndices[index]
+      const variant = sizeVariants[sizeIndex]
       
-      const variant = sizeVariants[randomIndex]
-      previousIndex = randomIndex // Update for next iteration
-      
-      // Center aligned x position
+            // Center aligned x position with small random scatter
       const xPosition = 80 // 80vw (center of cream column)
-      
+      const xScatter = (Math.random() - 0.5) * 50 // Random offset between -25px and +25px
+      const finalXPosition = xPosition + (xScatter / window.innerWidth * 100) // Convert px to vw
+
       box.style.width = `${variant.width}px`
       box.style.height = `${variant.height}px`
-      box.style.left = `${xPosition}vw`
-      box.style.top = `${currentTop}px`
-      box.style.transform = `translateX(-50%)`
-      
-      // Calculate next position: current box bottom + 12px gap
+      box.style.left = `${finalXPosition}vw`
+              box.style.top = `${currentTop}px`
+        box.style.transform = `translateX(-50%)`
+        
+        // Add number to the box (1-10)
+        box.textContent = (index + 1).toString()
+        
+        // Calculate next position: current box bottom + 12px gap
       currentTop += variant.height + 12
     })
   }
@@ -184,21 +197,27 @@ class DraggableBoxes {
         yPosition = Math.random() * (maxY - minY) + minY
         attempts++
         
-        // Check distance from box above
-        if (boxAbove) {
-          const aboveX = parseFloat(boxAbove.style.left) || 80
-          const aboveY = parseInt(boxAbove.style.top) || 0
-          const distanceFromAbove = Math.sqrt(Math.pow(xPosition - aboveX, 2) + Math.pow(yPosition - aboveY, 2))
-          if (distanceFromAbove < 30) continue
-        }
-        
-        // Check distance from box below
-        if (boxBelow) {
-          const belowX = parseFloat(boxBelow.style.left) || 80
-          const belowY = parseInt(boxBelow.style.top) || 0
-          const distanceFromBelow = Math.sqrt(Math.pow(xPosition - belowX, 2) + Math.pow(yPosition - belowY, 2))
-          if (distanceFromBelow < 30) continue
-        }
+              // Check distance from adjacent boxes (optimized)
+      const minDistance = 30
+      const minDistanceSquared = minDistance * minDistance // Avoid square root for performance
+      
+      if (boxAbove) {
+        const aboveX = parseFloat(boxAbove.style.left) || 80
+        const aboveY = parseInt(boxAbove.style.top) || 0
+        const deltaX = xPosition - aboveX
+        const deltaY = yPosition - aboveY
+        const distanceSquared = deltaX * deltaX + deltaY * deltaY
+        if (distanceSquared < minDistanceSquared) continue
+      }
+      
+      if (boxBelow) {
+        const belowX = parseFloat(boxBelow.style.left) || 80
+        const belowY = parseInt(boxBelow.style.top) || 0
+        const deltaX = xPosition - belowX
+        const deltaY = yPosition - belowY
+        const distanceSquared = deltaX * deltaX + deltaY * deltaY
+        if (distanceSquared < minDistanceSquared) continue
+      }
         
         break // Found a good position
       } while (attempts < maxAttempts)
@@ -213,9 +232,8 @@ class DraggableBoxes {
   }
   
   updateButtonText(text) {
-    const button = document.querySelector('.musings')
-    if (button) {
-      button.textContent = text
+    if (this.scatterButton) {
+      this.scatterButton.textContent = text
     }
   }
   
@@ -239,6 +257,17 @@ class DraggableBoxes {
     
     // Change button text back to "Scatter"
     this.updateButtonText('Scatter')
+  }
+  
+  // Cleanup method for removing event listeners
+  destroy() {
+    document.removeEventListener('mousemove', this.drag)
+    document.removeEventListener('mouseup', this.stopDrag)
+    document.removeEventListener('wheel', this.handleScroll)
+    
+    if (this.scatterButton) {
+      this.scatterButton.removeEventListener('click', this.handleScatterClick)
+    }
   }
   
 
