@@ -4,13 +4,8 @@
   cursor: none !important; /* Hide all system cursors */
 }
 
-/* Additional cursor hiding for specific elements */
-a, button, input, textarea, select, [role="button"], [tabindex] {
-  cursor: none !important;
-}
-
-/* Force cursor hiding on all interactive elements */
-*:hover, *:focus, *:active {
+/* Hide cursor on all elements */
+* {
   cursor: none !important;
 }
 html, body { height: 100%; overflow: hidden; }
@@ -62,8 +57,48 @@ body {
 }
 
 .split { display: grid; grid-template-columns: 60% 40%; width: 100vw; height: 100vh; height: 100dvh; }
-.col-left { background: transparent; position: relative; }
-.col-right { background: #F8F3E7; }
+.col-left { 
+  background: transparent; 
+  position: relative; 
+}
+
+
+.col-right { 
+  background: #F8F3E7; 
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 40%;
+  height: 100vh;
+  transition: right 2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.col-right.slide-in {
+  right: 0;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: fixed;
+  color: white;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: italic;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+
 .right-categories {
   padding: 40px;
 }
@@ -86,6 +121,13 @@ body {
   line-height: 1.4;
   z-index: 10000;
   pointer-events: auto;
+  transform: translateX(0);
+  opacity: 0;
+  transition: opacity 0.8s ease-out;
+}
+
+.right-top-bar.fade-in {
+  opacity: 1;
 }
 .right-top-bar .work { 
   justify-self: start; 
@@ -107,27 +149,84 @@ body {
 .right-top-bar a:hover { color: #85774B; }
 
 .left-top-bar {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: start;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   padding: 40px;
   color: #ffffff;
   font-family: 'Guyot Press', 'Georgia', serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 1.4;
+  opacity: 0;
+  transition: opacity 1s ease-out, transform 2s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translateX(calc(24% + 100px));
 }
-.left-top-bar #clock { justify-self: start; opacity: 0.95; }
-.left-top-bar .location { justify-self: end; opacity: 0.95; }
+
+.left-top-bar.fade-in {
+  opacity: 1;
+}
+
+.left-top-bar.slide-in {
+  transform: translateX(0);
+}
+
+.left-top-bar #clock { 
+  position: absolute;
+  left: 40px;
+  opacity: 0.95;
+}
+
+.left-top-bar .location { 
+  position: absolute;
+  right: 40px;
+  opacity: 0.95;
+}
+
+
 
 .left-stack {
   position: absolute;
   left: 0;
   right: 0;
   top: 55%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(calc(24% + 100px));
   pointer-events: none;
+  transition: transform 2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.left-stack.slide-in {
+  transform: translateY(-50%) translateX(0);
+}
+
+.name,
+.tagline,
+.bio,
+.left-categories {
+  opacity: 0 !important;
+  transition: opacity 0.4s ease-out !important;
+}
+
+.name.fade-in {
+  opacity: 1 !important;
+  animation: breathing 2s ease-in-out infinite;
+}
+
+@keyframes breathing {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.name.breathing-stop {
+  animation: none;
+  opacity: 1 !important;
+}
+
+.tagline.fade-in,
+.bio.fade-in,
+.left-categories.fade-in {
+  opacity: 1 !important;
 }
 .left-stack .name {
   color: #ffffff;
@@ -230,18 +329,51 @@ body {
 .col-right .cat-text a { color: #111; }
 .cat-text a:hover { color: #85774B; }
 
+/* CMS Integration Styles */
+.social-links {
+  margin-top: 20px;
+}
+
+.social-links a {
+  color: #ffffff;
+  font-style: italic;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: color 0.2s ease;
+}
+
+.social-links a:hover {
+  color: #85774B;
+}
+
+.cat-section {
+  margin-bottom: 30px;
+}
+
 .draggable-box {
   position: absolute;
   cursor: grab;
   user-select: none;
   z-index: 1000;
   left: 80vw;
-  transform: translateX(-50%);
-  transition: left 0.2s ease-out, top 0.2s ease-out, transform 0.2s ease-out;
+  opacity: 0;
+  transform: translateX(-50%) translateY(30px);
+  transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.draggable-box.fade-in {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .draggable-box.dragging {
   transition: none;
+}
+
+/* Ensure rotation has no easing */
+.draggable-box {
+  transition: opacity 0.4s ease-out;
 }
 
 
@@ -274,59 +406,19 @@ body {
   font-size: 24px;
   font-weight: 700;
   color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  cursor: pointer;
+  background: #808080;
+  border: 2px solid red;
 }
 
-.projects-container .draggable-box:nth-child(1) {
-  background: radial-gradient(circle at 30% 20%, #0002AA 0%, #000000 60%);
-  border-radius: 8px;
+.projects-container .draggable-box:hover {
+  transform: translateX(-50%) translateY(0) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.projects-container .draggable-box:nth-child(2) {
-  background: radial-gradient(circle at 70% 80%, #0002AA 0%, #000000 95%);
-  border-radius: 8px;
-}
 
-.projects-container .draggable-box:nth-child(3) {
-  background: radial-gradient(circle at 20% 60%, #0002AA 0%, #000000 75%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(4) {
-  background: radial-gradient(circle at 80% 30%, #0002AA 0%, #000000 98%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(5) {
-  background: radial-gradient(circle at 40% 70%, #0002AA 0%, #000000 70%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(6) {
-  background: radial-gradient(circle at 60% 40%, #0002AA 0%, #000000 85%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(7) {
-  background: radial-gradient(circle at 20% 50%, #0002AA 0%, #000000 90%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(8) {
-  background: radial-gradient(circle at 90% 10%, #0002AA 0%, #000000 80%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(9) {
-  background: radial-gradient(circle at 50% 90%, #0002AA 0%, #000000 88%);
-  border-radius: 8px;
-}
-
-.projects-container .draggable-box:nth-child(10) {
-  pointer-events: auto;
-  background: radial-gradient(circle at 25% 80%, #0002AA 0%, #000000 92%);
-  border-radius: 8px;
-}
 
 
 

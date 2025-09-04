@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Test</title>
+</head>
+<body>
+    <h1>CMS Integration Test</h1>
+    <div id="cms-data">Loading...</div>
+    
+    <script>
+        async function testCMS() {
+            try {
+                const response = await fetch('http://localhost:1337/api/portfolio?populate=*')
+                const data = await response.json()
+                document.getElementById('cms-data').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>'
+            } catch (error) {
+                document.getElementById('cms-data').innerHTML = 'Error: ' + error.message
+            }
+        }
+        
+        testCMS()
+    </script>
+</body>
+</html>
+
+
+
+

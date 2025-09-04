@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Adrian Castillo - Portfolio</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-  
     <main class="split">
       <section class="col-left" aria-label="Left column">
         <div class="left-top-bar">
@@ -66,12 +64,13 @@
         </div>
       </section>
       <section class="col-right" aria-label="Right column">
-                  <div class="right-top-bar">
-            <a href="#" class="work">Musings</a>
-            <a href="#" class="musings">Scatter</a>
-          </div>
+        <div class="right-top-bar">
+          <a href="#" class="work">Musings</a>
+          <a href="#" class="musings">Scatter</a>
+        </div>
       </section>
     </main>
+    
     <div class="projects-container">
       <div class="draggable-box"></div>
       <div class="draggable-box"></div>
@@ -84,41 +83,102 @@
       <div class="draggable-box"></div>
       <div class="draggable-box"></div>
     </div>
-          <script src="src/cursor.js"></script>
+    
+    <!-- Tooltip element -->
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script src="src/cursor.js"></script>
     <script src="src/draggable.js"></script>
     <script src="src/button-colors.js"></script>
-      <script>
+    <script src="src/cms-integration.js"></script>
+    
+    <script>
       // Clock functionality
-      function formatNow() {
-        const now = new Date()
-        const laTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}))
-        const date = laTime.toLocaleDateString('en-US', {
-          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-        })
-        const time = laTime.toLocaleTimeString('en-US', {
-          hour: 'numeric', minute: '2-digit'
-        })
-        return `${date} ${time} PST`
-      }
-
       function startClock() {
-        const el = document.getElementById('clock')
-        if (!el) {
-          console.log('Clock element not found')
-          return
+        const clockEl = document.getElementById('clock')
+        if (!clockEl) return
+        
+        function updateClock() {
+          const now = new Date()
+          const laTime = new Date(now.toLocaleString("en-US", {timeZone: "America/Los_Angeles"}))
+          const date = laTime.toLocaleDateString('en-US', {
+            weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+          })
+          const time = laTime.toLocaleTimeString('en-US', {
+            hour: 'numeric', minute: '2-digit'
+          })
+          clockEl.textContent = `${date} ${time} PST`
         }
-        el.textContent = formatNow()
-        setInterval(() => { 
-          el.textContent = formatNow() 
-        }, 1000) // Update every second
-        console.log('Clock started - real-time updates')
+        
+        updateClock()
+        setInterval(updateClock, 1000)
       }
 
-      // Start clock when page loads
+      // Homepage entrance animation
+      function initAnimations() {
+        // Cache DOM elements for better performance
+        const creamColumn = document.querySelector('.col-right')
+        const leftStack = document.querySelector('.left-stack')
+        const leftTopBar = document.querySelector('.left-top-bar')
+        const rightTopBar = document.querySelector('.right-top-bar')
+        const boxes = document.querySelectorAll('.draggable-box')
+        
+        // Cache text elements
+        const name = document.querySelector('.name')
+        const tagline = document.querySelector('.tagline')
+        const bio = document.querySelector('.bio')
+        const categories = document.querySelector('.left-categories')
+        
+        // Adrian Castillo appears first
+        setTimeout(() => name.classList.add('fade-in'), 100)
+        
+        // Tagline appears after 2s focus on the name
+        setTimeout(() => {
+          tagline.classList.add('fade-in')
+          name.classList.add('breathing-stop')
+        }, 2100)
+        
+        // Bio starts fading in while tagline is still fading
+        setTimeout(() => bio.classList.add('fade-in'), 2500)
+        
+        // Categories start fading in while bio is still fading
+        setTimeout(() => categories.classList.add('fade-in'), 2700)
+        
+        // Text and cream column move together simultaneously
+        setTimeout(() => {
+          leftStack.classList.add('slide-in')
+          leftTopBar.classList.add('slide-in')
+          creamColumn.classList.add('slide-in')
+        }, 3100)
+        
+        // Clock, location, and buttons fade in together after cream column
+        setTimeout(() => {
+          leftTopBar.classList.add('fade-in')
+          rightTopBar.classList.add('fade-in')
+          
+          // Enable tooltips when buttons appear
+          if (window.draggableBoxes) {
+            window.draggableBoxes.enableTooltips()
+          }
+        }, 5100)
+        
+        // Projects fade in after cream column
+        setTimeout(() => {
+          boxes.forEach((box, index) => {
+            setTimeout(() => box.classList.add('fade-in'), index * 400)
+          })
+        }, 5200)
+      }
+
+      // Initialize when DOM is ready
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startClock)
+        document.addEventListener('DOMContentLoaded', () => {
+          startClock()
+          initAnimations()
+        })
       } else {
         startClock()
+        initAnimations()
       }
     </script>
   </body>

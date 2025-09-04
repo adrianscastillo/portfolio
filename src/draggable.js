@@ -1,39 +1,44 @@
 class DraggableBoxes {
   constructor() {
     this.boxes = document.querySelectorAll('.draggable-box')
-    if (!this.boxes.length) {
-      console.log('Draggable boxes not found')
-      return
-    }
+    if (!this.boxes.length) return
     
     // Cache DOM elements for better performance
     this.container = document.querySelector('.projects-container')
     this.scatterButton = document.querySelector('.musings')
+    this.tooltip = document.getElementById('tooltip')
+    
+    // Project names array for better performance
+    this.projectNames = [
+      'Project Alpha', 'Project Beta', 'Project Gamma', 'Project Delta', 'Project Echo',
+      'Project Foxtrot', 'Project Golf', 'Project Hotel', 'Project India', 'Project Juliet'
+    ]
     
     this.draggedBox = null
     this.isDragging = false
     this.startX = 0
     this.startY = 0
-    this.highestZIndex = 1000 // Track the highest z-index used
+    this.highestZIndex = 1000
+    this.tooltipsEnabled = false
     
     this.init()
     this.setRandomSizes()
   }
   
   init() {
-    if (!this.container) {
-      console.error('Projects container not found')
-      return
-    }
+    if (!this.container) return
     this.bindEvents()
   }
   
   bindEvents() {
     this.boxes.forEach(box => {
       box.addEventListener('mousedown', (e) => this.startDrag(e, box))
+      box.addEventListener('mouseenter', (e) => this.showTooltip(e, box))
+      box.addEventListener('mouseleave', () => this.hideTooltip())
+      box.addEventListener('mousemove', (e) => this.updateTooltipPosition(e))
     })
     document.addEventListener('mousemove', (e) => this.drag(e))
-    document.addEventListener('mouseup', () => this.stopDrag())
+    document.addEventListener('mouseup', (e) => this.stopDrag(e))
     
     // Add global scroll handler for the projects container
     document.addEventListener('wheel', (e) => this.handleScroll(e))
@@ -49,6 +54,69 @@ class DraggableBoxes {
         }
       })
     }
+  }
+  
+  handleBoxClick(e, box) {
+    const boxNumber = parseInt(box.textContent)
+    
+    // Prevent visual jitter by maintaining current transform
+    const currentTransform = box.style.transform
+    box.style.transform = currentTransform
+    
+    // Navigate after small delay to prevent jitter
+    setTimeout(() => {
+      if (boxNumber <= 2) {
+        window.location.href = `projects/project-${boxNumber}.html`
+      } else {
+        window.location.href = `projects/404.html`
+      }
+    }, 50)
+  }
+  
+  showTooltip(e, box) {
+    if (!this.tooltip || !this.tooltipsEnabled) return
+    
+    // Get project name from cached array
+    const boxNumber = parseInt(box.textContent) - 1
+    const projectName = this.projectNames[boxNumber] || `Project ${boxNumber + 1}`
+    
+    // Set text directly and show tooltip
+    this.tooltip.textContent = projectName
+    this.tooltip.classList.add('visible')
+    
+    // Position tooltip below cursor
+    this.updateTooltipPosition(e)
+  }
+  
+
+  
+  hideTooltip() {
+    if (!this.tooltip) return
+    this.tooltip.classList.remove('visible')
+  }
+  
+  updateTooltipPosition(e) {
+    if (!this.tooltip) return
+    
+    const tooltipRect = this.tooltip.getBoundingClientRect()
+    
+    // Position tooltip directly below cursor, centered horizontally
+    let x = e.clientX - (tooltipRect.width / 2)
+    let y = e.clientY + 5 // Just 5px below cursor
+    
+    // Keep tooltip within viewport bounds
+    if (x < 0) {
+      x = 0
+    } else if (x + tooltipRect.width > window.innerWidth) {
+      x = window.innerWidth - tooltipRect.width
+    }
+    
+    if (y + tooltipRect.height > window.innerHeight) {
+      y = e.clientY - tooltipRect.height - 5 // Above cursor if below viewport
+    }
+    
+    this.tooltip.style.left = `${x}px`
+    this.tooltip.style.top = `${y}px`
   }
   
   startDrag(e, box) {
@@ -67,9 +135,14 @@ class DraggableBoxes {
     // Change button text to "Put Back"
     this.updateButtonText('Put Back')
     
+    // Store initial mouse position for click detection
+    this.mouseStartX = e.clientX
+    this.mouseStartY = e.clientY
+    
+    // Store initial box offset for drag calculations
     const rect = box.getBoundingClientRect()
-    this.startX = e.clientX - rect.left
-    this.startY = e.clientY - rect.top
+    this.boxStartX = e.clientX - rect.left
+    this.boxStartY = e.clientY - rect.top
   }
   
   drag(e) {
@@ -81,8 +154,9 @@ class DraggableBoxes {
     // Get the projects container scroll position
     const scrollTop = this.container ? this.container.scrollTop : 0
     
-    const x = e.clientX - this.startX
-    const y = e.clientY - this.startY + scrollTop
+    // Calculate position relative to the initial mouse offset
+    const x = e.clientX - this.boxStartX
+    const y = e.clientY - this.boxStartY + scrollTop
     
     // Get the current rotation from the box
     const currentTransform = this.draggedBox.style.transform
@@ -94,12 +168,18 @@ class DraggableBoxes {
     this.draggedBox.style.transform = `rotate(${rotation}deg)`
   }
   
-  stopDrag() {
+  stopDrag(e) {
     if (!this.isDragging || !this.draggedBox) return
+    
+    // Check if this was a click (no movement) or a drag
+    const moved = Math.abs(e.clientX - this.mouseStartX) > 5 || Math.abs(e.clientY - this.mouseStartY) > 5
+    
+    if (!moved) {
+      this.handleBoxClick(e, this.draggedBox)
+    }
     
     this.isDragging = false
     this.draggedBox.style.cursor = 'grab'
-    // Keep the box at its current z-index so it stays in front
     this.draggedBox.classList.remove('dragging')
     this.draggedBox = null
   }
@@ -117,20 +197,18 @@ class DraggableBoxes {
     setRandomSizes() {
     // Calculate cream column width (40% of viewport)
     const creamColumnWidth = window.innerWidth * 0.4
-    const boxWidth = creamColumnWidth - 80 // Subtract padding (40px on each side)
+    const boxSize = creamColumnWidth - 80 // Subtract padding (40px on each side)
     
-    // All boxes use the same square size (10% smaller)
-    const boxSize = boxWidth * 0.9
+    // All projects are the same square size
+    const projectSize = Math.min(boxSize * 1.2, 450) // Even bigger, cap at 450px
 
     let currentTop = 100 // Starting position
     
     this.boxes.forEach((box, index) => {
-      // Center aligned x position (no random scatter)
-      const xPosition = 80 // 80vw (center of cream column)
-
-      box.style.width = `${boxSize}px`
-      box.style.height = `${boxSize}px`
-      box.style.left = `${xPosition}vw`
+      // All boxes are the same square size
+      box.style.width = `${projectSize}px`
+      box.style.height = `${projectSize}px`
+      box.style.left = `80vw` // Center aligned x position
       box.style.top = `${currentTop}px`
       box.style.transform = `translateX(-50%)`
       
@@ -138,7 +216,7 @@ class DraggableBoxes {
       box.textContent = (index + 1).toString()
       
       // Calculate next position: current box bottom + 12px gap
-      currentTop += boxSize + 12
+      currentTop += projectSize + 12
     })
   }
   
@@ -245,6 +323,11 @@ class DraggableBoxes {
     this.updateButtonText('Scatter')
   }
   
+  // Enable tooltips after projects fade in
+  enableTooltips() {
+    this.tooltipsEnabled = true
+  }
+  
   // Cleanup method for removing event listeners
   destroy() {
     document.removeEventListener('mousemove', this.drag)
@@ -261,7 +344,9 @@ class DraggableBoxes {
 
 // Initialize draggable boxes when DOM is loaded
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => new DraggableBoxes())
+  document.addEventListener('DOMContentLoaded', () => {
+    window.draggableBoxes = new DraggableBoxes()
+  })
 } else {
-  new DraggableBoxes()
+  window.draggableBoxes = new DraggableBoxes()
 }

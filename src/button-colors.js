@@ -5,10 +5,7 @@ class ButtonColorManager {
   }
 
   init() {
-    if (this.buttons.length === 0) {
-      console.log('Buttons not found')
-      return
-    }
+    if (this.buttons.length === 0) return
     
     this.bindEvents()
     this.updateButtonColors()

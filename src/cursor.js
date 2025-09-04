@@ -15,7 +15,7 @@ class CustomCursor {
     this.ctx = this.canvas.getContext('2d')
     this.mouse = { x: 0, y: 0 }
     this.trail = []
-    this.maxTrailLength = 160
+    this.maxTrailLength = 40
     
     this.init()
     this.bindEvents()
@@ -67,7 +67,7 @@ class CustomCursor {
   }
 
   getColorAtPosition(x, y) {
-    // Get the color of the element at cursor position
+    // Get the element at cursor position
     const element = document.elementFromPoint(x, y)
     if (!element) return 'white'
     
@@ -76,6 +76,32 @@ class CustomCursor {
       return 'black'
     }
     
+    // Look for text elements first
+    let textElement = element
+    let depth = 0
+    const maxDepth = 5 // Prevent infinite loops
+    
+    // Find the actual text element by traversing up the DOM
+    while (textElement && depth < maxDepth) {
+      // Check if this element has text content
+      if (textElement.textContent && textElement.textContent.trim() && 
+          textElement.tagName !== 'BODY' && textElement.tagName !== 'HTML') {
+        
+        const computedStyle = window.getComputedStyle(textElement)
+        const color = computedStyle.color
+        
+        // If we found a text color, use it
+        if (color && color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+          return color
+        }
+      }
+      
+      // Move up to parent element
+      textElement = textElement.parentElement
+      depth++
+    }
+    
+    // Fallback to background color detection
     const computedStyle = window.getComputedStyle(element)
     const backgroundColor = computedStyle.backgroundColor
     
