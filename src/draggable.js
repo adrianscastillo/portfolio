@@ -1,28 +1,49 @@
 class DraggableBoxes {
   constructor() {
-    this.boxes = document.querySelectorAll('.draggable-box')
+    this.boxes = Array.from(document.querySelectorAll('.draggable-box'))
     if (!this.boxes.length) return
     
     // Cache DOM elements for better performance
     this.container = document.querySelector('.projects-container')
-    this.scatterButton = document.querySelector('.musings')
     this.tooltip = document.getElementById('tooltip')
+    this.scatterButton = document.querySelector('.scatter')
     
-    // Project names array for better performance
-    this.projectNames = [
-      'Project Alpha', 'Project Beta', 'Project Gamma', 'Project Delta', 'Project Echo',
-      'Project Foxtrot', 'Project Golf', 'Project Hotel', 'Project India', 'Project Juliet'
+    
+    // If scatter button not found, try to find it after a short delay
+    if (!this.scatterButton) {
+      setTimeout(() => {
+        this.scatterButton = document.querySelector('.scatter')
+        if (this.scatterButton) {
+          this.bindScatterButton()
+        }
+      }, 100)
+    } else {
+      // Button found immediately, bind it
+      this.bindScatterButton()
+    }
+    
+    // Project data array for better performance
+    this.projectData = [
+      { title: 'DX10', heroImage: 'projects/assets/project-0/gallery/Slide 16_9 - 7.png' },
+      { title: 'Terb', heroImage: 'projects/assets/project-1/gallery/terb logo.gif' },
+      { title: 'National Media Office', heroImage: 'projects/assets/project-2/gallery/nmo-1.png' },
+      { title: 'The Founders Office', heroImage: 'projects/assets/project-3/gallery/tfo-1.png' },
+      { title: 'Sheikh Zayed', heroImage: 'projects/assets/project-4/gallery/Zayed-1.png' },
+      { title: 'Kojinn', heroImage: 'projects/assets/project-5/gallery/Kojinn-1.png' },
+      { title: 'Hotaling & Co.', heroImage: 'projects/assets/project-6/gallery/HC-1.png' },
+      { title: 'Farm Sanctuary', heroImage: 'projects/assets/project-7/gallery/fs-1.png' },
+      { title: 'Relief International', heroImage: 'projects/assets/project-8/gallery/ri-1.png' }
     ]
     
     this.draggedBox = null
     this.isDragging = false
-    this.startX = 0
-    this.startY = 0
+    this.mouseStartX = 0
+    this.mouseStartY = 0
     this.highestZIndex = 1000
     this.tooltipsEnabled = false
     
     this.init()
-    this.setRandomSizes()
+    this.setBoxSizes()
   }
   
   init() {
@@ -42,46 +63,54 @@ class DraggableBoxes {
     
     // Add global scroll handler for the projects container
     document.addEventListener('wheel', (e) => this.handleScroll(e))
-    
-    // Add scatter/put back button functionality
+  }
+  
+  bindScatterButton() {
     if (this.scatterButton) {
       this.scatterButton.addEventListener('click', (e) => {
         e.preventDefault()
-        if (this.scatterButton.textContent === 'Scatter') {
-          this.scatterBoxes()
-        } else {
+        
+        const isScattered = this.boxes.some(box => {
+          const left = parseFloat(box.style.left) || 80
+          return Math.abs(left - 80) > 5
+        })
+        
+        
+        if (isScattered) {
           this.putBackBoxes()
+        } else {
+          this.scatterBoxes()
         }
       })
+    } else {
     }
   }
   
   handleBoxClick(e, box) {
-    const boxNumber = parseInt(box.textContent)
+    // Find the box index from the boxes array
+    const boxIndex = Array.from(this.boxes).indexOf(box)
     
     // Prevent visual jitter by maintaining current transform
     const currentTransform = box.style.transform
     box.style.transform = currentTransform
     
-    // Navigate after small delay to prevent jitter
+    // Navigate to project page and scroll to specific project
     setTimeout(() => {
-      if (boxNumber <= 2) {
-        window.location.href = `projects/project-${boxNumber}.html`
-      } else {
-        window.location.href = `projects/404.html`
-      }
+      // All projects are now on the same page (projects.html)
+      // Map boxIndex to correct project ID (0-based indexing)
+      window.location.href = `projects/projects.html#project-${boxIndex}`
     }, 50)
   }
   
   showTooltip(e, box) {
     if (!this.tooltip || !this.tooltipsEnabled) return
     
-    // Get project name from cached array
-    const boxNumber = parseInt(box.textContent) - 1
-    const projectName = this.projectNames[boxNumber] || `Project ${boxNumber + 1}`
+    // Get project data from cached array using box index
+    const boxIndex = Array.from(this.boxes).indexOf(box)
+    const projectData = this.projectData[boxIndex] || { title: `Project ${boxIndex + 1}`, heroImage: null }
     
     // Set text directly and show tooltip
-    this.tooltip.textContent = projectName
+    this.tooltip.textContent = projectData.title
     this.tooltip.classList.add('visible')
     
     // Position tooltip below cursor
@@ -125,15 +154,14 @@ class DraggableBoxes {
     
     this.isDragging = true
     this.draggedBox = box
+    this.mouseStartX = e.clientX
+    this.mouseStartY = e.clientY
     box.style.cursor = 'grabbing'
     
     // Increment z-index to bring this box to the very front
     this.highestZIndex += 1
     box.style.zIndex = this.highestZIndex.toString()
     box.classList.add('dragging')
-    
-    // Change button text to "Put Back"
-    this.updateButtonText('Put Back')
     
     // Store initial mouse position for click detection
     this.mouseStartX = e.clientX
@@ -176,6 +204,9 @@ class DraggableBoxes {
     
     if (!moved) {
       this.handleBoxClick(e, this.draggedBox)
+    } else {
+      // Box was dragged, update button text
+      this.updateButtonText()
     }
     
     this.isDragging = false
@@ -194,37 +225,82 @@ class DraggableBoxes {
     }
   }
   
-    setRandomSizes() {
+    setBoxSizes() {
     // Calculate cream column width (40% of viewport)
     const creamColumnWidth = window.innerWidth * 0.4
-    const boxSize = creamColumnWidth - 80 // Subtract padding (40px on each side)
-    
-    // All projects are the same square size
-    const projectSize = Math.min(boxSize * 1.2, 450) // Even bigger, cap at 450px
+    const maxBoxWidth = creamColumnWidth - 80 // Subtract padding (40px on each side)
+    const maxBoxSize = Math.min(maxBoxWidth * 1.2, 450) // Cap at 450px
 
     let currentTop = 100 // Starting position
     
     this.boxes.forEach((box, index) => {
-      // All boxes are the same square size
-      box.style.width = `${projectSize}px`
-      box.style.height = `${projectSize}px`
-      box.style.left = `80vw` // Center aligned x position
-      box.style.top = `${currentTop}px`
-      box.style.transform = `translateX(-50%)`
+      // Hide project 10 (index 9)
+      if (index === 9) {
+        box.style.display = 'none'
+        return
+      }
       
-      // Add number to the box (1-10)
-      box.textContent = (index + 1).toString()
+      // Remove number from the box - clean visual
+      box.textContent = ''
       
-      // Calculate next position: current box bottom + 12px gap
-      currentTop += projectSize + 12
+      // Set background image if available
+      const projectData = this.projectData[index]
+      if (projectData && projectData.heroImage) {
+        box.style.backgroundImage = `url('${projectData.heroImage}')`
+        box.style.backgroundSize = 'contain' // Show full image without cropping
+        box.style.backgroundRepeat = 'no-repeat'
+        box.style.backgroundPosition = 'center'
+        
+        // Create image element to get natural dimensions
+        const img = new Image()
+        img.onload = () => {
+          // Calculate dimensions maintaining aspect ratio
+          const aspectRatio = img.width / img.height
+          let boxWidth, boxHeight
+          
+          if (aspectRatio > 1) {
+            // Landscape image - constrain by width
+            boxWidth = maxBoxSize
+            boxHeight = maxBoxSize / aspectRatio
+          } else {
+            // Portrait or square image - constrain by height
+            boxHeight = maxBoxSize
+            boxWidth = maxBoxSize * aspectRatio
+          }
+          
+          // Apply dimensions
+          box.style.width = `${boxWidth}px`
+          box.style.height = `${boxHeight}px`
+          box.style.left = `80vw` // Center aligned x position
+          box.style.top = `${currentTop}px`
+          box.style.transform = `translateX(-50%)`
+          
+          // Update currentTop for next box
+          currentTop += boxHeight + 12
+        }
+        img.src = projectData.heroImage
+      } else {
+        // Fallback for boxes without images - use square size
+        box.style.width = `${maxBoxSize}px`
+        box.style.height = `${maxBoxSize}px`
+        box.style.left = `80vw`
+        box.style.top = `${currentTop}px`
+        box.style.transform = `translateX(-50%)`
+        currentTop += maxBoxSize + 12
+      }
     })
   }
   
   scatterBoxes() {
-    // Change button text to "Put Back"
-    this.updateButtonText('Put Back')
+    if (this.boxes.length === 0) {
+      return
+    }
     
+    // Randomly scatter the boxes around the screen
     this.boxes.forEach((box, index) => {
+      // Skip hidden project 10 (index 9)
+      if (index === 9) return
+      
       // Get current y position to check distance from adjacent boxes
       const currentTop = parseInt(box.style.top) || 0
       
@@ -244,25 +320,25 @@ class DraggableBoxes {
         }
       })
       
-      // Random x position within viewport bounds (considering box width)
+      // Random x position across full viewport width (more scattered)
       const boxWidth = parseInt(box.style.width) || 250
       const boxHeight = parseInt(box.style.height) || 220
-      const maxX = 100 - (boxWidth / window.innerWidth * 100) // Keep box within viewport
-      const minX = boxWidth / window.innerWidth * 100
-      const maxY = window.innerHeight - boxHeight - 40 // Keep box within viewport (minus padding)
-      const minY = 40 // Minimum y position (accounting for padding)
+      const maxX = 95 // Use almost full viewport width (95vw)
+      const minX = 5  // Start from 5vw (more spread)
+      const maxY = window.innerHeight - boxHeight - 20 // Keep box within viewport (minus padding)
+      const minY = 20 // Minimum y position (accounting for padding)
       
       let xPosition, yPosition
       let attempts = 0
-      const maxAttempts = 50
+      const maxAttempts = 100 // More attempts to find good positions
       
       do {
         xPosition = Math.random() * (maxX - minX) + minX
         yPosition = Math.random() * (maxY - minY) + minY
         attempts++
         
-              // Check distance from adjacent boxes (optimized)
-      const minDistance = 30
+              // Check distance from adjacent boxes (optimized) - increased minimum distance
+      const minDistance = 80 // Increased from 30 to 80 for more spread
       const minDistanceSquared = minDistance * minDistance // Avoid square root for performance
       
       if (boxAbove) {
@@ -289,15 +365,29 @@ class DraggableBoxes {
       // Random rotation between -5 and +5 degrees
       const rotation = (Math.random() * 10 - 5).toFixed(1)
       
+      // Set z-index so first project (index 0) is on top, last project is at back
+      const zIndex = 1000 + (this.boxes.length - index)
+      box.style.zIndex = zIndex.toString()
+      
       box.style.left = `${xPosition}vw`
       box.style.top = `${yPosition}px`
       box.style.transform = `translateX(-50%) rotate(${rotation}deg)`
     })
+    
+    this.updateButtonText()
   }
   
-  updateButtonText(text) {
+  updateButtonText() {
     if (this.scatterButton) {
-      this.scatterButton.textContent = text
+      const isScattered = this.boxes.some((box, index) => {
+        // Skip hidden project 10 (index 9)
+        if (index === 9) return false
+        
+        const left = parseFloat(box.style.left) || 80
+        return Math.abs(left - 80) > 5 // Check if boxes are not in original position
+      })
+      
+      this.scatterButton.textContent = isScattered ? 'Put Back' : 'Scatter'
     }
   }
   
@@ -306,6 +396,9 @@ class DraggableBoxes {
     let currentTop = 100 // Starting position
     
     this.boxes.forEach((box, index) => {
+      // Skip hidden project 10 (index 9)
+      if (index === 9) return
+      
       // Center aligned x position
       const xPosition = 80 // 80vw (center of cream column)
       
@@ -319,8 +412,7 @@ class DraggableBoxes {
       box.style.transform = `translateX(-50%)`
     })
     
-    // Change button text back to "Scatter"
-    this.updateButtonText('Scatter')
+    this.updateButtonText()
   }
   
   // Enable tooltips after projects fade in
@@ -334,9 +426,7 @@ class DraggableBoxes {
     document.removeEventListener('mouseup', this.stopDrag)
     document.removeEventListener('wheel', this.handleScroll)
     
-    if (this.scatterButton) {
-      this.scatterButton.removeEventListener('click', this.handleScatterClick)
-    }
+    // Scatter button event listener cleanup removed since musings button was removed
   }
   
 
@@ -345,8 +435,14 @@ class DraggableBoxes {
 // Initialize draggable boxes when DOM is loaded
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
-    window.draggableBoxes = new DraggableBoxes()
+    try {
+      window.draggableBoxes = new DraggableBoxes()
+    } catch (error) {
+    }
   })
 } else {
-  window.draggableBoxes = new DraggableBoxes()
+  try {
+    window.draggableBoxes = new DraggableBoxes()
+  } catch (error) {
+  }
 }

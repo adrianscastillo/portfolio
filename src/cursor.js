@@ -71,8 +71,22 @@ class CustomCursor {
     const element = document.elementFromPoint(x, y)
     if (!element) return 'white'
     
-    // Special handling for Work and Musings buttons
-    if (element.classList.contains('work') || element.classList.contains('musings')) {
+    // Special handling for draggable boxes - analyze image color
+    if (element.classList.contains('draggable-box')) {
+      const bgImage = element.style.backgroundImage
+      if (bgImage && bgImage !== 'none') {
+        // For draggable boxes with images, use black cursor for better visibility
+        return 'black'
+      }
+    }
+    
+    // Special handling for Work button
+    if (element.classList.contains('work')) {
+      return 'black'
+    }
+    
+    // Special handling for Scatter button
+    if (element.classList.contains('scatter')) {
       return 'black'
     }
     
@@ -203,10 +217,7 @@ class CustomCursor {
 }
 
 // Initialize the custom cursor
-console.log('Initializing custom cursor...')
 try {
   new CustomCursor()
-  console.log('Custom cursor initialized successfully')
 } catch (error) {
-  console.error('Error initializing custom cursor:', error)
 }
