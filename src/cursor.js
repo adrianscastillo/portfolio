@@ -28,6 +28,9 @@ class CustomCursor {
     
     // Hide default cursor
     document.body.style.cursor = 'none'
+
+    // Disable native context menu globally
+    document.addEventListener('contextmenu', (e) => e.preventDefault())
   }
 
   resize() {
@@ -191,7 +194,11 @@ class CustomCursor {
     // Draw cursor
     const cursorColor = this.getColorAtPosition(this.mouse.x, this.mouse.y) || 'white'
     const element = document.elementFromPoint(this.mouse.x, this.mouse.y)
-    const isHoverable = element && (element.tagName === 'A' || element.onclick || element.style.cursor === 'pointer')
+    const isInteractiveTag = element && ['A','BUTTON','INPUT','TEXTAREA','SELECT','LABEL','SUMMARY'].includes(element.tagName)
+    const roleAttr = element && element.getAttribute && element.getAttribute('role')
+    const isRoleInteractive = roleAttr && ['button','link','tab','switch','checkbox','radio','menuitem'].includes(roleAttr)
+    const computedCursor = element ? window.getComputedStyle(element).cursor : ''
+    const isHoverable = !!(element && (isInteractiveTag || isRoleInteractive || element.onclick || computedCursor === 'pointer'))
     
     this.ctx.save()
     this.ctx.strokeStyle = cursorColor

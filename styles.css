@@ -1,3 +1,4 @@
+/* Top bar container */
 * { 
   box-sizing: border-box; 
   margin: 0; 
@@ -50,6 +51,14 @@ body {
 
 @font-face {
   font-family: 'Guyot Headline';
+  src: url('./fonts/Guyot-Headline-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Guyot Headline';
   src: url('./fonts/Guyot-Headline-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
@@ -85,8 +94,8 @@ body {
 .tooltip {
   position: fixed;
   color: white;
-  background-color: black;
-  padding: 0;
+  background-color: #0002AA;
+  padding: 0 2px;
   font-family: 'Guyot Press', 'Georgia', serif;
   font-size: 14px;
   font-weight: 400;
@@ -153,10 +162,10 @@ body {
 
 .left-top-bar {
   position: absolute;
-  top: 0;
+  top: 40px;
   left: 0;
   right: 0;
-  padding: 40px;
+  padding: 0;
   color: #ffffff;
   font-family: 'Guyot Press', 'Georgia', serif;
   font-weight: 400;
@@ -218,6 +227,7 @@ body {
   color: #ffffff;
   font-family: 'Nautica', 'Arial', sans-serif;
   font-size: 110px;
+  line-height: 0.8;
   font-weight: 500;
   letter-spacing: 0px;
   text-align: center;
@@ -230,8 +240,10 @@ body {
   font-variant-ligatures: common-ligatures discretionary-ligatures;
 }
 .left-stack .name:hover { color: #85774B; }
+.container-identity .tagline,
 .left-stack .tagline {
   margin-top: -25px;
+  padding-top: 20px;
   color: #ffffff;
   opacity: 0.9;
   text-align: center;
@@ -242,6 +254,7 @@ body {
   position: relative;
   z-index: 2; /* above the name */
 }
+.container-bio .bio,
 .left-stack .bio {
   max-width: 900px;
   color: #ffffff;
@@ -251,8 +264,7 @@ body {
   font-size: 16px;
   line-height: 1.3;
   text-align: left;
-  padding-left: 40px; /* match clock left padding */
-  margin: 40px auto 0;
+  margin: 40px 40px 0 40px;
 }
 .left-stack .bio, .left-categories { pointer-events: auto; }
 .left-stack .bio a {
@@ -275,33 +287,56 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   font-weight: 600;
   opacity: 0;
-  transition: opacity 0.2s ease, color 0.2s ease;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 .left-stack .bio a:hover::after,
 .cat-text a:hover::after {
   opacity: 1;
 }
 
+/* Ensure bio links shift following text to make space for hover arrow */
+.left-stack .bio a:hover,
+.left-stack .bio a:focus {
+  padding-right: 20px;
+}
+
+/* Keep arrow visually in place while text shifts to make room */
+.left-stack .bio a:hover::after,
+.left-stack .bio a:focus::after {
+  transform: translateX(-20px);
+}
+
+.container-categories .left-categories,
 .left-categories {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* left col groups stack; right col holds Things I Do */
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
   gap: 16px 32px;
   max-width: 900px;
-  padding: 0 40px;
-  margin: 40px auto 0;
+  margin: 40px 40px 0 40px;
 }
-.left-categories .left-col { display: grid; gap: 16px; }
-.left-categories .right-col { align-self: start; display: grid; gap: 24px; }
+
+/* Row 1 */
+.left-categories .cat-things { grid-column: 1; grid-row: 1; }
+.left-categories .cat-elsewhere { grid-column: 2; grid-row: 1; }
+
+/* Row 2: Selected (span 2 columns) */
+.left-categories .cat-selected { grid-column: 1 / span 2; grid-row: 2; }
+
+/* Row 3: USA left, UAE right */
+.left-categories .cat-usa { grid-column: 1; grid-row: 3; }
+.left-categories .cat-uae { grid-column: 2; grid-row: 3; }
 .cat-title {
   color: #ffffff;
   font-family: 'Guyot Press', 'Georgia', serif;
   font-weight: 200;
   font-style: italic;
   font-size: 12px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-bottom: 2px;
 }
+.cat-title.no-uppercase { text-transform: none; }
 
 .cat-text {
   color: #ffffff;
@@ -314,6 +349,145 @@ body {
 .cat-text a { color: inherit; text-decoration: underline; transition: color 0.2s ease; position: relative; }
 .col-right .cat-text a { color: #111; }
 .cat-text a:hover { color: #85774B; }
+
+/* Global nav (shared by projects & musings) */
+.nav {
+  position: sticky;
+  top: 0;
+  background: transparent;
+  padding: 40px 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+  z-index: 1000;
+}
+
+.nav-name {
+  font-family: 'Nautica', 'Arial', sans-serif;
+  font-size: clamp(28px, 6vw, 48px);
+  color: #0002AA;
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  display: inline-block;
+  overflow: visible;
+  padding: 0 24px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.nav-name:hover { opacity: 0.5; }
+
+.nav-email {
+  color: #0002AA;
+  text-decoration: none;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: italic;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+.nav-email:hover { opacity: 0.5; }
+
+/* Nav left links (upper-left) */
+.nav-left {
+  position: absolute;
+  left: 50px;
+  display: flex;
+  gap: 32px;
+}
+.nav-left a {
+  color: #0002AA;
+  text-decoration: none;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: italic;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+.nav-left a:hover { opacity: 0.5; }
+
+/* Responsive reorder: show Things I Do above Selected Clients on narrow screens */
+@media (max-width: 900px) {
+  .left-categories {
+    grid-template-columns: 1fr;
+  }
+  .left-categories .right-col {
+    grid-row: 1;
+  }
+  .left-categories .left-col {
+    grid-row: 2;
+  }
+}
+
+/* Musings button */
+.container-musings .about-button,
+.about-button,
+.container-musings .musings-button,
+.musings-button {
+  display: inline-block;
+  margin: 0;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-style: italic;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.2s ease;
+  position: relative;
+  pointer-events: auto;
+}
+.about-button:hover, .musings-button:hover { color: #85774B; }
+
+.about-button::after, .musings-button::after {
+  content: "↗";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  color: currentColor;
+  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+.about-button:hover::after, .musings-button:hover::after { opacity: 1; }
+
+/* Fixed bottom placement for About/Musings and Copyright */
+.container-bottom { grid-row: 3; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px 40px 40px; }
+.container-bottom .bottom-left .about-button { margin-right: 32px; }
+.container-bottom .bottom-right .footer-note { margin: 0; }
+
+/* Column alignment containers */
+.container-topbar { position: absolute; top: 0; left: 0; right: 0; padding: 40px; z-index: 2; }
+
+.col-left { display: grid; grid-template-rows: auto 1fr auto; }
+.col-left .left-stack { display: grid; place-items: center; align-self: center; }
+.container-identity, .container-bio, .container-categories { width: 100%; }
+.left-stack { row-gap: 24px; }
+
+/* Footer note under MUSINGS */
+.container-copyright .footer-note,
+.footer-note {
+  margin: 12px 40px 0 40px;
+  color: #ffffff;
+  opacity: 0.85;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Debug outlines removed */
 
 /* CMS Integration Styles */
 .social-links {
@@ -399,8 +573,7 @@ body {
 
 .projects-container .draggable-box:hover {
   transform: translateX(-50%) translateY(0) scale(1.05);
-  outline: 2px solid #0002aa;
-  transition: outline 0.3s ease;
+  outline: none;
 }
 
 

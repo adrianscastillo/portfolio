@@ -22,48 +22,7 @@
         overflow-y: auto;
       }
       
-      /* Navigation */
-      .nav {
-        position: sticky;
-        top: 0;
-        background: transparent;
-        padding: 40px 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        min-width: 0;
-        overflow: visible;
-        z-index: 1000;
-      }
-      
-      .nav-name {
-        font-family: 'Nautica', 'Arial', sans-serif;
-        font-size: 48px;
-        color: #0002AA;
-        text-decoration: none;
-        opacity: 0.9;
-        transition: opacity 0.2s ease;
-        white-space: nowrap;
-      }
-      
-      .nav-name:hover {
-        opacity: 0.5;
-      }
-      
-      .nav-email {
-        color: #0002AA;
-        text-decoration: none;
-        font-family: 'Guyot Press', 'Georgia', serif;
-        font-size: 14px;
-        font-style: italic;
-        text-transform: uppercase;
-        opacity: 0.9;
-        transition: opacity 0.2s ease;
-      }
-      
-      .nav-email:hover {
-        opacity: 0.5;
-      }
+      /* Navigation moved to global stylesheet */
       
       /* Main content */
       .main-content {
@@ -112,12 +71,18 @@
         font-family: 'Guyot Headline', 'Georgia', serif;
         font-size: 48px;
         font-weight: 400;
-        font-style: italic;
+        font-style: normal;
+        letter-spacing: 0.16em;
         margin-bottom: 0;
         color: #111;
       }
+      .project-title sup {
+        font-style: italic;
+        letter-spacing: normal;
+      }
       
       .project-description {
+        font-family: 'Guyot Press', 'Georgia', serif;
         font-size: 18px;
         line-height: 1.6;
         margin-bottom: 60px;
@@ -142,6 +107,7 @@
       }
       
       .detail-section p {
+        font-family: 'Guyot Press', 'Georgia', serif;
         font-size: 16px;
         line-height: 1.5;
         color: #111;
@@ -162,7 +128,7 @@
       /* Project section styles */
       .project-section {
         width: 100%;
-        padding: 40px 40px 0 40px;
+        padding: 60px 40px 24px 40px;
         background: #F8F3E7;
         display: flex;
         gap: 40px;
@@ -182,8 +148,9 @@
         font-family: 'Guyot Headline', 'Georgia', serif;
         font-size: 18px;
         font-weight: 400;
-        font-style: italic;
+        font-style: normal;
         text-transform: uppercase;
+        letter-spacing: 0.16em;
         color: #0002AA;
         margin-bottom: 0;
         text-align: left;
@@ -196,11 +163,13 @@
         color: #666;
         vertical-align: super;
         margin-left: 4px;
+        font-style: italic;
+        letter-spacing: normal;
       }
       
       .project-section .project-description {
         font-family: 'Guyot Press', 'Georgia', serif;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.3;
         color: #111;
         margin: 0;
@@ -211,7 +180,7 @@
       /* Photo gallery with horizontal scrolling */
       .photo-gallery {
         width: 100%;
-        padding: 40px 0;
+        padding: 24px 0 60px 0;
         background: #F8F3E7;
         overflow-x: auto;
         overflow-y: hidden;
@@ -257,7 +226,7 @@
       }
       
       .gallery-text-block {
-        width: 187px;
+        width: 300px;
         height: 422px;
         display: flex;
         align-items: flex-end;
@@ -269,13 +238,14 @@
         box-sizing: border-box;
       }
       
-              .gallery-text-content {
-          font-family: 'Guyot Press', 'Georgia', serif;
+      .gallery-text-content {
+        font-family: 'Guyot Press', 'Georgia', serif;
           font-size: 16px;
           line-height: 1.3;
-          color: #111;
+        color: #111;
         text-align: left;
         max-width: 100%;
+        font-weight: 100;
       }
       
       /* Bottom padding - 25% of viewport height */
@@ -310,12 +280,33 @@
         object-fit: contain;
         border-radius: 0;
       }
+
+      .image-viewer-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;
+        font-family: 'Guyot Press', 'Georgia', serif;
+        font-size: 14px;
+        font-style: italic;
+        text-transform: uppercase;
+        opacity: 0.9;
+        cursor: pointer !important;
+        user-select: none;
+      }
+
+      .image-viewer-close:hover {
+        opacity: 0.5;
+      }
+
+      /* Viewer uses custom canvas cursor globally; no system cursor overrides here */
       
     </style>
   </head>
   <body>
     <!-- Navigation -->
     <nav class="nav">
+      <div class="nav-left"><a href="../about.html">About</a><a href="../musings/index.html">Musings</a></div>
       <a href="../index.html" class="nav-name">Adrian Castillo</a>
       <a href="mailto:adrianscastillo@gmail.com" class="nav-email">Say Hi</a>
     </nav>
@@ -340,7 +331,7 @@
           <img src="assets/project-0/gallery/Slide 16_9 - 7.png" alt="DX10" class="gallery-photo" />
           <div class="gallery-text-block">
             <div class="gallery-text-content">
-              DX10 is a company that helps businesses use AI and new technology in practical ways. The brand identity is built mostly in black and neutral tones with a strong pop of Klein blue. The design is distinct as it is inspired by coding brackets, giving the studio a clear and recognizable look.
+              <em>DX10</em> is a company that helps businesses use AI and new technology in practical ways. The brand identity is built mostly in black and neutral tones with a strong pop of Klein blue. The design is distinct as it is inspired by coding brackets, giving the studio a clear and recognizable look.
             </div>
           </div>
           <img src="assets/project-0/gallery/Slide 16_9 - 17.png" alt="DX10" class="gallery-photo" />
@@ -358,7 +349,7 @@
       <!-- Second Project Section -->
       <section class="project-section" id="project-1">
         <div class="project-title-column">
-          <h2 class="project-title">Terb<sup>2024</sup></h2>
+          <h2 class="project-title">Terb<sup>2025</sup></h2>
         </div>
         <div class="project-description-column">
           <p class="project-description">
@@ -367,14 +358,14 @@
         </div>
       </section>
 
-      <!-- First Project Photo gallery -->
+      <!-- Second Project Photo gallery -->
       <section class="photo-gallery">
         <div class="gallery-container">
           <img src="assets/project-1/gallery/terb logo.gif" alt="Terb" class="gallery-photo" />
           <img src="assets/project-1/gallery/Terb.png" alt="Terb" class="gallery-photo" />
           <div class="gallery-text-block">
             <div class="gallery-text-content">
-              The branding and packaging for <em>Terb</em> takes inspiration from Emirati hospitality: welcoming, warm, and rooted in tradition. The look was refreshed with a youthful spirit, keeping it light and contemporary while still carrying a sense of place.
+              The branding and packaging for <em>Terb</em> takes inspiration from Emirati hospitality: welcoming, warm, and rooted in tradition. The design is introduced with a youthful spirit, keeping it light and contemporary while still carrying a sense of place.
             </div>
           </div>
           <img src="assets/project-1/gallery/image 75.png" alt="Terb" class="gallery-photo" />
@@ -387,7 +378,7 @@
       <!-- Project Divider -->
       <div class="project-divider"></div>
 
-      <!-- Second Project Section -->
+      <!-- Third Project Section -->
       <section class="project-section" id="project-2">
         <div class="project-title-column">
           <h2 class="project-title">National Media Office<sup>2024</sup></h2>
@@ -405,7 +396,7 @@
           <img src="assets/project-2/gallery/nmo-1.png" alt="National Media Office" class="gallery-photo" />
           <div class="gallery-text-block">
             <div class="gallery-text-content">
-              The National Media Office is the UAE's federal agency in charge of coordinating media strategies for the government, shaping how the UAE tells its story at home and abroad.
+              The <em>National Media Office</em> is the UAE's federal agency in charge of coordinating media strategies for the government, shaping how the UAE tells its story at home and abroad.
             </div>
           </div>
           <img src="assets/project-2/gallery/nmo-2.png" alt="National Media Office" class="gallery-photo" />
@@ -423,7 +414,7 @@
       <!-- Project Divider -->
       <div class="project-divider"></div>
       
-      <!-- Third Project -->
+      <!-- Fourth Project Section -->
       <section class="project-section" id="project-3">
         <div class="project-title-column">
           <h2 class="project-title">The Founders Office<sup>2023</sup></h2>
@@ -435,14 +426,14 @@
         </div>
       </section>
       
-      <!-- Second Project Photo gallery -->
+      <!-- Fourth Project Photo gallery -->
       <section class="photo-gallery">
         <div class="gallery-container">
           <img src="assets/project-3/gallery/tfo-1.png" alt="The Founders Office" class="gallery-photo" />
           <img src="assets/project-3/gallery/tfo.gif" alt="The Founders Office" class="gallery-photo" />
           <div class="gallery-text-block" style="width: 280px;">
             <div class="gallery-text-content">
-              The Founders Office is a UAE government entity dedicated to preserving and promoting the legacy of the nation's founding leaders. It manages initiatives that honor the history, values, and vision of the UAE's founders, ensuring their contributions continue to inspire future generations.
+              The <em>Founders Office</em> is a UAE government entity dedicated to preserving and promoting the legacy of the nation's founding leaders. It manages initiatives that honor the history, values, and vision of the UAE's founders, ensuring their contributions continue to inspire future generations.
             </div>
           </div>
           <img src="assets/project-3/gallery/tfo-2.png" alt="The Founders Office" class="gallery-photo" />
@@ -455,7 +446,7 @@
       <!-- Project Divider -->
       <div class="project-divider"></div>
       
-      <!-- Third Project -->
+      <!-- Fifth Project Section -->
       <section class="project-section" id="project-4">
         <div class="project-title-column">
           <h2 class="project-title">Sheikh Zayed<sup>2023</sup></h2>
@@ -467,14 +458,30 @@
         </div>
       </section>
       
-      <!-- Third Project Photo gallery -->
+      <!-- Fifth Project Photo gallery -->
       <section class="photo-gallery">
         <div class="gallery-container">
           <img src="assets/project-4/gallery/Zayed-1.png" alt="Zayed" class="gallery-photo" />
+          <div class="gallery-text-block" style="align-items: center;">
+            <div class="gallery-text-content">
+              The <em>Sheikh Zayed</em> website honors the legacy of the UAE's founding father through an immersive digital experience that reflects his vision, values, and contributions to the nation.
+            </div>
+          </div>
           <img src="assets/project-4/gallery/Zayed-2.png" alt="Zayed" class="gallery-photo" />
           <img src="assets/project-4/gallery/Zayed-3.png" alt="Zayed" class="gallery-photo" />
+          <div class="gallery-text-block" style="align-items: flex-end;">
+            <div class="gallery-text-content">
+              The design approach focused on creating an elegant and engaging digital experience that would honor Sheikh Zayed's legacy while making his story accessible to future generations.<br><br>
+              An interactive particle system inspired by the sands of the Emirates was used as the main visual element to create a dynamic and immersive experience that reflects the forward-thinking vision of the UAE's founding father.
+            </div>
+          </div>
           <img src="assets/project-4/gallery/Zayed-4.png" alt="Zayed" class="gallery-photo" />
           <img src="assets/project-4/gallery/Zayed-5.png" alt="Zayed" class="gallery-photo" />
+          <div class="gallery-text-block" style="align-items: flex-end;">
+            <div class="gallery-text-content">
+              The story of Sheikh Zayed was brought to life through a series of modules, each designed with a clear purpose. A family tree traced his lineage, timelines highlighted milestones from his life, and maps illustrated the breadth of his influence across and beyond the UAE.
+            </div>
+          </div>
           <img src="assets/project-4/gallery/Zayed-6.png" alt="Zayed" class="gallery-photo" />
           <img src="assets/project-4/gallery/Zayed-7.png" alt="Zayed" class="gallery-photo" />
           <img src="assets/project-4/gallery/Zayed-8.png" alt="Zayed" class="gallery-photo" />
@@ -485,7 +492,7 @@
       <!-- Project Divider -->
       <div class="project-divider"></div>
       
-      <!-- Fourth Project -->
+      <!-- Sixth Project Section -->
       <section class="project-section" id="project-5">
         <div class="project-title-column">
           <h2 class="project-title">Kojinn<sup>2022</sup></h2>
@@ -497,10 +504,15 @@
         </div>
       </section>
       
-      <!-- Fourth Project Photo gallery -->
+      <!-- Sixth Project Photo gallery -->
       <section class="photo-gallery">
         <div class="gallery-container">
           <img src="assets/project-5/gallery/Kojinn-1.png" alt="Kojinn" class="gallery-photo" />
+          <div class="gallery-text-block">
+            <div class="gallery-text-content">
+              The <em>Kojinn</em> brand and mobile app were designed with a clean, modern system for a fashion-focused express delivery platform, prioritizing clarity and ease of use across key user flows.
+            </div>
+          </div>
           <img src="assets/project-5/gallery/Kojinn-2.png" alt="Kojinn" class="gallery-photo" />
           <img src="assets/project-5/gallery/Kojinn-3.png" alt="Kojinn" class="gallery-photo" />
           <img src="assets/project-5/gallery/Kojinn-4.png" alt="Kojinn" class="gallery-photo" />
@@ -513,7 +525,7 @@
       <!-- Project Divider -->
       <div class="project-divider"></div>
       
-      <!-- Fifth Project -->
+      <!-- Seventh Project Section -->
       <section class="project-section" id="project-6">
         <div class="project-title-column">
           <h2 class="project-title">Hotaling & Co.<sup>2021</sup></h2>
@@ -525,7 +537,7 @@
         </div>
       </section>
       
-          <!-- Fifth Project Photo gallery -->
+          <!-- Seventh Project Photo gallery -->
     <section class="photo-gallery">
       <div class="gallery-container">
           <img src="assets/project-6/gallery/HC-1.png" alt="Hotaling & Co." class="gallery-photo" />
@@ -534,13 +546,13 @@
           <img src="assets/project-6/gallery/HC-3.png" alt="Hotaling & Co." class="gallery-photo" />
           <img src="assets/project-6/gallery/HC-4.png" alt="Hotaling & Co." class="gallery-photo" />
           <img src="assets/project-6/gallery/HC-5.png" alt="Hotaling & Co." class="gallery-photo" />
-              </div>
-      </section>
+      </div>
+    </section>
 
       <!-- Project Divider -->
       <div class="project-divider"></div>
 
-      <!-- Sixth Project -->
+      <!-- Eighth Project Section -->
       <section class="project-section" id="project-7">
               <div class="project-title-column">
           <h2 class="project-title">Farm Sanctuary<sup>2020</sup></h2>
@@ -552,7 +564,7 @@
       </div>
     </section>
 
-    <!-- Sixth Project Photo gallery -->
+    <!-- Eighth Project Photo gallery -->
     <section class="photo-gallery">
       <div class="gallery-container">
           <img src="assets/project-7/gallery/fs-1.png" alt="Farm Sanctuary" class="gallery-photo" />
@@ -564,7 +576,7 @@
       <!-- Project Divider -->
       <div class="project-divider"></div>
 
-      <!-- Seventh Project Section -->
+      <!-- Ninth Project Section -->
       <section class="project-section" id="project-8">
         <div class="project-title-column">
           <h2 class="project-title">Relief International<sup>2019</sup></h2>
@@ -574,7 +586,7 @@
         </div>
       </section>
 
-      <!-- Seventh Project Photo gallery -->
+      <!-- Ninth Project Photo gallery -->
       <section class="photo-gallery">
         <div class="gallery-container">
           <img src="assets/project-8/gallery/ri-1.png" alt="Relief International" class="gallery-photo" />
@@ -584,9 +596,13 @@
     </section>
       
     </main>
+    <footer style="padding: 20px 40px 60px; text-align: center;">
+      <div class="footer-note">2025 © Adrian Castillo. All Rights Reserved.</div>
+    </footer>
     
     <!-- Image viewer modal -->
     <div class="image-viewer" id="imageViewer">
+      <div class="image-viewer-close" id="imageViewerClose">CLOSE</div>
       <img id="viewerImage" src="" alt="" />
     </div>
     
@@ -654,22 +670,31 @@
         }
       }
       
-      // Function to show next image within current project
+      // Function to show next image within current project (no wrap-around)
       function showNextImage() {
-        const nextIndex = (currentImageIndex + 1) % currentProjectImages.length;
-        showImage(nextIndex);
+        if (currentImageIndex < currentProjectImages.length - 1) {
+          showImage(currentImageIndex + 1);
+        }
       }
       
-      // Function to show previous image within current project
+      // Function to show previous image within current project (no wrap-around)
       function showPreviousImage() {
-        const prevIndex = (currentImageIndex - 1 + currentProjectImages.length) % currentProjectImages.length;
-        showImage(prevIndex);
+        if (currentImageIndex > 0) {
+          showImage(currentImageIndex - 1);
+        }
       }
       
-      // Close image viewer when clicking on the modal
-      imageViewer.addEventListener('click', function() {
-        this.classList.remove('active');
-        document.body.style.overflow = 'auto'; // Restore scrolling
+      // Navigate on click: left half = previous, right half = next (no wrap)
+      imageViewer.addEventListener('click', function(e) {
+        if (!this.classList.contains('active')) return;
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const isLeft = x < rect.width / 2;
+        if (isLeft) {
+          showPreviousImage();
+        } else {
+          showNextImage();
+        }
       });
       
       // Handle keyboard navigation
@@ -686,6 +711,29 @@
             showPreviousImage();
           }
         }
+      });
+
+      // Close button handler
+      const imageViewerClose = document.getElementById('imageViewerClose');
+      imageViewerClose.addEventListener('click', function(e) {
+        e.stopPropagation();
+        imageViewer.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+
+      // Update cursor to left/right arrows based on mouse position over the image
+      imageViewer.addEventListener('mousemove', function(e) {
+        if (!this.classList.contains('active')) return;
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const isLeft = x < rect.width / 2;
+        this.classList.toggle('cursor-left', isLeft && currentImageIndex > 0);
+        this.classList.toggle('cursor-right', !isLeft && currentImageIndex < (currentProjectImages.length - 1));
+      });
+
+      // Clear cursor classes when leaving viewer
+      imageViewer.addEventListener('mouseleave', function() {
+        this.classList.remove('cursor-left', 'cursor-right');
       });
       
       // Handle scrollbar fade in/out on scroll

@@ -229,9 +229,13 @@ class DraggableBoxes {
     // Calculate cream column width (40% of viewport)
     const creamColumnWidth = window.innerWidth * 0.4
     const maxBoxWidth = creamColumnWidth - 80 // Subtract padding (40px on each side)
-    const maxBoxSize = Math.min(maxBoxWidth * 1.2, 450) // Cap at 450px
+    // Use a uniform target width for all boxes to maintain consistent widths
+    const targetWidth = Math.min(maxBoxWidth, 450)
 
-    let currentTop = 100 // Starting position
+    // Store box dimensions for proper ordering
+    const boxDimensions = []
+    let loadedCount = 0
+    const totalBoxes = this.boxes.filter((_, index) => index !== 9).length // Exclude hidden project 10
     
     this.boxes.forEach((box, index) => {
       // Hide project 10 (index 9)
@@ -258,35 +262,51 @@ class DraggableBoxes {
           const aspectRatio = img.width / img.height
           let boxWidth, boxHeight
           
-          if (aspectRatio > 1) {
-            // Landscape image - constrain by width
-            boxWidth = maxBoxSize
-            boxHeight = maxBoxSize / aspectRatio
-          } else {
-            // Portrait or square image - constrain by height
-            boxHeight = maxBoxSize
-            boxWidth = maxBoxSize * aspectRatio
+          // Constrain all boxes by uniform width for consistent sizing
+          boxWidth = targetWidth
+          boxHeight = targetWidth / aspectRatio
+          
+          // Store dimensions with index for proper ordering
+          boxDimensions[index] = { width: boxWidth, height: boxHeight }
+          loadedCount++
+          
+          // When all images are loaded, position boxes in correct order
+          if (loadedCount === totalBoxes) {
+            this.positionBoxesInOrder(boxDimensions)
           }
-          
-          // Apply dimensions
-          box.style.width = `${boxWidth}px`
-          box.style.height = `${boxHeight}px`
-          box.style.left = `80vw` // Center aligned x position
-          box.style.top = `${currentTop}px`
-          box.style.transform = `translateX(-50%)`
-          
-          // Update currentTop for next box
-          currentTop += boxHeight + 12
         }
         img.src = projectData.heroImage
       } else {
         // Fallback for boxes without images - use square size
-        box.style.width = `${maxBoxSize}px`
-        box.style.height = `${maxBoxSize}px`
-        box.style.left = `80vw`
+        boxDimensions[index] = { width: targetWidth, height: targetWidth }
+        loadedCount++
+        
+        // When all images are loaded, position boxes in correct order
+        if (loadedCount === totalBoxes) {
+          this.positionBoxesInOrder(boxDimensions)
+        }
+      }
+    })
+  }
+  
+  positionBoxesInOrder(boxDimensions) {
+    let currentTop = 100 // Starting position
+    
+    this.boxes.forEach((box, index) => {
+      // Skip hidden project 10 (index 9)
+      if (index === 9) return
+      
+      const dimensions = boxDimensions[index]
+      if (dimensions) {
+        // Apply dimensions
+        box.style.width = `${dimensions.width}px`
+        box.style.height = `${dimensions.height}px`
+        box.style.left = `80vw` // Center aligned x position
         box.style.top = `${currentTop}px`
         box.style.transform = `translateX(-50%)`
-        currentTop += maxBoxSize + 12
+        
+        // Update currentTop for next box
+        currentTop += dimensions.height + 12
       }
     })
   }
@@ -387,7 +407,7 @@ class DraggableBoxes {
         return Math.abs(left - 80) > 5 // Check if boxes are not in original position
       })
       
-      this.scatterButton.textContent = isScattered ? 'Put Back' : 'Scatter'
+      this.scatterButton.textContent = isScattered ? 'Clean up' : 'Scatter'
     }
   }
   
