@@ -1,14 +1,4 @@
 <html lang="en"><head>
-  <script type="module" src="/@vite/client"></script>
-
-  <script type="module" src="/@vite/client"></script>
-
-  <script type="module" src="/@vite/client"></script>
-
-  <script type="module" src="/@vite/client"></script>
-
-    <script type="module" src="/@vite/client"></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Adrian Castillo - Musings</title>
@@ -197,19 +187,14 @@
       <section class="musings-layout">
          <!-- Left column: dates and titles -->
          <aside class="musings-left">
-          <ul class="musings-list" id="musingsList"><li><a href="#m-1" class="active"><span class="musings-date">SEP 05 2025</span></a></li></ul>
+          <ul class="musings-list" id="musingsList"></ul>
          </aside>
 
         <!-- Right column: scrollable content of entries -->
-        <div class="musings-right" id="musingsContent">
-          <article class="m-entry" id="m-1">
-            <div class="m-date">SEP 05 2025</div>
-            
-          <p>I finally designed a website for myself, yay!</p><p><br></p><p><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ToCRja2miF3Xi/giphy.gif"></p></article>
-        </div>
+        <div class="musings-right" id="musingsContent"></div>
       </section>
       <!-- Admin modal -->
-      <div id="m-admin-modal" class="m-admin-modal" style="display: block;">
+      <div id="m-admin-modal" class="m-admin-modal" style="display:none;">
         <div class="m-admin-backdrop" id="m-backdrop"></div>
         <div class="m-admin-dialog">
           <button class="m-admin-close" id="m-close" aria-label="Close">Close</button>
@@ -306,11 +291,11 @@
             <input id="giphy-query" placeholder="Search GIFs… (e.g., celebration)">
             <button id="giphy-search" class="m-inline-btn" type="button">Search</button>
           </div>
-          <div id="giphy-grid" class="giphy-grid"><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ASaUhuOvJeQ0M/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Yt09iFvD9u5AQ/giphy.gif"></div><div class="giphy-item"><img src="https://media3.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/RtrAnlddPOKZRx5Osi/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FZuRP6WaW5qg/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/AkFEmElfAaIbljf99G/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/nNxT5qXR02FOM/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3BMtVrNUsfFhpb7FUW/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ToCRja2miF3Xi/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Md4xQfuJeTtx6/giphy.gif"></div><div class="giphy-item"><img src="https://media3.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/dvgpNPZSNg7fG34LzU/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/hJREDE91AMayEvvyeE/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/oXGfezpiJcXrZAtNwC/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/uiW8Ui19VX5xm/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/8qxEWfTtAxyntu0tlf/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/SabYuq1jEQ95AcFcrd/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/5WKa9xp9o2kxz14Eem/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4ZaVOvh0M3q7c6YuE2/giphy.gif"></div><div class="giphy-item"><img src="https://media3.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/TfAuXsjJpzLzO/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/O54EHPuVG9C5vKoZNF/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lYBKgugRYO2PtW4XIl/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/RLyXr3BytEAUdzBLW1/giphy.gif"></div><div class="giphy-item"><img src="https://media3.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/GUdouh1kQMHddy32ks/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/k2wfCJkjWATbwQucaD/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxbmdkeDNlbmVtdHl5NWMxODgydzJhZzdhMTd1MGg5MTUwdnJvcHE2dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/9YK3ZyLPHMl6cRpBLk/giphy.gif"></div></div>
+          <div id="giphy-grid" class="giphy-grid"></div>
         </div>
       </div>
     </main>
-    <script src="../src/cursor.js"></script><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;" width="1512" height="897"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;" width="1512" height="897"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;" width="1512" height="897"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;" width="1512" height="897"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;" width="1512" height="897"></canvas>
+    <script src="../src/cursor.js"></script>
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script>
       // Auto-generate left date list and scroll-sync
