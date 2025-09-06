@@ -7,7 +7,7 @@ class CustomCursor {
     this.canvas.style.left = '0'
     this.canvas.style.width = '100vw'
     this.canvas.style.height = '100vh'
-    this.canvas.style.zIndex = '9999'
+    this.canvas.style.zIndex = '100001'
     this.canvas.style.pointerEvents = 'none'
     
     document.body.appendChild(this.canvas)
@@ -34,8 +34,19 @@ class CustomCursor {
   }
 
   resize() {
-    this.canvas.width = window.innerWidth
-    this.canvas.height = window.innerHeight
+    const dpr = window.devicePixelRatio || 1
+    const rect = { width: window.innerWidth, height: window.innerHeight }
+    
+    // Set the canvas size in pixels (accounting for device pixel ratio)
+    this.canvas.width = rect.width * dpr
+    this.canvas.height = rect.height * dpr
+    
+    // Scale the context to match device pixel ratio
+    this.ctx.scale(dpr, dpr)
+    
+    // Set the CSS size to maintain the same visual size
+    this.canvas.style.width = rect.width + 'px'
+    this.canvas.style.height = rect.height + 'px'
   }
 
   bindEvents() {
@@ -160,12 +171,103 @@ class CustomCursor {
     return 'white'
   }
 
-  animate() {
-    // Clear canvas
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+  drawArrow(x, y, direction, size) {
+    this.ctx.save()
     
-    // Draw trail as individual line segments
-    if (this.trail.length > 1) {
+    // Chevron dimensions
+    const chevronSize = size * 0.6
+    
+    this.ctx.lineCap = 'round'
+    this.ctx.lineJoin = 'round'
+    
+    this.ctx.beginPath()
+    
+    if (direction === 'left') {
+      // Left chevron: <
+      this.ctx.moveTo(x + chevronSize/2, y - chevronSize/2)
+      this.ctx.lineTo(x - chevronSize/2, y)
+      this.ctx.lineTo(x + chevronSize/2, y + chevronSize/2)
+    } else if (direction === 'right') {
+      // Right chevron: >
+      this.ctx.moveTo(x - chevronSize/2, y - chevronSize/2)
+      this.ctx.lineTo(x + chevronSize/2, y)
+      this.ctx.lineTo(x - chevronSize/2, y + chevronSize/2)
+    }
+    
+    // Draw the white outline first (thicker)
+    this.ctx.lineWidth = 4
+    this.ctx.strokeStyle = 'white'
+    this.ctx.stroke()
+    
+    // Draw the black chevron on top (thinner)
+    this.ctx.lineWidth = 2
+    this.ctx.strokeStyle = 'black'
+    this.ctx.stroke()
+    
+    this.ctx.restore()
+  }
+
+  drawX(x, y, size) {
+    this.ctx.save()
+    
+    // X dimensions
+    const xSize = size * 0.6
+    
+    this.ctx.lineCap = 'round'
+    this.ctx.lineJoin = 'round'
+    
+    // Draw the white outline first (thicker)
+    this.ctx.lineWidth = 4
+    this.ctx.strokeStyle = 'white'
+    
+    // First diagonal line (top-left to bottom-right)
+    this.ctx.beginPath()
+    this.ctx.moveTo(x - xSize/2, y - xSize/2)
+    this.ctx.lineTo(x + xSize/2, y + xSize/2)
+    this.ctx.stroke()
+    
+    // Second diagonal line (top-right to bottom-left)
+    this.ctx.beginPath()
+    this.ctx.moveTo(x + xSize/2, y - xSize/2)
+    this.ctx.lineTo(x - xSize/2, y + xSize/2)
+    this.ctx.stroke()
+    
+    // Draw the black X on top (thinner)
+    this.ctx.lineWidth = 2
+    this.ctx.strokeStyle = 'black'
+    
+    // First diagonal line (top-left to bottom-right)
+    this.ctx.beginPath()
+    this.ctx.moveTo(x - xSize/2, y - xSize/2)
+    this.ctx.lineTo(x + xSize/2, y + xSize/2)
+    this.ctx.stroke()
+    
+    // Second diagonal line (top-right to bottom-left)
+    this.ctx.beginPath()
+    this.ctx.moveTo(x + xSize/2, y - xSize/2)
+    this.ctx.lineTo(x - xSize/2, y + xSize/2)
+    this.ctx.stroke()
+    
+    this.ctx.restore()
+  }
+
+  animate() {
+    // Clear canvas (use logical dimensions, not physical pixels)
+    this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    
+    // Check if we're in an image viewer with cursor direction classes
+    const imageViewer = document.querySelector('.image-viewer.active')
+    const element = document.elementFromPoint(this.mouse.x, this.mouse.y)
+    const isInImageViewer = imageViewer && element && (element === imageViewer || imageViewer.contains(element))
+    const viewerImage = document.getElementById('viewerImage')
+    const isHoveringImage = imageViewer && element === viewerImage
+    const hasLeftCursor = imageViewer && imageViewer.classList.contains('cursor-left')
+    const hasRightCursor = imageViewer && imageViewer.classList.contains('cursor-right')
+    const isShowingArrow = isInImageViewer && isHoveringImage && (hasLeftCursor || hasRightCursor)
+    const isShowingX = isInImageViewer && !isHoveringImage
+    
+    // Draw trail as individual line segments (only if not showing arrow or X)
+    if (this.trail.length > 1 && !isShowingArrow && !isShowingX) {
       this.ctx.save()
       this.ctx.lineWidth = 1
       this.ctx.lineCap = 'round'
@@ -193,7 +295,6 @@ class CustomCursor {
     
     // Draw cursor
     const cursorColor = this.getColorAtPosition(this.mouse.x, this.mouse.y) || 'white'
-    const element = document.elementFromPoint(this.mouse.x, this.mouse.y)
     const isInteractiveTag = element && ['A','BUTTON','INPUT','TEXTAREA','SELECT','LABEL','SUMMARY'].includes(element.tagName)
     const roleAttr = element && element.getAttribute && element.getAttribute('role')
     const isRoleInteractive = roleAttr && ['button','link','tab','switch','checkbox','radio','menuitem'].includes(roleAttr)
@@ -202,16 +303,31 @@ class CustomCursor {
     
     this.ctx.save()
     this.ctx.strokeStyle = cursorColor
+    this.ctx.fillStyle = cursorColor
     this.ctx.lineWidth = 1
+    this.ctx.font = '16px Arial'
+    this.ctx.textAlign = 'center'
+    this.ctx.textBaseline = 'middle'
     
-    if (isHoverable) {
+    if (isShowingArrow) {
+      // Draw arrow for image viewer navigation
+      const size = 24
+      if (hasLeftCursor) {
+        this.drawArrow(this.mouse.x, this.mouse.y, 'left', size)
+      } else if (hasRightCursor) {
+        this.drawArrow(this.mouse.x, this.mouse.y, 'right', size)
+      }
+    } else if (isShowingX) {
+      // Draw X for closing image viewer
+      const size = 24
+      this.drawX(this.mouse.x, this.mouse.y, size)
+    } else if (isHoverable) {
       // Draw circle outline when hovering over clickable elements
       this.ctx.beginPath()
       this.ctx.arc(this.mouse.x, this.mouse.y, 8, 0, Math.PI * 2)
       this.ctx.stroke()
     } else {
       // Draw filled dot for normal cursor
-      this.ctx.fillStyle = cursorColor
       this.ctx.beginPath()
       this.ctx.arc(this.mouse.x, this.mouse.y, 3, 0, Math.PI * 2)
       this.ctx.fill()

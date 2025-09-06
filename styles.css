@@ -412,8 +412,21 @@ body {
   text-transform: uppercase;
   opacity: 0.9;
   transition: opacity 0.2s ease;
+  position: relative;
 }
 .nav-left a:hover { opacity: 0.5; }
+.nav-left a.active {
+  opacity: 1;
+}
+.nav-left a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #0002AA;
+}
 
 /* Responsive reorder: show Things I Do above Selected Clients on narrow screens */
 @media (max-width: 900px) {
@@ -428,9 +441,10 @@ body {
   }
 }
 
-/* Musings button */
+/* Navigation buttons */
 .container-musings .about-button,
 .about-button,
+.work-button,
 .container-musings .musings-button,
 .musings-button {
   display: inline-block;
@@ -446,9 +460,9 @@ body {
   position: relative;
   pointer-events: auto;
 }
-.about-button:hover, .musings-button:hover { color: #85774B; }
+.about-button:hover, .work-button:hover, .musings-button:hover { color: #85774B; }
 
-.about-button::after, .musings-button::after {
+.about-button::after, .work-button::after, .musings-button::after {
   content: "↗";
   position: absolute;
   top: 0;
@@ -460,11 +474,12 @@ body {
   opacity: 0;
   transition: opacity 0.2s ease, color 0.2s ease;
 }
-.about-button:hover::after, .musings-button:hover::after { opacity: 1; }
+.about-button:hover::after, .work-button:hover::after, .musings-button:hover::after { opacity: 1; }
 
-/* Fixed bottom placement for About/Musings and Copyright */
+/* Fixed bottom placement for About/Work/Musings and Copyright */
 .container-bottom { grid-row: 3; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px 40px 40px; }
 .container-bottom .bottom-left .about-button { margin-right: 32px; }
+.container-bottom .bottom-left .work-button { margin-right: 32px; }
 .container-bottom .bottom-right .footer-note { margin: 0; }
 
 /* Column alignment containers */

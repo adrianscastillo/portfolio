@@ -71,10 +71,11 @@
         <div class="container-bottom">
           <div class="bottom-left">
             <a href="about.html" class="about-button">ABOUT</a>
+            <a href="projects/projects.html" class="work-button">WORK</a>
             <a href="musings/index.html" class="musings-button">MUSINGS</a>
           </div>
           <div class="bottom-right">
-            <div class="footer-note">2025 © Adrian Castillo. All Rights Reserved.</div>
+            <div class="footer-note"><span id="current-year">2025</span> © Adrian Castillo. All Rights Reserved.</div>
           </div>
         </div>
       </section>
@@ -147,15 +148,25 @@
         }
       }
 
+      // Update footer year
+      function updateFooterYear() {
+        const yearEl = document.getElementById('current-year')
+        if (yearEl) {
+          yearEl.textContent = new Date().getFullYear()
+        }
+      }
+
       // Initialize when DOM is ready
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
           startClock()
           initAnimations()
+          updateFooterYear()
         })
       } else {
         startClock()
         initAnimations()
+        updateFooterYear()
       }
     </script>
   </body>

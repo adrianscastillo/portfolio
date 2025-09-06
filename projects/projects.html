@@ -267,7 +267,7 @@
         justify-content: center;
         align-items: center;
         z-index: 10000;
-        cursor: pointer;
+        cursor: none !important;
       }
       
       .image-viewer.active {
@@ -279,6 +279,7 @@
         max-height: 90%;
         object-fit: contain;
         border-radius: 0;
+        cursor: none !important;
       }
 
       .image-viewer-close {
@@ -291,7 +292,7 @@
         font-style: italic;
         text-transform: uppercase;
         opacity: 0.9;
-        cursor: pointer !important;
+        cursor: none !important;
         user-select: none;
       }
 
@@ -301,12 +302,25 @@
 
       /* Viewer uses custom canvas cursor globally; no system cursor overrides here */
       
+      /* Image viewer cursor states - using custom cursor only */
+      .image-viewer.cursor-left {
+        cursor: none !important;
+      }
+      
+      .image-viewer.cursor-right {
+        cursor: none !important;
+      }
+      
+      /* Projects page footer note color */
+      footer .footer-note {
+        color: #0002aa;
+      }
     </style>
   </head>
   <body>
     <!-- Navigation -->
     <nav class="nav">
-      <div class="nav-left"><a href="../about.html">About</a><a href="../musings/index.html">Musings</a></div>
+      <div class="nav-left"><a href="../about.html">About</a><a href="projects.html" class="active">Work</a><a href="../musings/index.html">Musings</a></div>
       <a href="../index.html" class="nav-name">Adrian Castillo</a>
       <a href="mailto:adrianscastillo@gmail.com" class="nav-email">Say Hi</a>
     </nav>
@@ -597,7 +611,7 @@
       
     </main>
     <footer style="padding: 20px 40px 60px; text-align: center;">
-      <div class="footer-note">2025 © Adrian Castillo. All Rights Reserved.</div>
+      <div class="footer-note"><span id="current-year">2025</span> © Adrian Castillo. All Rights Reserved.</div>
     </footer>
     
     <!-- Image viewer modal -->
@@ -685,15 +699,26 @@
       }
       
       // Navigate on click: left half = previous, right half = next (no wrap)
+      // Close viewer when clicking outside the image
       imageViewer.addEventListener('click', function(e) {
         if (!this.classList.contains('active')) return;
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const isLeft = x < rect.width / 2;
-        if (isLeft) {
-          showPreviousImage();
+        
+        // Check if click was on the image itself
+        const viewerImage = document.getElementById('viewerImage');
+        if (e.target === viewerImage) {
+          // Click was on the image - navigate
+          const rect = this.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const isLeft = x < rect.width / 2;
+          if (isLeft) {
+            showPreviousImage();
+          } else {
+            showNextImage();
+          }
         } else {
-          showNextImage();
+          // Click was outside the image - close viewer
+          this.classList.remove('active');
+          document.body.style.overflow = 'auto';
         }
       });
       
@@ -758,6 +783,17 @@
           }, 500);
         });
       });
+
+      // Update footer year
+      function updateFooterYear() {
+        const yearEl = document.getElementById('current-year')
+        if (yearEl) {
+          yearEl.textContent = new Date().getFullYear()
+        }
+      }
+
+      // Initialize footer year
+      updateFooterYear()
     </script>
     
   </body>
