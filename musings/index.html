@@ -145,9 +145,31 @@
       .m-date-row { display: flex; align-items: center; gap: 8px; }
       .m-inline-btn { padding: 6px 10px; border: 1px solid rgba(17,17,17,0.25); background: #F8F3E7; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 13px; color: #111; }
       .m-inline-btn:hover { background: #fff; }
-      .m-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+      .m-toolbar { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 6px; 
+        margin: 8px 0; 
+        max-height: 120px; 
+        overflow-y: auto; 
+        border: 1px solid rgba(17,17,17,0.15); 
+        padding: 8px; 
+        background: #fff; 
+      }
       .m-toolbar button { padding: 4px 8px; border: 1px solid rgba(17,17,17,0.25); background: #F8F3E7; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 13px; }
       .m-toolbar button:hover { background: #fff; }
+      
+      /* Quill toolbar specific fixes */
+      .ql-toolbar { 
+        max-height: 120px !important; 
+        overflow-y: auto !important; 
+        border: 1px solid rgba(17,17,17,0.15) !important; 
+        background: #fff !important; 
+      }
+      .ql-toolbar .ql-formats { 
+        margin-right: 8px !important; 
+        margin-bottom: 4px !important; 
+      }
       .m-editor-area { border: 1px solid rgba(17,17,17,0.25); background: #fff; padding: 10px; min-height: 220px; overflow: auto; }
       .m-editor-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
       .m-editor-actions button { padding: 6px 12px; border: 1px solid rgba(17,17,17,0.25); background: #0002AA; color: #fff; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; }
@@ -221,6 +243,22 @@
       .m-admin-modal { position: fixed; inset: 0; display: none; z-index: 9999; }
       .m-admin-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
       .m-admin-dialog { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(900px, 90vw); max-height: 80vh; overflow: auto; background: #F8F3E7; border: 1px solid rgba(17,17,17,0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.25); padding: 20px; }
+      
+      /* Ensure proper spacing in modal */
+      .m-admin-right { 
+        min-height: 400px; 
+        display: flex; 
+        flex-direction: column; 
+      }
+      .m-editor { 
+        flex: 1; 
+        display: flex; 
+        flex-direction: column; 
+      }
+      .m-editor-area { 
+        flex: 1; 
+        min-height: 200px; 
+      }
       .m-admin-close { position: absolute; top: 10px; right: 12px; background: transparent; border: none; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; font-style: italic; text-transform: uppercase; letter-spacing: 0.06em; color: #111; }
 
       /* Giphy modal */
