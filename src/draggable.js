@@ -24,15 +24,15 @@ class DraggableBoxes {
     
     // Project data array for better performance
     this.projectData = [
-      { title: 'DX10', heroImage: 'projects/assets/project-0/gallery/Slide 16_9 - 7.png' },
-      { title: 'Terb', heroImage: 'projects/assets/project-1/gallery/terb logo.gif' },
-      { title: 'National Media Office', heroImage: 'projects/assets/project-2/gallery/nmo-1.png' },
-      { title: 'The Founders Office', heroImage: 'projects/assets/project-3/gallery/tfo-1.png' },
-      { title: 'Sheikh Zayed', heroImage: 'projects/assets/project-4/gallery/Zayed-1.png' },
-      { title: 'Kojinn', heroImage: 'projects/assets/project-5/gallery/Kojinn-1.png' },
-      { title: 'Hotaling & Co.', heroImage: 'projects/assets/project-6/gallery/HC-1.png' },
-      { title: 'Farm Sanctuary', heroImage: 'projects/assets/project-7/gallery/fs-1.png' },
-      { title: 'Relief International', heroImage: 'projects/assets/project-8/gallery/ri-1.png' }
+      { title: 'DX10', heroImage: 'projects/assets/project-0/gallery/dx10 cover.jpg' },
+      { title: 'Terb', heroImage: 'projects/assets/project-1/gallery/terb cover.gif' },
+      { title: 'National Media Office', heroImage: 'projects/assets/project-2/gallery/nmo cover.jpg' },
+      { title: 'The Founders Office', heroImage: 'projects/assets/project-3/gallery/tfo cover.jpg' },
+      { title: 'Sheikh Zayed', heroImage: 'projects/assets/project-4/gallery/zayed cover.jpg' },
+      { title: 'Kojinn', heroImage: 'projects/assets/project-5/gallery/kojinn cover.jpg' },
+      { title: 'Hotaling & Co.', heroImage: 'projects/assets/project-6/gallery/hc cover.gif' },
+      { title: 'Farm Sanctuary', heroImage: 'projects/assets/project-7/gallery/fs cover.jpg' },
+      { title: 'Relief International', heroImage: 'projects/assets/project-8/gallery/ri-cover.jpg' }
     ]
     
     this.draggedBox = null
@@ -316,10 +316,24 @@ class DraggableBoxes {
       return
     }
     
+    // Ensure scatter button is always on top
+    if (this.scatterButton) {
+      this.scatterButton.style.zIndex = '9999'
+    }
+    
     // Randomly scatter the boxes around the screen
     this.boxes.forEach((box, index) => {
       // Skip hidden project 10 (index 9)
       if (index === 9) return
+      
+      // Make images half size when scattered
+      const img = box.querySelector('img')
+      if (img) {
+        img.style.transform = 'scale(0.5) !important'
+        img.style.transition = 'transform 0.3s ease'
+        img.style.width = '50%'
+        img.style.height = '50%'
+      }
       
       // Get current y position to check distance from adjacent boxes
       const currentTop = parseInt(box.style.top) || 0
@@ -419,6 +433,15 @@ class DraggableBoxes {
       // Skip hidden project 10 (index 9)
       if (index === 9) return
       
+      // Return images to original size when cleaned up
+      const img = box.querySelector('img')
+      if (img) {
+        img.style.transform = 'scale(1) !important'
+        img.style.transition = 'transform 0.3s ease'
+        img.style.width = '100%'
+        img.style.height = '100%'
+      }
+      
       // Center aligned x position
       const xPosition = 80 // 80vw (center of cream column)
       
@@ -429,7 +452,7 @@ class DraggableBoxes {
       
       box.style.left = `${xPosition}vw`
       box.style.top = `${yPosition}px`
-      box.style.transform = `translateX(-50%)`
+      box.style.transform = `translateX(0)`
     })
     
     this.updateButtonText()
