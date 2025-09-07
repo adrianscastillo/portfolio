@@ -10,6 +10,14 @@
   cursor: none !important;
 }
 html, body { height: 100%; overflow: hidden; }
+
+/* Allow scrolling on mobile */
+@media (max-width: 768px) {
+  html, body { 
+    overflow: auto; 
+    height: auto;
+  }
+}
 body { 
   font-family: 'Guyot Press', 'Georgia', serif; 
   background-color: #0002AA; /* Static blue background */
@@ -591,9 +599,462 @@ body {
   outline: none;
 }
 
+/* Hide custom cursor on mobile */
+@media (max-width: 768px) {
+  #cursor-canvas {
+    display: none !important;
+  }
+}
 
+/* Mobile Header (iPhone SE to iPad Mini) */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: transparent;
+  z-index: 1000;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 0 20px 10px 0;
+}
 
+/* Mobile Body Content */
+.mobile-body {
+  display: none;
+  padding: 0;
+  background: #F8F3E7;
+  min-height: 100vh;
+  margin-top: -60px;
+}
 
+.mobile-cream-section {
+  background: #F8F3E7;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.mobile-name-cream {
+  font-family: 'Nautica', sans-serif;
+  font-size: 80px;
+  font-weight: 500;
+  color: #0002AA;
+  margin: 60px 0 20px 0;
+  text-align: center;
+  letter-spacing: 0px;
+  font-feature-settings: "liga" 1, "kern" 1;
+  font-variant-ligatures: common-ligatures;
+  line-height: 0.8;
+}
+
+.mobile-blue-content {
+  background: #0002AA;
+  padding: 30px 0;
+}
+
+.mobile-projects-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 0 40px;
+  width: 100%;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 30px;
+  align-items: center;
+}
+
+.mobile-projects-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-projects-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.mobile-project-item {
+  flex-shrink: 0;
+  width: 300px;
+  height: 500px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.mobile-project-item:hover {
+  transform: translateY(-4px);
+}
+
+@media (max-width: 768px) {
+  .mobile-project-item:hover {
+    transform: none;
+  }
+}
+
+.mobile-project-item img {
+  width: 100%;
+  height: 420px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-project-title {
+  background: #F8F3E7;
+  color: #0002AA;
+  font-family: 'Guyot Headline', 'Georgia', serif;
+  font-weight: 400;
+  font-size: 18px;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  text-align: center;
+  padding: 12px 0 0 0;
+  margin: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.mobile-project-year {
+  background: #F8F3E7;
+  color: #666;
+  font-family: 'Guyot Headline', 'Georgia', serif;
+  font-size: 12px;
+  font-weight: 400;
+  font-style: italic;
+  text-align: center;
+  padding: 4px 0 12px 0;
+  margin: 0;
+  flex-shrink: 0;
+  letter-spacing: normal;
+}
+
+.mobile-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+  color: #0002AA;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px 20px 0 20px;
+}
+
+.mobile-top-bar #mobile-clock {
+  opacity: 0.95;
+  white-space: pre-line;
+}
+
+.mobile-top-bar .mobile-location {
+  opacity: 0.95;
+}
+
+.mobile-name-header {
+  font-family: 'Nautica', 'Arial', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #0002AA;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  letter-spacing: 0px;
+  font-feature-settings: "liga" 1, "dlig" 1;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+}
+
+.mobile-name {
+  font-family: 'Nautica', 'Arial', sans-serif;
+  font-size: 80px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 40px 10px 40px 10px;
+  text-align: center;
+  letter-spacing: 0px;
+  font-feature-settings: "liga" 1, "dlig" 1;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+  line-height: 0.8;
+}
+
+.mobile-tagline {
+  margin-top: 20px;
+  padding-top: 10px;
+  color: #ffffff;
+  opacity: 0.9;
+  text-align: center;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mobile-bio {
+  color: #ffffff;
+  opacity: 0.9;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+  text-align: justify;
+  text-indent: 40px;
+  margin: 5px 10px 0 10px;
+}
+
+.mobile-bio a {
+  color: #ffffff;
+  font-style: italic;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.mobile-bio a:hover {
+  color: #85774B;
+}
+
+.mobile-bio a::after {
+  content: "↗";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  color: currentColor;
+  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.mobile-bio a:hover::after {
+  opacity: 1;
+}
+
+.mobile-bio a:hover,
+.mobile-bio a:focus {
+  padding-right: 20px;
+}
+
+.mobile-bio a:hover::after,
+.mobile-bio a:focus::after {
+  transform: translateX(-20px);
+}
+
+.mobile-categories {
+  margin: 30px 10px 0 10px;
+}
+
+.mobile-cat {
+  margin-bottom: 20px;
+}
+
+.mobile-cat-title {
+  color: #ffffff;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-weight: 200;
+  font-style: italic;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.mobile-cat-title.no-uppercase {
+  text-transform: none;
+}
+
+.mobile-cat-text {
+  color: #ffffff;
+  opacity: 0.9;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.mobile-cat-text a {
+  color: inherit;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.mobile-cat-text a:hover {
+  color: #85774B;
+}
+
+.mobile-cat-text a::after {
+  content: "↗";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  color: currentColor;
+  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.mobile-cat-text a:hover::after {
+  opacity: 1;
+}
+
+.mobile-cat-text a:hover,
+.mobile-cat-text a:focus {
+  padding-right: 20px;
+}
+
+.mobile-cat-text a:hover::after,
+.mobile-cat-text a:focus::after {
+  transform: translateX(-20px);
+}
+
+/* Mobile Sticky Menu */
+.mobile-sticky-menu {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.mobile-menu-link {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #0002AA;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.mobile-menu-link:hover {
+  background: #85774B;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-footer {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.mobile-footer-note {
+  color: #ffffff;
+  opacity: 0.85;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mobile-nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px 20px 0px 20px;
+  background: #F8F3E7;
+}
+
+.mobile-nav-link {
+  color: #0002AA;
+  text-decoration: none;
+  font-family: 'Guyot Press', 'Georgia', serif;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: italic;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+  position: relative;
+}
+
+.mobile-nav-link:hover {
+  opacity: 0.5;
+}
+
+.mobile-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.mobile-menu-btn span {
+  width: 20px;
+  height: 2px;
+  background: #0002AA;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover span {
+  opacity: 0.5;
+}
+
+/* Show mobile header only on iPhone SE to iPad Mini */
+@media (max-width: 768px) {
+  .mobile-header {
+    display: flex;
+  }
+  
+  .mobile-body {
+    display: block;
+  }
+  
+  .mobile-sticky-menu {
+    display: block;
+  }
+  
+  /* Hide all desktop content on mobile - will add back one by one */
+  .split {
+    display: none;
+  }
+  
+  /* Hide the fixed right column (projects) on mobile */
+  .col-right {
+    display: none;
+  }
+  
+  /* Hide the projects container on mobile */
+  .projects-container {
+    display: none;
+  }
+  
+  /* No padding needed since mobile body handles positioning */
+  body {
+    padding-top: 0;
+  }
+}
 
 
 

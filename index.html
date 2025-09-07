@@ -8,6 +8,123 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Mobile Header (iPhone SE to iPad Mini) -->
+    <header class="mobile-header">
+    </header>
+    
+    <!-- Mobile Body Content -->
+    <div class="mobile-body">
+      <div class="mobile-top-bar">
+        <div id="mobile-clock"></div>
+        <div class="mobile-location">Los Angeles, CA</div>
+      </div>
+      <div class="mobile-cream-section">
+        <h1 class="mobile-name-cream">Adrian<br>Castillo</h1>
+        <div class="mobile-projects-scroll" id="mobile-projects-scroll">
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-0/gallery/dx10 cover.png" alt="Project 0">
+            <div class="mobile-project-title">DX10</div>
+            <div class="mobile-project-year">2025</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-1/gallery/terb cover.gif" alt="Project 1">
+            <div class="mobile-project-title">Terb</div>
+            <div class="mobile-project-year">2025</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-2/gallery/nmo cover.png" alt="Project 2">
+            <div class="mobile-project-title">National Media Office</div>
+            <div class="mobile-project-year">2024</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-3/gallery/tfo cover.png" alt="Project 3">
+            <div class="mobile-project-title">The Founders Office</div>
+            <div class="mobile-project-year">2023</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-4/gallery/zayed cover.png" alt="Project 4">
+            <div class="mobile-project-title">Sheikh Zayed</div>
+            <div class="mobile-project-year">2023</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-5/gallery/kojinn cover.png" alt="Project 5">
+            <div class="mobile-project-title">Kojinn</div>
+            <div class="mobile-project-year">2022</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-6/gallery/hc cover.gif" alt="Project 6">
+            <div class="mobile-project-title">Hotaling & Co.</div>
+            <div class="mobile-project-year">2021</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-7/gallery/fs cover.png" alt="Project 7">
+            <div class="mobile-project-title">Farm Sanctuary</div>
+            <div class="mobile-project-year">2020</div>
+          </div>
+          <div class="mobile-project-item">
+            <img src="projects/assets/project-8/gallery/ri-cover.png" alt="Project 8">
+            <div class="mobile-project-title">Relief International</div>
+            <div class="mobile-project-year">2019</div>
+          </div>
+        </div>
+        
+        <!-- Mobile Navigation Links -->
+        <div class="mobile-nav-links">
+          <a href="about.html" class="mobile-nav-link">About</a>
+          <a href="projects/projects.html" class="mobile-nav-link">Projects</a>
+          <a href="musings/index.html" class="mobile-nav-link">Musings</a>
+        </div>
+      </div>
+      
+      <div class="mobile-blue-content">
+      <p class="mobile-bio">Adrian Castillo is a multi-disciplinary designer. Previously a Design Lead at <a href="https://instagram.com/atwrap.ae" target="_blank" rel="noopener">ATWRAP STUDIO</a>, working across branding, digital platforms, product design, and spatial  experiences. Earlier, a Visual Designer at <a href="https://www.codeandtheory.com" target="_blank" rel="noopener">CODE AND THEORY</a>, focusing on websites and mobile applications.</p>
+      
+      <div class="mobile-categories">
+        <div class="mobile-cat">
+          <h3 class="mobile-cat-title">Things I Do</h3>
+          <p class="mobile-cat-text">Website visual and experience design<br>
+          Brand strategy and positioning<br>
+          Logo and visual identity design</p>
+        </div>
+        
+        <div class="mobile-cat">
+          <h3 class="mobile-cat-title no-uppercase">Selected Clients:</h3>
+        </div>
+        
+        <div class="mobile-cat">
+          <h3 class="mobile-cat-title">U.A.E.</h3>
+          <p class="mobile-cat-text">Department <em>of</em> Culture and Tourism<br>
+          National Media Office<br>
+          <em>The</em> Founder's Office - Zayed bin Sultan Al Nahyan<br>
+          Tirb Emirati Coffee</p>
+        </div>
+        
+        <div class="mobile-cat">
+          <h3 class="mobile-cat-title">U.S.A.</h3>
+          <p class="mobile-cat-text">1-800 Flowers<br>
+          ValleyBank<br>
+          Hotaling <em>&amp;</em> Co.<br>
+          National Council <em>on</em> Aging<br>
+          <em>The</em> Farm Sanctuary<br>
+          Relief International</p>
+        </div>
+        <div class="mobile-cat">
+          <h3 class="mobile-cat-title">Elsewhere</h3>
+          <p class="mobile-cat-text">
+            <a href="https://www.instagram.com/adrianscastillo/" target="_blank" rel="noopener">Instagram</a><br>
+            <a href="https://www.linkedin.com/in/adrianscastillo/" target="_blank" rel="noopener">LinkedIn</a><br>
+            <a href="mailto:adrianscastillo@gmail.com">Email</a>
+          </p>
+        </div>
+        
+        <div class="mobile-footer">
+          <div class="mobile-footer-note"><span id="mobile-current-year">2025</span> © Adrian Castillo<br>All Rights Reserved</div>
+        </div>
+      </div>
+      </div>
+    </div>
+    
+    
     <main class="split">
       <section class="col-left" aria-label="Left column">
         <div class="nav-left"><a href="projects/projects.html">Projects</a><a href="musings/index.html">Musings</a></div>
@@ -111,7 +228,7 @@
       // Clock functionality
       function startClock() {
         const clockEl = document.getElementById('clock')
-        if (!clockEl) return
+        const mobileClockEl = document.getElementById('mobile-clock')
         
         function updateClock() {
           const now = new Date()
@@ -122,7 +239,11 @@
           const time = laTime.toLocaleTimeString('en-US', {
             hour: 'numeric', minute: '2-digit'
           })
-          clockEl.textContent = `${date} ${time} PST`
+          const clockText = `${date} ${time} PST`
+          const mobileClockText = `${date}\n${time} PST`
+          
+          if (clockEl) clockEl.textContent = clockText
+          if (mobileClockEl) mobileClockEl.textContent = mobileClockText
         }
         
         updateClock()
@@ -151,9 +272,26 @@
       // Update footer year
       function updateFooterYear() {
         const yearEl = document.getElementById('current-year')
+        const mobileYearEl = document.getElementById('mobile-current-year')
         if (yearEl) {
           yearEl.textContent = new Date().getFullYear()
         }
+        if (mobileYearEl) {
+          mobileYearEl.textContent = new Date().getFullYear()
+        }
+      }
+
+
+
+      // Mobile project click handlers
+      function initMobileProjectClicks() {
+        const mobileProjectItems = document.querySelectorAll('.mobile-project-item')
+        mobileProjectItems.forEach((item, index) => {
+          item.addEventListener('click', function() {
+            // Navigate to projects page with anchor
+            window.location.href = `projects/projects.html#project-${index}`
+          })
+        })
       }
 
       // Initialize when DOM is ready
@@ -162,11 +300,13 @@
           startClock()
           initAnimations()
           updateFooterYear()
+          initMobileProjectClicks()
         })
       } else {
         startClock()
         initAnimations()
         updateFooterYear()
+        initMobileProjectClicks()
       }
     </script>
   </body>
