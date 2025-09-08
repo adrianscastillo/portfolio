@@ -479,16 +479,17 @@ class DraggableBoxes {
 }
 
 // Initialize draggable boxes when DOM is loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    try {
-      window.draggableBoxes = new DraggableBoxes()
-    } catch (error) {
-    }
-  })
-} else {
+function initializeDraggableBoxes() {
   try {
     window.draggableBoxes = new DraggableBoxes()
+    console.log('Draggable boxes initialized successfully')
   } catch (error) {
+    console.error('Draggable boxes failed to initialize:', error)
   }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeDraggableBoxes)
+} else {
+  initializeDraggableBoxes()
 }

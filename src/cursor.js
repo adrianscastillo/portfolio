@@ -385,14 +385,20 @@ function initializeCursor() {
     document.body.style.cursor = 'auto'
     document.documentElement.style.cursor = 'auto'
     
-    // Remove any existing cursor: none styles
+    // Remove any existing cursor: none styles and force system cursor
     const style = document.createElement('style')
     style.id = 'cursor-fallback'
     style.textContent = `
       * { cursor: auto !important; }
       body { cursor: auto !important; }
+      html { cursor: auto !important; }
+      a, button, input, textarea, select, label, summary { cursor: pointer !important; }
     `
     document.head.appendChild(style)
+    
+    // Also force cursor styles directly on elements
+    document.body.style.cursor = 'auto'
+    document.documentElement.style.cursor = 'auto'
     
     // Add a global function to manually restore cursor if needed
     window.restoreCursor = function() {
@@ -402,6 +408,19 @@ function initializeCursor() {
         window.customCursor.destroy()
         window.customCursor = null
       }
+    }
+    
+    // Add a debug function to check element visibility
+    window.debugElements = function() {
+      console.log('=== Element Debug Info ===')
+      console.log('Draggable boxes:', document.querySelectorAll('.draggable-box').length)
+      console.log('Projects container:', document.querySelector('.projects-container') ? 'Found' : 'Missing')
+      console.log('Scatter button:', document.querySelector('.scatter') ? 'Found' : 'Missing')
+      console.log('Cursor canvas:', document.getElementById('cursor-canvas') ? 'Found' : 'Missing')
+      console.log('Body cursor style:', document.body.style.cursor)
+      console.log('Document cursor style:', document.documentElement.style.cursor)
+      console.log('Window width:', window.innerWidth)
+      console.log('Is mobile?', window.innerWidth <= 768)
     }
   }
 }
