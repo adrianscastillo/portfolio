@@ -296,46 +296,8 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       /* Mobile styles */
       @media (max-width: 768px) {
         /* Mobile Navigation */
-        .nav {
-          flex-direction: column !important;
-          align-items: center !important;
-          padding: 80px 20px 60px 20px !important;
-          gap: 70px !important;
-          position: fixed !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          background: transparent !important;
-          z-index: 1000 !important;
-          width: 100% !important;
-        }
-        
         body {
           padding-top: 200px !important;
-        }
-        
-        .nav-left {
-          order: 2 !important;
-          display: flex !important;
-          gap: 20px !important;
-          justify-content: center !important;
-          text-align: center !important;
-          left: auto !important;
-          position: relative !important;
-        }
-        
-        .nav-name {
-          order: 1 !important;
-          margin: 0 0 30px 0 !important;
-          font-size: 44px !important;
-          padding: 0 !important;
-          line-height: 1.1 !important;
-          white-space: nowrap !important;
-          overflow: visible !important;
-        }
-        
-        .nav-email {
-          display: none !important;
         }
         
         /* Hide dates column, show only body column */
@@ -406,8 +368,8 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
     <nav class="nav">
       <div class="nav-left">
         <a href="../projects/projects.html">Work</a>
-        <a href="../about.html">About</a>
         <a href="index.html" class="active">Musings</a>
+        <a href="../about.html">About</a>
       </div>
       <a href="../index.html" class="nav-name">Adrian Castillo</a>
       <a href="mailto:adrianscastillo@gmail.com" class="nav-email">Say Hi</a>
@@ -558,7 +520,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         </div>
       </div>
     </main>
-    <script src="../src/cursor.js"></script><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 1512px; height: 859px; z-index: 100001; pointer-events: none;" width="3024" height="1718"></canvas><canvas id="cursor-canvas" width="3024" height="1722" style="position: fixed; top: 0px; left: 0px; width: 1512px; height: 861px; z-index: 100001; pointer-events: none;"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 1512px; height: 859px; z-index: 100001; pointer-events: none;" width="3024" height="1718"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 1512px; height: 859px; z-index: 100001; pointer-events: none;" width="3024" height="1718"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 100001; pointer-events: none;" width="1512" height="859"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 100001; pointer-events: none;" width="1512" height="859"></canvas><canvas id="cursor-canvas" style="position: fixed; top: 0px; left: 0px; width: 100vw; height: 100vh; z-index: 9999; pointer-events: none;" width="1512" height="859"></canvas>
+    <script src="../src/cursor.js"></script>
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script>
       // Auto-generate left date list and scroll-sync

@@ -46,7 +46,7 @@ body {
 
 @font-face {
   font-family: 'Guyot Press';
-  src: url('./fonts/Guyot-Press-Regular.otf') format('opentype');
+  src: url('./fonts/Guyot Press v1.000/GuyotPress-Regular1.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -54,7 +54,7 @@ body {
 
 @font-face {
   font-family: 'Guyot Press';
-  src: url('./fonts/Guyot-Press-Italic.otf') format('opentype');
+  src: url('./fonts/Guyot Press v1.000/GuyotPress-RegularItalic1.otf') format('opentype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -62,7 +62,7 @@ body {
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot-Headline-Regular.otf') format('opentype');
+  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -70,7 +70,7 @@ body {
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot-Headline-Italic.otf') format('opentype');
+  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-RegularItalic.otf') format('opentype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -78,8 +78,16 @@ body {
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot-Headline-Bold.otf') format('opentype');
+  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Bold.otf') format('opentype');
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Guyot Headline';
+  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Light.otf') format('opentype');
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
@@ -499,6 +507,7 @@ body {
 .container-bottom { grid-row: 3; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px 40px 40px; }
 .container-bottom .bottom-left .about-button { margin-right: 32px; }
 .container-bottom .bottom-left .work-button { margin-right: 32px; }
+.container-bottom .bottom-left .musings-button { margin-right: 32px; }
 .container-bottom .bottom-right .footer-note { margin: 0; }
 
 /* Column alignment containers */
@@ -638,11 +647,6 @@ body {
 
 
 /* Hide custom cursor on mobile */
-@media (max-width: 768px) {
-  #cursor-canvas {
-    display: none !important;
-  }
-}
 
 /* Mobile Header (iPhone SE to iPad Mini) */
 .mobile-header {

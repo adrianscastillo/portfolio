@@ -21,60 +21,56 @@
     <meta property="twitter:description" content="Learn more about Adrian Castillo, designer and developer based in Los Angeles, CA." />
     <meta property="twitter:image" content="https://adrianscastillo.github.io/portfolio/og-image.svg" />
     <style>
-      body { background: #F8F3E7; color: #111; }
-      .about-wrap { width: 50vw; max-width: none; margin: 0 auto; padding: 0 40px; min-height: 80vh; display: flex; align-items: center; justify-content: center; }
+      body { background: #F8F3E7; color: #111; overflow-x: hidden; overflow-y: auto; }
+      .about-wrap { width: 90vw; max-width: none; margin: 0 auto; padding: 40px; padding-top: 120px; display: flex; justify-content: center; }
+      .about-columns { display: flex; width: 100%; gap: 40px; }
+      .about-left { width: 50%; max-width: 475px; position: fixed; top: 250px; left: 12vw; background: #F8F3E7; padding: 20px; z-index: 10; }
+      .about-left img { transition: transform 0.1s ease-out; }
+      .about-right { width: 50%; max-width: 600px; margin-left: 45%; padding-bottom: 150px; z-index: 20; }
       .about-title { font-family: 'Guyot Headline', 'Georgia', serif; font-size: 48px; font-weight: 400; font-style: italic; margin-bottom: 16px; }
       .about-text { font-family: 'Guyot Press', 'Georgia', serif; font-size: 16px; line-height: 1.5; opacity: 0.9; text-align: center; font-variant: small-caps; letter-spacing: 0.06em; }
+      .about-right p { font-family: 'Guyot Headline', 'Georgia', serif; font-size: 32px; font-weight: 300; line-height: 44px; opacity: 0.9; text-align: left; font-variant: normal; letter-spacing: 0em; margin-bottom: 24px; }
+      .about-right p a { color: inherit; text-decoration: underline; }
       
       /* Mobile styles */
       @media (max-width: 768px) {
-        /* Mobile Navigation */
-        .nav {
-          flex-direction: column !important;
-          align-items: center !important;
-          padding: 80px 20px 60px 20px !important;
-          gap: 70px !important;
-          position: fixed !important;
-          top: 0 !important;
-          left: 0 !important;
-          right: 0 !important;
-          background: transparent !important;
-          z-index: 1000 !important;
-          width: 100% !important;
-        }
-        
         body {
-          padding-top: 200px !important;
-        }
-        
-        .nav-left {
-          order: 2 !important;
-          display: flex !important;
-          gap: 20px !important;
-          justify-content: center !important;
-          text-align: center !important;
-          left: auto !important;
-          position: relative !important;
-        }
-        
-        .nav-name {
-          order: 1 !important;
-          margin: 0 0 30px 0 !important;
-          font-size: 44px !important;
-          padding: 0 !important;
-          line-height: 1.1 !important;
-          white-space: nowrap !important;
-          overflow: visible !important;
-        }
-        
-        .nav-email {
-          display: none !important;
+          padding-top: 100px !important;
         }
         
         .about-wrap {
           width: 100% !important;
           padding: 0 20px !important;
+          padding-top: 40px !important;
           margin-top: 0 !important;
+        }
+        
+        .about-columns {
+          flex-direction: column !important;
+          gap: 20px !important;
+        }
+        
+        .about-left {
+          width: 100% !important;
+          position: fixed !important;
+          top: 100px !important;
+          left: 0 !important;
+          right: 0 !important;
+          order: 1 !important;
+          max-width: 300px !important;
+          margin: 0 auto !important;
+          z-index: 10 !important;
+        }
+        
+        .about-right {
+          width: 100% !important;
+          margin-left: 0 !important;
+          margin-top: 250px !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          order: 2 !important;
+          z-index: 20 !important;
+          text-align: center !important;
         }
         
         .about-text {
@@ -90,19 +86,84 @@
     <nav class="nav">
       <div class="nav-left">
         <a href="projects/projects.html">Work</a>
-        <a href="about.html" class="active">About</a>
         <a href="musings/index.html">Musings</a>
+        <a href="about.html" class="active">About</a>
       </div>
       <a href="index.html" class="nav-name">Adrian Castillo</a>
       <a href="mailto:adrianscastillo@gmail.com" class="nav-email">Say Hi</a>
     </nav>
 
     <main class="about-wrap">
-      <div class="about-text">
-        <p>coming soon.</p>
+      <div class="about-columns">
+        <div class="about-left">
+          <img src="about/assets/about image.png" alt="Adrian Castillo" style="width: 100%; height: auto;" />
+        </div>
+        <div class="about-right">
+            <p>I'm a multi-disciplinary with 8 years of experience in designing digital experiences for startups, non-profits, and government agencies. Whether that's an interface, a design system, or an interactive project that mixes function with a little creativity.</p>
+          <p>I grew up in Manila, lived in the Middle East for a while, and now I'm based in Los Angeles. I studied Fine Arts, which laid the foundation for my love of creativity and making things, and when I'm not working, I'm probably fixing up old electronics, sewing, playing with interactive art experiments, or picking up new languages.</p>
+          <p>If you'd like to work together or just say hi, you can reach me at <a href="mailto:adrianscastillo@gmail.com">adrianscastillo@gmail.com</a>.</p>
+        </div>
       </div>
     </main>
     <script src="src/cursor.js"></script>
+    <script>
+      // Working scroll-based rotation
+      var rotation = 0;
+      var velocity = 0;
+      var friction = 0.98;
+      
+      function handleScroll() {
+        var scroll = window.pageYOffset || document.documentElement.scrollTop;
+        // Only add velocity on desktop (not mobile)
+        if (window.innerWidth > 768) {
+          velocity += scroll * 0.01;
+        }
+        console.log('Scroll detected! Position:', scroll, 'Velocity:', velocity);
+      }
+      
+      function animate() {
+        rotation += velocity;
+        velocity *= friction;
+        
+        var img = document.querySelector('.about-left img');
+        if (img) {
+          img.style.transform = 'rotate(' + rotation + 'deg)';
+          console.log('Applied rotation:', rotation);
+        } else {
+          console.log('Image not found!');
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      // Use wheel events for desktop
+      window.addEventListener('wheel', function(e) {
+        velocity += e.deltaY * 0.002;
+        console.log('Wheel detected! DeltaY:', e.deltaY, 'Velocity:', velocity);
+      });
+      
+      // Use touch events for mobile
+      var lastTouchY = 0;
+      window.addEventListener('touchstart', function(e) {
+        lastTouchY = e.touches[0].clientY;
+      });
+      
+      window.addEventListener('touchmove', function(e) {
+        var currentTouchY = e.touches[0].clientY;
+        var deltaY = lastTouchY - currentTouchY;
+        // Disable mobile spinning
+        // velocity += deltaY * 0.0001;
+        lastTouchY = currentTouchY;
+        console.log('Touch detected! DeltaY:', deltaY, 'Velocity:', velocity);
+      });
+      
+      // Also try scroll as backup
+      window.addEventListener('scroll', handleScroll);
+      
+      // Start animation
+      animate();
+      console.log('Animation started');
+    </script>
   </body>
   </html>
 

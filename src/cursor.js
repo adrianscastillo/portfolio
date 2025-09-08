@@ -367,6 +367,19 @@ function initializeCursor() {
       return
     }
     
+    // Check if this is a touch device - disable cursor on touch devices
+    const isTouchDevice = 'ontouchstart' in window || 
+                         navigator.maxTouchPoints > 0 || 
+                         window.matchMedia('(pointer: coarse)').matches
+    
+    if (isTouchDevice) {
+      console.log('Custom cursor: Touch device detected, disabling custom cursor')
+      // Ensure default cursor is restored on touch devices
+      document.body.style.cursor = 'auto'
+      document.documentElement.style.cursor = 'auto'
+      return
+    }
+    
     // Check if canvas is supported
     const canvas = document.createElement('canvas')
     if (!canvas.getContext || !canvas.getContext('2d')) {
