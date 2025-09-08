@@ -186,14 +186,29 @@ class DraggableBoxes {
     const x = e.clientX - this.boxStartX
     const y = e.clientY - this.boxStartY + scrollTop
     
-    // Get the current rotation from the box
+    // Get the current rotation and scale from the box
     const currentTransform = this.draggedBox.style.transform
     const rotationMatch = currentTransform.match(/rotate\(([^)]+)deg\)/)
+    const scaleMatch = currentTransform.match(/scale\(([^)]+)\)/)
     const rotation = rotationMatch ? rotationMatch[1] : '0'
+    const scale = scaleMatch ? scaleMatch[1] : '1'
     
-    this.draggedBox.style.left = `${x}px`
-    this.draggedBox.style.top = `${y}px`
-    this.draggedBox.style.transform = `rotate(${rotation}deg)`
+    // Check if we're in scatter state (scale < 1) to use viewport units
+    const isScattered = parseFloat(scale) < 1
+    
+    if (isScattered) {
+      // For scattered state, use the mouse position directly as the center point
+      // Convert mouse position to viewport units
+      const xVw = (e.clientX / window.innerWidth) * 100
+      this.draggedBox.style.left = `${xVw}vw`
+      this.draggedBox.style.top = `${y}px`
+      this.draggedBox.style.transform = `translateX(-50%) rotate(${rotation}deg) scale(${scale})`
+    } else {
+      // Use pixel positioning for normal state
+      this.draggedBox.style.left = `${x}px`
+      this.draggedBox.style.top = `${y}px`
+      this.draggedBox.style.transform = `rotate(${rotation}deg) scale(${scale})`
+    }
   }
   
   stopDrag(e) {
@@ -326,14 +341,8 @@ class DraggableBoxes {
       // Skip hidden project 10 (index 9)
       if (index === 9) return
       
-      // Make images half size when scattered
-      const img = box.querySelector('img')
-      if (img) {
-        img.style.transform = 'scale(0.5) !important'
-        img.style.transition = 'transform 0.3s ease'
-        img.style.width = '50%'
-        img.style.height = '50%'
-      }
+      // Remove any existing transitions for instant changes
+      box.style.transition = 'none'
       
       // Get current y position to check distance from adjacent boxes
       const currentTop = parseInt(box.style.top) || 0
@@ -405,7 +414,7 @@ class DraggableBoxes {
       
       box.style.left = `${xPosition}vw`
       box.style.top = `${yPosition}px`
-      box.style.transform = `translateX(-50%) rotate(${rotation}deg)`
+      box.style.transform = `translateX(-50%) rotate(${rotation}deg) scale(0.7)`
     })
     
     this.updateButtonText()
@@ -433,16 +442,10 @@ class DraggableBoxes {
       // Skip hidden project 10 (index 9)
       if (index === 9) return
       
-      // Return images to original size when cleaned up
-      const img = box.querySelector('img')
-      if (img) {
-        img.style.transform = 'scale(1) !important'
-        img.style.transition = 'transform 0.3s ease'
-        img.style.width = '100%'
-        img.style.height = '100%'
-      }
+      // Remove any existing transitions for instant changes
+      box.style.transition = 'none'
       
-      // Center aligned x position
+      // Center aligned x position (same as original positioning)
       const xPosition = 80 // 80vw (center of cream column)
       
       // Calculate original y position based on box height
@@ -452,7 +455,7 @@ class DraggableBoxes {
       
       box.style.left = `${xPosition}vw`
       box.style.top = `${yPosition}px`
-      box.style.transform = `translateX(0)`
+      box.style.transform = `translateX(-50%) scale(1)` // Center the box and return to original size
     })
     
     this.updateButtonText()
