@@ -89,7 +89,7 @@ body {
   src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Light.otf') format('opentype');
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 .split { display: grid; grid-template-columns: 60% 40%; width: 100vw; height: 100dvh; }
