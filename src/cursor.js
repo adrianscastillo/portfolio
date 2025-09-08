@@ -1,5 +1,11 @@
 class CustomCursor {
   constructor() {
+    // Check if cursor canvas already exists to prevent duplicates
+    let existingCanvas = document.getElementById('cursor-canvas')
+    if (existingCanvas) {
+      existingCanvas.remove()
+    }
+    
     this.canvas = document.createElement('canvas')
     this.canvas.id = 'cursor-canvas'
     this.canvas.style.position = 'fixed'
@@ -26,8 +32,12 @@ class CustomCursor {
     this.resize()
     window.addEventListener('resize', () => this.resize())
     
-    // Hide default cursor
-    document.body.style.cursor = 'none'
+    // Hide default cursor only after confirming canvas is working
+    setTimeout(() => {
+      if (this.canvas && this.ctx) {
+        document.body.style.cursor = 'none'
+      }
+    }, 100)
 
     // Disable native context menu globally
     document.addEventListener('contextmenu', (e) => e.preventDefault())
@@ -337,10 +347,69 @@ class CustomCursor {
     
     requestAnimationFrame(() => this.animate())
   }
+  
+  // Method to clean up and restore default cursor
+  destroy() {
+    if (this.canvas && this.canvas.parentNode) {
+      this.canvas.parentNode.removeChild(this.canvas)
+    }
+    document.body.style.cursor = 'auto'
+    document.documentElement.style.cursor = 'auto'
+  }
 }
 
-// Initialize the custom cursor
-try {
-  new CustomCursor()
-} catch (error) {
+// Initialize the custom cursor with proper error handling and fallback
+function initializeCursor() {
+  try {
+    // Check if we're in a browser environment
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      console.warn('Custom cursor: Not in browser environment')
+      return
+    }
+    
+    // Check if canvas is supported
+    const canvas = document.createElement('canvas')
+    if (!canvas.getContext || !canvas.getContext('2d')) {
+      console.warn('Custom cursor: Canvas not supported, falling back to default cursor')
+      // Restore default cursor
+      document.body.style.cursor = 'auto'
+      document.documentElement.style.cursor = 'auto'
+      return
+    }
+    
+    window.customCursor = new CustomCursor()
+    console.log('Custom cursor initialized successfully')
+  } catch (error) {
+    console.error('Custom cursor failed to initialize:', error)
+    // Fallback: restore default cursor
+    document.body.style.cursor = 'auto'
+    document.documentElement.style.cursor = 'auto'
+    
+    // Remove any existing cursor: none styles
+    const style = document.createElement('style')
+    style.id = 'cursor-fallback'
+    style.textContent = `
+      * { cursor: auto !important; }
+      body { cursor: auto !important; }
+    `
+    document.head.appendChild(style)
+    
+    // Add a global function to manually restore cursor if needed
+    window.restoreCursor = function() {
+      document.body.style.cursor = 'auto'
+      document.documentElement.style.cursor = 'auto'
+      if (window.customCursor) {
+        window.customCursor.destroy()
+        window.customCursor = null
+      }
+    }
+  }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeCursor)
+} else {
+  // DOM is already ready
+  initializeCursor()
 }
