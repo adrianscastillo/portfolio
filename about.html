@@ -107,64 +107,6 @@
       </div>
     </main>
     <script src="src/cursor.js"></script>
-    <script>
-      // Working scroll-based rotation
-      var rotation = 0;
-      var velocity = 0;
-      var friction = 0.98;
-      
-      function handleScroll() {
-        var scroll = window.pageYOffset || document.documentElement.scrollTop;
-        // Only add velocity on desktop (not mobile)
-        if (window.innerWidth > 768) {
-          velocity += scroll * 0.01;
-        }
-        console.log('Scroll detected! Position:', scroll, 'Velocity:', velocity);
-      }
-      
-      function animate() {
-        rotation += velocity;
-        velocity *= friction;
-        
-        var img = document.querySelector('.about-left img');
-        if (img) {
-          img.style.transform = 'rotate(' + rotation + 'deg)';
-          console.log('Applied rotation:', rotation);
-        } else {
-          console.log('Image not found!');
-        }
-        
-        requestAnimationFrame(animate);
-      }
-      
-      // Use wheel events for desktop
-      window.addEventListener('wheel', function(e) {
-        velocity += e.deltaY * 0.002;
-        console.log('Wheel detected! DeltaY:', e.deltaY, 'Velocity:', velocity);
-      });
-      
-      // Use touch events for mobile
-      var lastTouchY = 0;
-      window.addEventListener('touchstart', function(e) {
-        lastTouchY = e.touches[0].clientY;
-      });
-      
-      window.addEventListener('touchmove', function(e) {
-        var currentTouchY = e.touches[0].clientY;
-        var deltaY = lastTouchY - currentTouchY;
-        // Disable mobile spinning
-        // velocity += deltaY * 0.0001;
-        lastTouchY = currentTouchY;
-        console.log('Touch detected! DeltaY:', deltaY, 'Velocity:', velocity);
-      });
-      
-      // Also try scroll as backup
-      window.addEventListener('scroll', handleScroll);
-      
-      // Start animation
-      animate();
-      console.log('Animation started');
-    </script>
   </body>
   </html>
 
