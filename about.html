@@ -21,8 +21,9 @@
     <meta property="twitter:description" content="Learn more about Adrian Castillo, designer and developer based in Los Angeles, CA." />
     <meta property="twitter:image" content="https://adrianscastillo.github.io/portfolio/og-image.svg" />
     <style>
-      body { background: #F8F3E7; color: #111; overflow-x: hidden; overflow-y: auto; }
-      .about-wrap { width: 90vw; max-width: none; margin: 0 auto; padding: 40px; padding-top: 120px; display: flex; justify-content: center; }
+      
+      
+      .about-wrap { width: 90vw; max-width: none; margin: 0 auto; padding: 40px; display: flex; justify-content: center; }
       .about-columns { display: flex; width: 100%; gap: 40px; }
       .about-left { width: 50%; max-width: 475px; position: fixed; top: 250px; left: 12vw; background: #F8F3E7; padding: 20px; z-index: 10; }
       .about-left img { transition: transform 0.1s ease-out; }
@@ -37,9 +38,6 @@
       
       /* Mobile styles */
       @media (max-width: 768px) {
-        body {
-          padding-top: 100px !important;
-        }
         
         .about-wrap {
           width: 100% !important;
@@ -74,6 +72,11 @@
           order: 2 !important;
           z-index: 20 !important;
           text-align: center !important;
+        }
+        
+        .about-right p {
+          font-size: 24px !important;
+          line-height: 32px !important;
         }
         
         .about-text {

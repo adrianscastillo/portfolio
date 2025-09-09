@@ -394,7 +394,7 @@ body {
 
 .nav-name {
   font-family: 'Nautica', 'Arial', sans-serif;
-  font-size: clamp(28px, 6vw, 48px);
+  font-size: clamp(36px, 8vw, 64px);
   color: #0002AA;
   text-decoration: none;
   opacity: 0.9;
@@ -453,6 +453,33 @@ body {
   right: 0;
   height: 1px;
   background-color: #0002AA;
+}
+
+/* Mobile navigation - stack name first, then links below */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    gap: 15px;
+  }
+  
+  .nav-name {
+    position: static;
+    transform: none;
+    order: 1;
+  }
+  
+  .nav-left {
+    position: static;
+    order: 2;
+    justify-content: center;
+    gap: 24px;
+  }
+  
+  .nav-email {
+    display: none;
+  }
 }
 
 /* Responsive reorder: show Things I Do above Selected Clients on narrow screens */
