@@ -63,6 +63,9 @@ class DraggableBoxes {
     
     // Add global scroll handler for the projects container
     document.addEventListener('wheel', (e) => this.handleScroll(e))
+    
+    // Add window resize handler to recalculate project sizes
+    window.addEventListener('resize', () => this.setBoxSizes())
   }
   
   bindScatterButton() {
@@ -234,18 +237,27 @@ class DraggableBoxes {
     // Only handle scroll if not currently dragging
     if (this.isDragging) return
     
-    if (this.container) {
+    // Check if the mouse is over the projects container (right side of screen)
+    const mouseX = e.clientX
+    const rightColumnStart = window.innerWidth * 0.6 // 60% from left (start of right column)
+    
+    // Only handle scroll if mouse is in the right column (projects area)
+    if (mouseX >= rightColumnStart && this.container) {
       e.preventDefault()
       this.container.scrollTop += e.deltaY
     }
+    // If mouse is in left column, let the default scroll behavior happen (don't prevent)
   }
   
     setBoxSizes() {
     // Calculate cream column width (40% of viewport)
     const creamColumnWidth = window.innerWidth * 0.4
-    const maxBoxWidth = creamColumnWidth - 80 // Subtract padding (40px on each side)
-    // Use a uniform target width for all boxes to maintain consistent widths
-    const targetWidth = Math.min(maxBoxWidth, 450)
+    // Make project width relative to cream column (60% of cream column width)
+    const targetWidth = creamColumnWidth * 0.6
+    // Ensure minimum and maximum sizes for usability
+    const minWidth = 200
+    const maxWidth = 400
+    const finalWidth = Math.max(minWidth, Math.min(maxWidth, targetWidth))
 
     // Store box dimensions for proper ordering
     const boxDimensions = []
@@ -277,9 +289,9 @@ class DraggableBoxes {
           const aspectRatio = img.width / img.height
           let boxWidth, boxHeight
           
-          // Constrain all boxes by uniform width for consistent sizing
-          boxWidth = targetWidth
-          boxHeight = targetWidth / aspectRatio
+          // Use the cream column relative width
+          boxWidth = finalWidth
+          boxHeight = finalWidth / aspectRatio
           
           // Store dimensions with index for proper ordering
           boxDimensions[index] = { width: boxWidth, height: boxHeight }
@@ -293,7 +305,7 @@ class DraggableBoxes {
         img.src = projectData.heroImage
       } else {
         // Fallback for boxes without images - use square size
-        boxDimensions[index] = { width: targetWidth, height: targetWidth }
+        boxDimensions[index] = { width: finalWidth, height: finalWidth }
         loadedCount++
         
         // When all images are loaded, position boxes in correct order

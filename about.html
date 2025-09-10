@@ -7,6 +7,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://adrianscastillo.github.io/portfolio/about.html" />
@@ -60,6 +69,12 @@
         .about-photo { width: 300px; position: fixed; top: 100px; left: 50%; transform: translateX(-50%); margin: 0 auto 20px; }
         .about-text { margin-left: 0; margin-top: 400px; }
         .about-text p { font-size: 24px; line-height: 32px; text-align: left; }
+        
+        /* Mobile image scaling on scroll */
+        .about-photo img {
+          transition: transform 0.1s ease-out;
+          transform-origin: center top;
+        }
       }
     </style>
   </head>
@@ -87,6 +102,59 @@
       </div>
     </main>
     <script src="src/cursor.js"></script>
+    
+    <script>
+      // Mobile image scaling on scroll
+      function initMobileImageScaling() {
+        // Only run on mobile
+        if (window.innerWidth > 768) return
+        
+        const image = document.querySelector('.about-photo img')
+        if (!image) return
+        
+        let ticking = false
+        
+        function updateImageScale() {
+          const scrollY = window.scrollY
+          const windowHeight = window.innerHeight
+          const imageRect = image.getBoundingClientRect()
+          const imageTop = imageRect.top + scrollY
+          
+          // Calculate scroll progress (0 to 1)
+          const scrollProgress = Math.max(0, Math.min(1, scrollY / (imageTop + imageRect.height)))
+          
+          // Scale from 1 to 0.5 (half size) based on scroll progress
+          const scale = 1 - (scrollProgress * 0.5)
+          
+          // Apply the scale
+          image.style.transform = `scale(${scale})`
+          
+          ticking = false
+        }
+        
+        function requestTick() {
+          if (!ticking) {
+            requestAnimationFrame(updateImageScale)
+            ticking = true
+          }
+        }
+        
+        // Listen for scroll events
+        window.addEventListener('scroll', requestTick, { passive: true })
+        
+        // Initial scale
+        updateImageScale()
+      }
+      
+      // Initialize on load and resize
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileImageScaling)
+      } else {
+        initMobileImageScaling()
+      }
+      
+      window.addEventListener('resize', initMobileImageScaling)
+    </script>
   </body>
   </html>
 

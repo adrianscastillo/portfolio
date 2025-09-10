@@ -373,7 +373,11 @@ function initializeCursor() {
                          window.matchMedia('(pointer: coarse)').matches
     
     if (isTouchDevice) {
-      console.log('Custom cursor: Touch device detected, disabling custom cursor')
+      // Only log once to avoid spam
+      if (!window.touchDeviceLogged) {
+        console.log('Custom cursor: Touch device detected, disabling custom cursor')
+        window.touchDeviceLogged = true
+      }
       // Ensure default cursor is restored on touch devices
       document.body.style.cursor = 'auto'
       document.documentElement.style.cursor = 'auto'
@@ -440,6 +444,12 @@ function initializeCursor() {
 
 // Initialize when DOM is ready with multiple fallbacks
 function ensureCursorInitialization() {
+  // Prevent multiple initialization attempts
+  if (window.cursorInitializationAttempted) {
+    return
+  }
+  window.cursorInitializationAttempted = true
+  
   // Try multiple times to ensure initialization
   let attempts = 0
   const maxAttempts = 3
@@ -479,7 +489,7 @@ if (document.readyState === 'loading') {
 
 // Additional fallback - try again after a short delay
 setTimeout(() => {
-  if (!window.customCursor) {
+  if (!window.customCursor && !window.cursorInitializationAttempted) {
     console.log('Retrying cursor initialization as fallback')
     ensureCursorInitialization()
   }

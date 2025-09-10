@@ -7,6 +7,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://adrianscastillo.github.io/portfolio/projects/projects.html" />
@@ -37,6 +46,42 @@
       }
       
       /* Navigation moved to global stylesheet */
+      
+      /* Override global overflow hidden for work page */
+      body.work-page { 
+        overflow: auto !important; 
+        height: auto !important; 
+        position: relative !important;
+      }
+      
+      html { 
+        overflow: auto !important; 
+        height: auto !important; 
+      }
+      
+      /* Ensure nav stays sticky on work page - same as about page */
+      body.work-page .nav { 
+        position: fixed !important; 
+        top: 0 !important; 
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 100 !important; 
+        background: transparent !important;
+        width: 100% !important;
+      }
+      
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        body.work-page .nav {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          z-index: 100 !important;
+          background: transparent !important;
+          width: 100% !important;
+        }
+      }
       
       /* Main content */
       .main-content {
@@ -332,7 +377,7 @@
       
       /* Extra padding above first project */
       #project-0 {
-        padding-top: 120px !important;
+        padding-top: 160px !important;
       }
       /* Mobile styles */
       @media (max-width: 768px) {
@@ -393,7 +438,7 @@
       }
     </style>
   </head>
-  <body>
+  <body class="work-page">
     <!-- Navigation -->
     <nav class="nav">
       <div class="nav-left">

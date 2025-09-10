@@ -188,11 +188,11 @@ body {
 }
 
 .left-top-bar {
-  position: absolute;
-  top: 40px;
+  position: relative;
+  top: 0;
   left: 0;
   right: 0;
-  padding: 0;
+  padding: 40px 40px 0 40px;
   color: #ffffff;
   font-family: 'Guyot Press', 'Georgia', serif;
   font-weight: 400;
@@ -201,6 +201,11 @@ body {
   opacity: 0;
   transition: opacity 1s ease-out;
   transform: translateX(0);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
 .left-top-bar.fade-in {
@@ -209,27 +214,20 @@ body {
 
 
 .left-top-bar #clock { 
-  position: absolute;
-  left: 40px;
+  position: relative;
+  left: 0;
   opacity: 0.95;
 }
 
 .left-top-bar .location { 
-  position: absolute;
-  right: 40px;
+  position: relative;
+  right: 0;
   opacity: 0.95;
 }
 
 
 
-.left-stack {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 55%;
-  transform: translateY(-50%) translateX(0);
-  pointer-events: none;
-}
+/* .left-stack positioning is now handled by flexbox above */
 
 
 .name,
@@ -265,6 +263,7 @@ body {
   z-index: 1;
   font-feature-settings: "liga" 1, "dlig" 1;
   font-variant-ligatures: common-ligatures discretionary-ligatures;
+  margin-top: 40px;
 }
 .left-stack .name:hover { color: #85774B; }
 .container-identity .tagline,
@@ -291,7 +290,7 @@ body {
   font-size: 16px;
   line-height: 1.3;
   text-align: left;
-  margin: 40px 40px 0 40px;
+  margin: 40px 0 0 0;
 }
 .left-stack .bio, .left-categories { pointer-events: auto; }
 .left-stack .bio a {
@@ -340,7 +339,7 @@ body {
   grid-template-rows: auto auto auto;
   gap: 16px 32px;
   max-width: 900px;
-  margin: 40px 40px 0 40px;
+  margin: 40px 0 0 0;
 }
 
 /* Row 1 */
@@ -458,10 +457,16 @@ body {
 /* Mobile navigation - stack name first, then links below */
 @media (max-width: 768px) {
   .nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: #F8F3E7 !important;
     flex-direction: column;
     align-items: center;
     padding: 10px 20px;
     gap: 15px;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   
   .nav-name {
@@ -530,18 +535,142 @@ body {
 }
 .about-button:hover::after, .work-button:hover::after, .musings-button:hover::after { opacity: 1; }
 
-/* Fixed bottom placement for About/Work/Musings and Copyright */
-.container-bottom { grid-row: 3; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 40px 40px 40px; }
+/* Fixed bottom placement for About/Work/Musings and Copyright - now handled by flexbox above */
 .container-bottom .bottom-left .about-button { margin-right: 32px; }
 .container-bottom .bottom-left .work-button { margin-right: 32px; }
 .container-bottom .bottom-left .musings-button { margin-right: 32px; }
+
+/* Remove horizontal margins in responsive layout */
+@media (max-width: 1200px) {
+  .container-bottom .bottom-left .about-button,
+  .container-bottom .bottom-left .work-button,
+  .container-bottom .bottom-left .musings-button {
+    margin-right: 0;
+  }
+}
 .container-bottom .bottom-right .footer-note { margin: 0; }
 
-/* Column alignment containers */
-.container-topbar { position: absolute; top: 0; left: 0; right: 0; padding: 40px; z-index: 2; }
+/* Column alignment containers - now handled by flexbox above */
 
-.col-left { display: grid; grid-template-rows: auto 1fr auto; }
-.col-left .left-stack { display: grid; place-items: center; align-self: center; }
+.col-left { 
+  display: flex; 
+  flex-direction: column; 
+  height: 100vh;
+  position: relative;
+}
+
+/* Middle section - scrollable (includes top bar) */
+.left-stack { 
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 40px 40px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 0; /* Important for flex child to shrink */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  position: relative;
+}
+
+/* Gradient overlays for smooth scroll edges - positioned on the containers themselves */
+.container-topbar::after,
+.container-bottom::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Top gradient - at the bottom of the topbar container */
+.container-topbar::after {
+  bottom: -30px; /* Position below the topbar */
+  background: linear-gradient(to bottom, #0002AA 0%, rgba(0, 2, 170, 0.8) 50%, transparent 100%);
+}
+
+/* Bottom gradient - at the top of the bottom container */
+.container-bottom::before {
+  top: -30px; /* Position above the bottom container */
+  background: linear-gradient(to top, #0002AA 0%, rgba(0, 2, 170, 0.8) 50%, transparent 100%);
+}
+
+/* When content overflows, change to flex-start for proper scrolling */
+.left-stack.content-overflows {
+  justify-content: flex-start;
+}
+
+/* Top bar - now part of scrollable content */
+.container-topbar { 
+  position: relative; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  padding: 0 0 20px 0; 
+  z-index: 2; 
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* Custom scrollbar for webkit browsers */
+.left-stack::-webkit-scrollbar {
+  width: 6px;
+}
+
+.left-stack::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.left-stack::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.left-stack::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Bottom section - fixed at bottom */
+.container-bottom { 
+  position: relative;
+  flex-shrink: 0;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+  padding: 0 40px 40px 40px; 
+}
+
+/* Responsive bottom layout for smaller desktop screens */
+@media (max-width: 1200px) {
+  .container-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .container-bottom .bottom-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .container-bottom .bottom-right {
+    order: 2;
+  }
+}
+
+/* Even more compact layout for very narrow desktop screens */
+@media (max-width: 1000px) {
+  .container-bottom {
+    padding: 0 20px 40px 20px;
+  }
+}
+
 .container-identity, .container-bio, .container-categories { width: 100%; }
 .left-stack { row-gap: 24px; }
 
@@ -616,11 +745,22 @@ body {
   height: 100vh;
   z-index: 999;
   pointer-events: none;
-  overflow-y: auto;
+  overflow: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 40px;
   padding-bottom: 500px;
+}
+
+/* Projects scrollable area - only when directly interacting with projects */
+.projects-container.projects-scrollable {
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+/* Enable scrolling when hovering over projects area */
+.projects-container:hover {
+  overflow-y: auto;
 }
 
 .projects-container::-webkit-scrollbar {

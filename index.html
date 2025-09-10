@@ -7,6 +7,15 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="styles.css" />
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://adrianscastillo.github.io/portfolio/" />
@@ -298,6 +307,25 @@
         if (window.draggableBoxes) {
           window.draggableBoxes.enableTooltips()
         }
+        
+        // Check if content overflows and adjust centering (with small delay to ensure content is loaded)
+        setTimeout(checkContentOverflow, 100)
+      }
+      
+      // Check if left stack content overflows and adjust centering
+      function checkContentOverflow() {
+        const leftStack = document.querySelector('.left-stack')
+        if (!leftStack) return
+        
+        // Check if content height exceeds container height
+        const containerHeight = leftStack.clientHeight
+        const contentHeight = leftStack.scrollHeight
+        
+        if (contentHeight > containerHeight) {
+          leftStack.classList.add('content-overflows')
+        } else {
+          leftStack.classList.remove('content-overflows')
+        }
       }
 
       // Update footer year
@@ -332,12 +360,18 @@
           initAnimations()
           updateFooterYear()
           initMobileProjectClicks()
+          
+          // Check overflow on window resize
+          window.addEventListener('resize', checkContentOverflow)
         })
       } else {
         startClock()
         initAnimations()
         updateFooterYear()
         initMobileProjectClicks()
+        
+        // Check overflow on window resize
+        window.addEventListener('resize', checkContentOverflow)
       }
     </script>
   </body>
