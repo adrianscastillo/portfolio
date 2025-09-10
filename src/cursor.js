@@ -438,10 +438,49 @@ function initializeCursor() {
   }
 }
 
-// Initialize when DOM is ready
+// Initialize when DOM is ready with multiple fallbacks
+function ensureCursorInitialization() {
+  // Try multiple times to ensure initialization
+  let attempts = 0
+  const maxAttempts = 3
+  
+  function tryInitialize() {
+    attempts++
+    try {
+      initializeCursor()
+      if (window.customCursor) {
+        console.log('Custom cursor initialized successfully on attempt', attempts)
+        return
+      }
+    } catch (error) {
+      console.warn('Cursor initialization attempt', attempts, 'failed:', error)
+    }
+    
+    // If not successful and we haven't reached max attempts, try again
+    if (attempts < maxAttempts) {
+      setTimeout(tryInitialize, 100 * attempts) // Increasing delay
+    } else {
+      console.error('Failed to initialize custom cursor after', maxAttempts, 'attempts')
+      // Force fallback cursor
+      document.body.style.cursor = 'auto'
+      document.documentElement.style.cursor = 'auto'
+    }
+  }
+  
+  tryInitialize()
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeCursor)
+  document.addEventListener('DOMContentLoaded', ensureCursorInitialization)
 } else {
   // DOM is already ready
-  initializeCursor()
+  ensureCursorInitialization()
 }
+
+// Additional fallback - try again after a short delay
+setTimeout(() => {
+  if (!window.customCursor) {
+    console.log('Retrying cursor initialization as fallback')
+    ensureCursorInitialization()
+  }
+}, 500)

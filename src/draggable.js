@@ -478,18 +478,86 @@ class DraggableBoxes {
 
 }
 
-// Initialize draggable boxes when DOM is loaded
+// Initialize draggable boxes when DOM is loaded with robust error handling
 function initializeDraggableBoxes() {
   try {
+    // Check if we're on mobile - don't initialize draggable boxes on mobile
+    const isMobile = window.innerWidth <= 768
+    if (isMobile) {
+      console.log('Mobile device detected, skipping draggable boxes initialization')
+      return
+    }
+    
+    // Check if projects container exists
+    const projectsContainer = document.querySelector('.projects-container')
+    if (!projectsContainer) {
+      console.warn('Projects container not found, retrying in 100ms')
+      setTimeout(initializeDraggableBoxes, 100)
+      return
+    }
+    
+    // Check if draggable boxes exist
+    const draggableBoxes = document.querySelectorAll('.draggable-box')
+    if (draggableBoxes.length === 0) {
+      console.warn('No draggable boxes found, retrying in 100ms')
+      setTimeout(initializeDraggableBoxes, 100)
+      return
+    }
+    
     window.draggableBoxes = new DraggableBoxes()
-    console.log('Draggable boxes initialized successfully')
+    console.log('Draggable boxes initialized successfully with', draggableBoxes.length, 'boxes')
   } catch (error) {
     console.error('Draggable boxes failed to initialize:', error)
+    // Retry once after a delay
+    setTimeout(() => {
+      try {
+        window.draggableBoxes = new DraggableBoxes()
+        console.log('Draggable boxes initialized successfully on retry')
+      } catch (retryError) {
+        console.error('Draggable boxes failed on retry:', retryError)
+      }
+    }, 200)
   }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeDraggableBoxes)
-} else {
-  initializeDraggableBoxes()
+function ensureDraggableBoxesInitialization() {
+  // Try multiple times to ensure initialization
+  let attempts = 0
+  const maxAttempts = 5
+  
+  function tryInitialize() {
+    attempts++
+    try {
+      initializeDraggableBoxes()
+      if (window.draggableBoxes) {
+        console.log('Draggable boxes initialized successfully on attempt', attempts)
+        return
+      }
+    } catch (error) {
+      console.warn('Draggable boxes initialization attempt', attempts, 'failed:', error)
+    }
+    
+    // If not successful and we haven't reached max attempts, try again
+    if (attempts < maxAttempts) {
+      setTimeout(tryInitialize, 150 * attempts) // Increasing delay
+    } else {
+      console.error('Failed to initialize draggable boxes after', maxAttempts, 'attempts')
+    }
+  }
+  
+  tryInitialize()
 }
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ensureDraggableBoxesInitialization)
+} else {
+  ensureDraggableBoxesInitialization()
+}
+
+// Additional fallback - try again after a short delay
+setTimeout(() => {
+  if (!window.draggableBoxes && window.innerWidth > 768) {
+    console.log('Retrying draggable boxes initialization as fallback')
+    ensureDraggableBoxesInitialization()
+  }
+}, 1000)
