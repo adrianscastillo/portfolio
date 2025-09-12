@@ -117,7 +117,7 @@ class DraggableBoxes {
     setTimeout(() => {
       // All projects are now on the same page (work.html)
       // Map boxIndex to correct project ID (0-based indexing)
-      window.location.href = `/pages/work.html#project-${boxIndex}`
+      window.location.href = `/work#project-${boxIndex}`
     }, 50)
   }
   
