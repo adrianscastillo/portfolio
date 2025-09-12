@@ -9,6 +9,16 @@
   cursor: none !important;
 }
 
+/* Remove focus outlines for cleaner appearance */
+*:focus {
+  outline: none;
+}
+
+/* Remove focus outlines for specific interactive elements */
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
+  outline: none;
+}
+
 html, body { 
   height: 100%; 
   overflow: hidden; 
