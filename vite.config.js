@@ -17,10 +17,13 @@ export default defineConfig(({ command }) => ({
     },
     rollupOptions: {
       input: {
-        main: 'pages/index.html',
-        work: 'pages/work.html',
-        about: 'pages/about.html',
-        musings: 'pages/musings.html'
+        main: 'index.html',
+        work: 'work.html',
+        about: 'about.html',
+        musings: 'musings.html',
+        'work/index': 'work/index.html',
+        'about/index': 'about/index.html',
+        'musings/index': 'musings/index.html'
       },
       output: {
         manualChunks: {
