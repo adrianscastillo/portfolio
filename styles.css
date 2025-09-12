@@ -268,12 +268,16 @@ body {
   top: 0; 
   left: 0; 
   right: 0; 
-  padding: var(--spacing-4xl) var(--spacing-4xl) 0 var(--spacing-4xl); 
+  padding: var(--spacing-4xl) 0 0 0; 
   z-index: 2; 
   flex-shrink: 0;
   width: 100%;
+}
+
+.left-top-bar {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   align-items: flex-start;
   color: var(--color-white);
   font-family: var(--font-primary);
@@ -426,7 +430,8 @@ body {
   left: 0;
   opacity: 0.95;
   text-align: left;
-  flex: 1;
+  flex: 0 0 auto;
+  padding-left: var(--spacing-4xl);
 }
 
 .container-topbar .location { 
@@ -434,7 +439,8 @@ body {
   right: 0;
   opacity: 0.95;
   text-align: right;
-  flex: 1;
+  flex: 0 0 auto;
+  padding-right: var(--spacing-4xl);
 }
 
 /* Elements are now visible by default - no initial opacity hiding needed */
