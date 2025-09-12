@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -41,8 +41,8 @@
     <meta property="twitter:title" content="Adrian Castillo - Portfolio" />
     <meta property="twitter:description" content="A multi-disciplinary designer based in Los Angeles." />
     <meta property="twitter:image" content="https://adriancastillo.xyz/og-image.jpg" />
-  </head>
-  <body>
+</head>
+<body>
     <!-- Mobile Header (iPhone SE to iPad Mini) -->
     <header class="mobile-header">
     </header>
@@ -96,9 +96,9 @@
         
         <!-- Mobile Navigation Links -->
         <div class="mobile-nav-links">
-          <a href="/work.html" class="mobile-nav-link">Work</a>
-          <a href="/musings.html" class="mobile-nav-link">Musings</a>
-          <a href="/about.html" class="mobile-nav-link">About</a>
+          <a href="/work" class="mobile-nav-link">Work</a>
+          <a href="/musings" class="mobile-nav-link">Musings</a>
+          <a href="/about" class="mobile-nav-link">About</a>
         </div>
       </div>
       
@@ -153,7 +153,7 @@
     
     <main class="split">
       <section class="col-left" aria-label="Left column">
-        <div class="nav-left"><a href="/work.html">Work</a> <a href="/musings.html">Musings</a> <a href="/about.html">About</a></div>                                                                                      
+        <div class="nav-left"><a href="/work">Work</a> <a href="/musings">Musings</a> <a href="/about">About</a></div>                                                                                      
         <div class="container-topbar">
           <div class="left-top-bar">
             <span id="clock" aria-live="polite"></span>
@@ -213,9 +213,9 @@
         </div>
         <div class="container-bottom">
           <div class="bottom-left">
-            <a href="/work.html" class="work-button">WORK</a>
-            <a href="/musings.html" class="musings-button">MUSINGS</a>
-            <a href="/about.html" class="about-button">ABOUT</a>
+            <a href="/work" class="work-button">WORK</a>
+            <a href="/musings" class="musings-button">MUSINGS</a>
+            <a href="/about" class="about-button">ABOUT</a>
           </div>
           <div class="bottom-right">
             <div class="footer-note"><span id="current-year">2025</span> © Adrian Castillo. All Rights Reserved.</div>                                                                                                
@@ -247,6 +247,7 @@
     
     <script src="/src/cursor.js?v=1.2.0"></script>
     <script src="/src/draggable.js?v=1.2.0"></script>
+    <script src="/clean-urls.js?v=1.2.0"></script>
     
     <!-- Debug and troubleshooting script -->
     <script>
@@ -341,7 +342,7 @@
         mobileProjectItems.forEach((item, index) => {
           item.addEventListener('click', function() {
             // Navigate to projects page with anchor
-            window.location.href = `/work.html#project-${index}`
+            window.location.href = `/work#project-${index}`
           })
         })
       }
@@ -361,5 +362,5 @@
         initMobileProjectClicks()
       }
     </script>
-  </body>
+</body>
 </html>
