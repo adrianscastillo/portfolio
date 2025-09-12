@@ -140,7 +140,7 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       /* Musings layout */
       .musings-layout {
         display: grid;
-        grid-template-columns: 120px 1fr;
+        grid-template-columns: 1fr;
         gap: 160px;
         max-width: 1200px;
         margin: 200px auto 0;
@@ -151,11 +151,17 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
         top: 100px;
         align-self: start;
       }
-      .musings-left {
-        position: sticky;
-        top: 100px;
-        align-self: start;
-      }
+        .musings-left {
+          position: fixed;
+          top: 200px;
+          left: calc(50% - 600px);
+          width: 200px;
+          height: calc(100vh - 200px);
+          overflow-y: auto;
+          padding-right: 20px;
+          z-index: 10;
+          text-align: left;
+        }
       .musings-list { list-style: none; display: grid; gap: 8px; padding: 0; margin: 0; }
       .musings-list a {
         display: inline-block;
@@ -172,7 +178,11 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       .musings-list a.active .musings-date { color: #0002AA; }
       .musings-list a:hover .musings-date { color: #85774B; }
 
-      .musings-right { min-height: 60vh; width: 50%; }
+      .musings-right { 
+        min-height: 60vh; 
+        width: calc(100% - 200px - 160px - 300px); 
+        margin-left: calc(200px + 160px - 100px);
+      }
       .m-entry { scroll-margin-top: 120px; margin-bottom: 60px; }
       .m-entry h2 {
         font-family: 'Guyot Headline', 'Georgia', serif;
@@ -191,6 +201,16 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
       .m-entry + .m-entry { border-top: 1px solid rgba(17,17,17,0.2); padding-top: 24px; margin-top: 24px; }
 
       html { scroll-behavior: smooth; }
+      
+      /* Remove focus outlines */
+      *:focus {
+        outline: none;
+      }
+      
+      /* Remove focus outlines for specific elements */
+      a:focus, button:focus, input:focus, textarea:focus, select:focus {
+        outline: none;
+      }
 
       /* Mini admin tool */
       .m-admin { max-width: 1200px; margin: 40px auto 80px; padding: 0 0 0 0; }
@@ -637,9 +657,21 @@ body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relati
             })
           }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0.1 })
           sections.forEach(sec => io.observe(sec))
-          links.forEach(a => a.addEventListener('click', () => {
+          links.forEach(a => a.addEventListener('click', (e) => {
+            e.preventDefault()
             links.forEach(l => l.classList.remove('active'))
             a.classList.add('active')
+            
+            // Scroll to the target element
+            const targetId = a.getAttribute('href').substring(1)
+            const targetElement = document.getElementById(targetId)
+            if (targetElement) {
+              targetElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start',
+                inline: 'nearest'
+              })
+            }
           }))
         }
 
