@@ -3,7 +3,7 @@ name: Auto Deploy Musings
 on:
   push:
     paths:
-      - 'musings.html'
+      - 'pages/musings.html'
 
 permissions:
   contents: read

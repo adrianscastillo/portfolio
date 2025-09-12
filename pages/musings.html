@@ -1,0 +1,1059 @@
+<html lang="en"><plasmo-csui id="plasmo-inspector"></plasmo-csui><head><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+  <script type="module" src="/@vite/client"></script>
+<style></style></head><body class="musings-page" style="cursor: none;"><plasmo-csui id="plasmo-inspector"></plasmo-csui><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+  <script type="module" src="/@vite/client"></script>
+
+  <script type="module" src="/@vite/client"></script>
+
+  <script type="module" src="/@vite/client"></script>
+
+  <script type="module" src="/@vite/client"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adrian Castillo | Musings</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/images/global/favicon.svg">
+    <link rel="stylesheet" href="/styles.css?v=1.2.0">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css">
+    
+    <!-- Google Analytics - Only track on production domain -->
+    <script>
+      // Only load Google Analytics on production domain
+      if (window.location.hostname === 'adriancastillo.xyz' || window.location.hostname === 'www.adriancastillo.xyz') {
+        // Load GA script
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-F596LSFWZT';
+        document.head.appendChild(script);
+        
+        // Initialize GA
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-F596LSFWZT');
+      }
+    </script>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adrianscastillo.github.io/portfolio/musings/">
+    <meta property="og:title" content="Adrian Castillo - Musings">
+    <meta property="og:description" content="A multi-disciplinary designer based in Los Angeles.">
+    <meta property="og:image" content="https://adriancastillo.xyz/og-image.jpg">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://adrianscastillo.github.io/portfolio/musings/">
+    <meta property="twitter:title" content="Adrian Castillo - Musings">
+    <meta property="twitter:description" content="A multi-disciplinary designer based in Los Angeles.">
+    <meta property="twitter:image" content="https://adriancastillo.xyz/og-image.jpg">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Guyot Press', 'Georgia', serif;
+        background: #F8F3E7;
+        color: #111;
+        line-height: 1.6;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      /* Navigation moved to global stylesheet */
+      
+      /* Override global overflow hidden for musings page */
+      body.musings-page { 
+        overflow: auto !important; 
+        height: auto !important; 
+        position: relative !important;
+      }
+      
+      html { 
+        overflow: auto !important; 
+        height: auto !important; 
+      }
+      
+      /* Ensure nav stays sticky on musings page - same as about page */
+      body.musings-page .nav { 
+        position: fixed !important; 
+        top: 0 !important; 
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 100 !important; 
+        background: transparent !important;
+        width: 100% !important;
+      }
+      
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        body.musings-page .nav {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          z-index: 100 !important;
+          background: transparent !important;
+          width: 100% !important;
+        }
+      }
+
+      /* Page content */
+      .main-content { margin-top: 0; }
+      .title-section {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px 40px 20px;
+        text-align: center;
+      }
+      .page-title {
+        font-family: 'Guyot Headline', 'Georgia', serif;
+        font-size: 48px;
+        font-weight: 400;
+        font-style: italic;
+        color: #111;
+      }
+      /* Match homepage MUSINGS button typography for the title in the left column */
+      .musings-title-col .page-title {
+        font-family: 'Guyot Press', 'Georgia', serif;
+        font-size: 16px;
+        font-weight: 500;
+        font-style: italic;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0; /* keep it tight in the sticky column */
+      }
+      .content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 40px 80px;
+        font-size: 16px;
+      }
+
+      /* Musings layout */
+      .musings-layout {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 160px;
+        max-width: 1200px;
+        margin: 200px auto 0;
+        padding: 0 0 80px 0;
+      }
+      .musings-title-col {
+        position: sticky;
+        top: 100px;
+        align-self: start;
+      }
+      .musings-left {
+        position: sticky;
+        top: 100px;
+        align-self: start;
+      }
+      .musings-list { list-style: none; display: grid; gap: 8px; padding: 0; margin: 0; }
+      .musings-list a {
+        display: inline-block;
+        color: #111;
+        text-decoration: none;
+        font-family: 'Guyot Press', 'Georgia', serif;
+      }
+      .musings-date { font-size: 16px; font-style: normal; line-height: 0.95; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.12em; }
+      
+      .musings-list a:hover { color: #85774B; }
+      .musings-list a.active { color: #0002AA; }
+      /* Left column date colors: inactive light grey, active/hover override */
+      .musings-list a .musings-date { color: rgba(17,17,17,0.4); }
+      .musings-list a.active .musings-date { color: #0002AA; }
+      .musings-list a:hover .musings-date { color: #85774B; }
+
+      .musings-right { min-height: 60vh; width: 50%; }
+      .m-entry { scroll-margin-top: 120px; margin-bottom: 60px; }
+      .m-entry h2 {
+        font-family: 'Guyot Headline', 'Georgia', serif;
+        font-size: 18px;
+        font-weight: 400;
+        font-style: normal;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: #0002AA;
+        margin-bottom: 12px;
+      }
+      .m-entry .m-date { font-family: 'Guyot Press', 'Georgia', serif; font-size: 16px; font-style: normal; line-height: 0.95; opacity: 0.9; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(17,17,17,0.4); }
+      .m-entry p { font-family: 'Guyot Press', 'Georgia', serif; font-size: 16px; line-height: 1.5; opacity: 0.9; }
+
+      /* Divider between musings */
+      .m-entry + .m-entry { border-top: 1px solid rgba(17,17,17,0.2); padding-top: 24px; margin-top: 24px; }
+
+      html { scroll-behavior: smooth; }
+
+      /* Mini admin tool */
+      .m-admin { max-width: 1200px; margin: 40px auto 80px; padding: 0 0 0 0; }
+      .m-admin-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+      .m-admin-bar strong { font-family: 'Guyot Press', 'Georgia', serif; font-size: 16px; text-transform: uppercase; letter-spacing: 0.06em; }
+      .m-admin-actions { display: flex; gap: 12px; }
+      .m-admin-actions button { cursor: pointer; padding: 6px 10px; background: #0002AA; color: #fff; border: none; font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; letter-spacing: 0.04em; }
+      .m-admin-actions button:hover { background: #111; }
+      .m-admin-list { list-style: none; display: grid; gap: 8px; padding: 0; margin: 0; }
+      .m-admin-item { padding: 12px 0; border-top: 1px dashed rgba(17,17,17,0.2); }
+      .m-admin-item:first-child { border-top: none; }
+      .m-admin-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+      .m-admin-label { font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(17,17,17,0.7); }
+      .m-admin-excerpt { font-size: 14px; color: rgba(17,17,17,0.6); font-style: italic; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .m-admin-buttons { display: flex; gap: 8px; }
+      .m-admin-buttons button { padding: 4px 8px; background: #F8F3E7; color: #111; border: 1px solid rgba(17,17,17,0.2); cursor: pointer; }
+      .m-admin-buttons button:hover { background: #fff; }
+      .m-admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+      .m-admin-header { grid-column: 1 / -1; margin-bottom: 20px; }
+      .m-admin-left { align-self: start; }
+      .m-admin-right { align-self: start; }
+
+      /* Editor inside modal */
+      .m-editor { max-width: 1200px; margin: 0 auto; padding: 0; }
+      .m-editor .m-field { margin: 12px 0; }
+      .m-editor label { display: block; font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; color: rgba(17,17,17,0.8); }
+      .m-editor input[type="date"] { padding: 6px 8px; border: 1px solid rgba(17,17,17,0.2); background: #fff; font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; }
+      .m-date-row { display: flex; align-items: center; gap: 8px; }
+      .m-inline-btn { padding: 6px 10px; border: 1px solid rgba(17,17,17,0.25); background: #F8F3E7; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 13px; color: #111; }
+      .m-inline-btn:hover { background: #fff; }
+      .m-toolbar { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 6px; 
+        margin: 8px 0; 
+        max-height: 120px; 
+        overflow-y: auto; 
+        border: 1px solid rgba(17,17,17,0.15); 
+        padding: 8px; 
+        background: #fff; 
+      }
+      .m-toolbar button { padding: 4px 8px; border: 1px solid rgba(17,17,17,0.25); background: #F8F3E7; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 13px; }
+      .m-toolbar button:hover { background: #fff; }
+      
+      /* Quill toolbar specific fixes */
+      .ql-toolbar { 
+        max-height: 120px !important; 
+        overflow-y: auto !important; 
+        border: 1px solid rgba(17,17,17,0.15) !important; 
+        background: #fff !important; 
+      }
+      .ql-toolbar .ql-formats { 
+        margin-right: 8px !important; 
+        margin-bottom: 4px !important; 
+      }
+      .m-editor-area { border: 1px solid rgba(17,17,17,0.25); background: #fff; padding: 10px; min-height: 220px; overflow: auto; }
+      .m-editor-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+      .m-editor-actions button { padding: 6px 12px; border: 1px solid rgba(17,17,17,0.25); background: #0002AA; color: #fff; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; }
+      .m-editor-actions button#m-editor-cancel { background: #F8F3E7; color: #111; }
+
+      /* Rich content in entries */
+      .m-entry img { max-width: 100%; height: auto; display: block; margin: 12px 0; }
+      .m-entry table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+      .m-entry th, .m-entry td { border: 1px solid rgba(17,17,17,0.25); padding: 6px 8px; text-align: left; font-family: 'Guyot Press', 'Georgia', serif; font-size: 16px; }
+      .m-entry hr { border: 0; border-top: 1px solid rgba(17,17,17,0.25); margin: 16px 0; }
+      
+      /* Rich text formatting */
+      .m-entry strong { font-weight: bold; }
+      .m-entry em { font-style: italic; }
+      .m-entry u { text-decoration: underline; }
+      .m-entry s { text-decoration: line-through; }
+      .m-entry h1, .m-entry h2, .m-entry h3 { 
+        font-family: 'Guyot Headline', 'Georgia', serif; 
+        font-weight: 400;
+        margin: 16px 0 8px 0;
+        line-height: 1.3;
+      }
+      .m-entry h1 { font-size: 24px; }
+      .m-entry h2 { font-size: 20px; }
+      .m-entry h3 { font-size: 18px; }
+      .m-entry blockquote { 
+        margin: 16px 0; 
+        padding-left: 16px; 
+        border-left: 3px solid rgba(17,17,17,0.3); 
+        font-style: italic; 
+        opacity: 0.8;
+      }
+      .m-entry ul, .m-entry ol { 
+        margin: 12px 0; 
+        padding-left: 24px; 
+      }
+      .m-entry li { 
+        margin: 4px 0; 
+        font-family: 'Guyot Press', 'Georgia', serif; 
+        font-size: 16px; 
+        line-height: 1.5; 
+        opacity: 0.9; 
+      }
+      .m-entry a { 
+        color: #0002AA; 
+        text-decoration: underline; 
+        opacity: 0.9;
+        transition: opacity 0.2s ease;
+      }
+      .m-entry a:hover { opacity: 0.5; }
+      .m-entry code { 
+        background: rgba(17,17,17,0.1); 
+        padding: 2px 4px; 
+        border-radius: 2px; 
+        font-family: monospace; 
+        font-size: 14px; 
+      }
+      .m-entry pre { 
+        background: rgba(17,17,17,0.1); 
+        padding: 12px; 
+        border-radius: 4px; 
+        overflow-x: auto; 
+        margin: 12px 0; 
+      }
+      .m-entry pre code { 
+        background: none; 
+        padding: 0; 
+      }
+
+      /* Admin modal */
+      .m-admin-modal { position: fixed; inset: 0; display: none; z-index: 9999; }
+      .m-admin-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+      .m-admin-dialog { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(900px, 90vw); max-height: 80vh; overflow: auto; background: #F8F3E7; border: 1px solid rgba(17,17,17,0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.25); padding: 20px; }
+      
+      /* Ensure proper spacing in modal */
+      .m-admin-right { 
+        min-height: 400px; 
+        display: flex; 
+        flex-direction: column; 
+      }
+      .m-editor { 
+        flex: 1; 
+        display: flex; 
+        flex-direction: column; 
+      }
+      .m-editor-area { 
+        flex: 1; 
+        min-height: 200px; 
+      }
+      .m-admin-close { position: absolute; top: 10px; right: 12px; background: transparent; border: none; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; font-style: italic; text-transform: uppercase; letter-spacing: 0.06em; color: #111; }
+
+      /* Giphy modal */
+      .giphy-modal { position: fixed; inset: 0; display: none; z-index: 10000; }
+      .giphy-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+      .giphy-dialog { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(960px, 92vw); max-height: 80vh; overflow: auto; background: #F8F3E7; border: 1px solid rgba(17,17,17,0.2); box-shadow: 0 12px 40px rgba(0,0,0,0.25); padding: 16px; }
+      .giphy-head { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+      .giphy-head input { flex: 1; padding: 8px 10px; border: 1px solid rgba(17,17,17,0.25); background: #fff; font-family: 'Guyot Press', 'Georgia', serif; font-size: 14px; }
+      .giphy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+      .giphy-item { cursor: pointer; border: 1px solid rgba(17,17,17,0.15); background: #fff; padding: 4px; display: flex; align-items: center; justify-content: center; }
+      .giphy-item img { max-width: 100%; height: auto; display: block; }
+      .giphy-close { position: absolute; top: 8px; right: 10px; background: transparent; border: 1px solid rgba(17,17,17,0.25); padding: 4px 8px; cursor: pointer; font-family: 'Guyot Press', 'Georgia', serif; font-size: 13px; }
+
+      /* Ensure custom cursor is above modals */
+      #cursor-canvas { z-index: 100001 !important; pointer-events: none; }
+
+      /* Mobile styles */
+      @media (max-width: 768px) {
+        
+        /* Hide dates column, show only body column */
+        .musings-left {
+          display: none !important;
+        }
+        
+        .musings-right {
+          width: 100% !important;
+          max-width: none !important;
+        }
+        
+        #musingsContent {
+          width: 100% !important;
+          max-width: none !important;
+          min-width: 100% !important;
+        }
+        
+        .musings-layout {
+          margin-top: 130px !important;
+          width: 100% !important;
+          max-width: none !important;
+        }
+        
+        .main-content {
+          width: 100% !important;
+          max-width: none !important;
+        }
+        
+        body {
+          width: 100% !important;
+          max-width: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        
+        .main-content {
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        
+        .musings-layout {
+          padding: 0 !important;
+          margin: 130px 0 0 0 !important;
+        }
+        
+        #musingsContent {
+          padding: 30px 20px 0 20px !important;
+          margin: 0 !important;
+        }
+        
+        .musings-layout {
+          display: block !important;
+          grid-template-columns: none !important;
+          flex-direction: column !important;
+        }
+        
+        .musings-right {
+          flex: none !important;
+          grid-column: none !important;
+        }
+      }
+
+    </style>
+  <style></style>
+  
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="nav-left">
+        <a href="/pages/work.html">Work</a>
+        <a href="/pages/index.html" class="active">Musings</a>
+        <a href="/pages/about.html">About</a>
+      </div>
+        <a href="/" class="nav-name">Adrian Castillo</a>
+      <a href="mailto:adrianscastillo@gmail.com" class="nav-email">Say Hi</a>
+    </nav>
+
+    <main class="main-content">
+      <section class="musings-layout">
+         <!-- Left column: dates and titles -->
+         <aside class="musings-left">
+          <ul class="musings-list" id="musingsList"><li><a href="#m-1757659108824" class="active"><span class="musings-date">SEP 11 2025</span></a></li><li><a href="#m-1757469263726"><span class="musings-date">SEP 09 2025</span></a></li><li><a href="#m-1757267599956"><span class="musings-date">SEP 07 2025</span></a></li><li><a href="#m-1757183165346"><span class="musings-date">SEP 06 2025</span></a></li><li><a href="#m-1"><span class="musings-date">SEP 05 2025</span></a></li></ul>
+         </aside>
+
+        <!-- Right column: scrollable content of entries -->
+        <div class="musings-right" id="musingsContent"><article class="m-entry" id="m-1757659108824"><div class="m-date">SEP 11 2025</div><p><em>changelog:</em></p><ul><li>restructured the files and folders</li><li>standardized naming conventions</li><li>optimized images</li><li>fixed cursor issues</li></ul></article><article class="m-entry" id="m-1757469263726"><div class="m-date">SEP 09 2025</div><p><em>changelog:</em></p><ul><li>got a domain! <a href="https://www.adriancastillo.xyz" rel="noopener noreferrer" target="_blank">www.adriancastillo.xyz</a></li><li>added an about page</li></ul><p><br></p><p>btw im just using this musings page as a changelog for now but in the future its going to be more stuff!</p></article><article class="m-entry" id="m-1757267599956"><div class="m-date">SEP 07 2025</div><p><em>changelog:</em></p><ul><li>mobile breakpoint (no scatter effect though)</li></ul><p><em>to-do's:</em></p><ul><li>create an about page</li></ul></article><article class="m-entry" id="m-1757183165346"><div class="m-date">SEP 06 2025</div><p><em>changelog:</em></p><ul><li>made sure hover states are working</li><li>made the menu buttons consistent</li><li>added an active state in the nav bar</li><li>added dynamic values to some elements so i dont have to keep updating them</li><li>optimized the text editor for the musings</li></ul><p><em>to-do's:</em></p><ul><li>figure out what compromises i have to do for the mobile version</li><li>have an about page.</li><li><s>fix the cursor to be HD in retina screens</s></li></ul></article>
+          <article class="m-entry" id="m-1">
+            <div class="m-date">SEP 05 2025</div>
+            
+          <p>I finally designed a website for myself, yay!</p><p><br></p><p><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ToCRja2miF3Xi/giphy.gif"></p></article>
+        </div>
+      </section>
+      <!-- Admin modal -->
+      <div id="m-admin-modal" class="m-admin-modal" style="display: block;">
+        <div class="m-admin-backdrop" id="m-backdrop"></div>
+        <div class="m-admin-dialog">
+          <button class="m-admin-close" id="m-close" aria-label="Close">Close</button>
+          <section id="m-admin" class="m-admin" style="display:block;">
+            <div class="m-admin-header">
+                <div class="m-admin-bar">
+                  <strong>Manage Musings</strong>
+                  <div class="m-admin-actions">
+                    <button id="m-add">New Entry</button>
+                    <button id="m-download">Download Updated Page</button>
+                    <button id="m-auto-commit">Auto Commit &amp; Deploy</button>
+                  </div>
+                </div>
+            </div>
+            <div class="m-admin-grid">
+              <div class="m-admin-left">
+                <h3 style="font-family: 'Guyot Press', Georgia, serif; font-size: 16px; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(17,17,17,0.8);">List of Musings</h3>
+                <ul id="m-list" class="m-admin-list"><li class="m-admin-item">
+              <div class="m-admin-item-header">
+                <span class="m-admin-label">SEP 11 2025</span>
+                <span class="m-admin-buttons">
+                  <button data-act="edit" data-id="m-1757659108824">Edit</button>
+                  <button data-act="del" data-id="m-1757659108824">Delete</button>
+                </span>
+              </div>
+              <div class="m-admin-excerpt">changelog:</div></li><li class="m-admin-item">
+              <div class="m-admin-item-header">
+                <span class="m-admin-label">SEP 09 2025</span>
+                <span class="m-admin-buttons">
+                  <button data-act="edit" data-id="m-1757469263726">Edit</button>
+                  <button data-act="del" data-id="m-1757469263726">Delete</button>
+                </span>
+              </div>
+              <div class="m-admin-excerpt">changelog:</div></li><li class="m-admin-item">
+              <div class="m-admin-item-header">
+                <span class="m-admin-label">SEP 07 2025</span>
+                <span class="m-admin-buttons">
+                  <button data-act="edit" data-id="m-1757267599956">Edit</button>
+                  <button data-act="del" data-id="m-1757267599956">Delete</button>
+                </span>
+              </div>
+              <div class="m-admin-excerpt">changelog:</div></li><li class="m-admin-item">
+              <div class="m-admin-item-header">
+                <span class="m-admin-label">SEP 06 2025</span>
+                <span class="m-admin-buttons">
+                  <button data-act="edit" data-id="m-1757183165346">Edit</button>
+                  <button data-act="del" data-id="m-1757183165346">Delete</button>
+                </span>
+              </div>
+              <div class="m-admin-excerpt">changelog:</div></li><li class="m-admin-item">
+              <div class="m-admin-item-header">
+                <span class="m-admin-label">SEP 05 2025</span>
+                <span class="m-admin-buttons">
+                  <button data-act="edit" data-id="m-1">Edit</button>
+                  <button data-act="del" data-id="m-1">Delete</button>
+                </span>
+              </div>
+              <div class="m-admin-excerpt">I finally designed a website for myself, yay!</div></li></ul>
+              </div>
+              <div class="m-admin-right">
+                <h3 style="font-family: 'Guyot Press', Georgia, serif; font-size: 16px; margin: 0 0 16px 0; text-transform: uppercase; letter-spacing: 0.06em; color: rgba(17,17,17,0.8);">Entry Editor</h3>
+                <div id="m-editor-placeholder" style="color: rgba(17, 17, 17, 0.5); font-style: italic; font-family: &quot;Guyot Press&quot;, Georgia, serif; font-size: 14px; display: block;">Select "New Entry" or "Edit" to begin writing...</div>
+                <!-- Inline Editor -->
+                <div id="m-editor" class="m-editor" style="display: none;">
+                  <div class="m-field">
+                    <label for="m-editor-date">Date</label>
+                    <div class="m-date-row">
+                      <input id="m-editor-date" type="date">
+                      <button id="m-editor-today" type="button" class="m-inline-btn">Today</button>
+                    </div>
+                  </div>
+                  <div class="m-field">
+                    <label>Body</label>
+                    <div id="m-quill-toolbar" class="m-toolbar ql-toolbar ql-snow">
+                      <span class="ql-formats">
+                        <span class="ql-header ql-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-3"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-3"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-3"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-3"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-3"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-3"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-3"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-3"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-3"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-3"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><span class="ql-header ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-0"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-0"><span tabindex="0" role="button" class="ql-picker-item" data-value="1"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="2"></span><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span></span></span><select class="ql-header" style="display: none;">
+                          <option value="1"></option>
+                          <option value="2"></option>
+                          <option selected=""></option>
+                        </select>
+                        <span class="ql-font ql-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-4"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-4"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-4"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-4"><span tabindex="0" role="button" class="ql-picker-item"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-4"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-4"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-4"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-4"><span tabindex="0" role="button" class="ql-picker-item"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-4"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-4"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><span class="ql-font ql-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-1"><svg viewBox="0 0 18 18"> <polygon class="ql-stroke" points="7 11 9 13 11 11 7 11"></polygon> <polygon class="ql-stroke" points="7 7 9 5 11 7 7 7"></polygon> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-1"><span tabindex="0" role="button" class="ql-picker-item ql-selected"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="serif"></span><span tabindex="0" role="button" class="ql-picker-item" data-value="monospace"></span></span></span><select class="ql-font" style="display: none;"><option selected="selected"></option><option value="serif"></option><option value="monospace"></option></select>
+                      </span>
+                      <span class="ql-formats">
+                        <button class="ql-bold" type="button"><svg viewBox="0 0 18 18"> <path class="ql-stroke" d="M5,4H9.5A2.5,2.5,0,0,1,12,6.5v0A2.5,2.5,0,0,1,9.5,9H5A0,0,0,0,1,5,9V4A0,0,0,0,1,5,4Z"></path> <path class="ql-stroke" d="M5,9h5.5A2.5,2.5,0,0,1,13,11.5v0A2.5,2.5,0,0,1,10.5,14H5a0,0,0,0,1,0,0V9A0,0,0,0,1,5,9Z"></path> </svg></button>
+                        <button class="ql-italic" type="button"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="7" x2="13" y1="4" y2="4"></line> <line class="ql-stroke" x1="5" x2="11" y1="14" y2="14"></line> <line class="ql-stroke" x1="8" x2="10" y1="14" y2="4"></line> </svg></button>
+                        <button class="ql-underline" type="button"><svg viewBox="0 0 18 18"> <path class="ql-stroke" d="M5,3V9a4.012,4.012,0,0,0,4,4H9a4.012,4.012,0,0,0,4-4V3"></path> <rect class="ql-fill" height="1" rx="0.5" ry="0.5" width="12" x="3" y="15"></rect> </svg></button>
+                        <button class="ql-strike" type="button"><svg viewBox="0 0 18 18"> <line class="ql-stroke ql-thin" x1="15.5" x2="2.5" y1="8.5" y2="9.5"></line> <path class="ql-fill" d="M9.007,8C6.542,7.791,6,7.519,6,6.5,6,5.792,7.283,5,9,5c1.571,0,2.765.679,2.969,1.309a1,1,0,0,0,1.9-.617C13.356,4.106,11.354,3,9,3,6.2,3,4,4.538,4,6.5a3.2,3.2,0,0,0,.5,1.843Z"></path> <path class="ql-fill" d="M8.984,10C11.457,10.208,12,10.479,12,11.5c0,0.708-1.283,1.5-3,1.5-1.571,0-2.765-.679-2.969-1.309a1,1,0,1,0-1.9.617C4.644,13.894,6.646,15,9,15c2.8,0,5-1.538,5-3.5a3.2,3.2,0,0,0-.5-1.843Z"></path> </svg></button>
+                        <button class="ql-link" type="button"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="7" x2="11" y1="7" y2="11"></line> <path class="ql-even ql-stroke" d="M8.9,4.577a3.476,3.476,0,0,1,.36,4.679A3.476,3.476,0,0,1,4.577,8.9C3.185,7.5,2.035,6.4,4.217,4.217S7.5,3.185,8.9,4.577Z"></path> <path class="ql-even ql-stroke" d="M13.423,9.1a3.476,3.476,0,0,0-4.679-.36,3.476,3.476,0,0,0,.36,4.679c1.392,1.392,2.5,2.542,4.679.36S14.815,10.5,13.423,9.1Z"></path> </svg></button>
+                        <button class="ql-blockquote" type="button"><svg viewBox="0 0 18 18"> <rect class="ql-fill ql-stroke" height="3" width="3" x="4" y="5"></rect> <rect class="ql-fill ql-stroke" height="3" width="3" x="11" y="5"></rect> <path class="ql-even ql-fill ql-stroke" d="M7,8c0,4.031-3,5-3,5"></path> <path class="ql-even ql-fill ql-stroke" d="M14,8c0,4.031-3,5-3,5"></path> </svg></button>
+                        <button class="ql-code-block" type="button"><svg viewBox="0 0 18 18"> <polyline class="ql-even ql-stroke" points="5 7 3 9 5 11"></polyline> <polyline class="ql-even ql-stroke" points="13 7 15 9 13 11"></polyline> <line class="ql-stroke" x1="10" x2="8" y1="5" y2="13"></line> </svg></button>
+                      </span>
+                      <span class="ql-formats">
+                        <button class="ql-list" value="ordered" type="button"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="7" x2="15" y1="4" y2="4"></line> <line class="ql-stroke" x1="7" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="7" x2="15" y1="14" y2="14"></line> <line class="ql-stroke ql-thin" x1="2.5" x2="4.5" y1="5.5" y2="5.5"></line> <path class="ql-fill" d="M3.5,6A0.5,0.5,0,0,1,3,5.5V3.085l-0.276.138A0.5,0.5,0,0,1,2.053,3c-0.124-.247-0.023-0.324.224-0.447l1-.5A0.5,0.5,0,0,1,4,2.5v3A0.5,0.5,0,0,1,3.5,6Z"></path> <path class="ql-stroke ql-thin" d="M4.5,10.5h-2c0-.234,1.85-1.076,1.85-2.234A0.959,0.959,0,0,0,2.5,8.156"></path> <path class="ql-stroke ql-thin" d="M2.5,14.846a0.959,0.959,0,0,0,1.85-.109A0.7,0.7,0,0,0,3.75,14a0.688,0.688,0,0,0,.6-0.736,0.959,0.959,0,0,0-1.85-.109"></path> </svg></button>
+                        <button class="ql-list ql-active" value="bullet" type="button"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="6" x2="15" y1="4" y2="4"></line> <line class="ql-stroke" x1="6" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="6" x2="15" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="3" y1="4" y2="4"></line> <line class="ql-stroke" x1="3" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="3" y1="14" y2="14"></line> </svg></button>
+                        <span class="ql-align ql-picker ql-icon-picker"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-5"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-5"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><span class="ql-align ql-picker ql-icon-picker" style="display: none;"><span class="ql-picker-label" tabindex="0" role="button" aria-expanded="false" aria-controls="ql-picker-options-2"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span class="ql-picker-options" aria-hidden="true" tabindex="-1" id="ql-picker-options-2"><span tabindex="0" role="button" class="ql-picker-item ql-selected"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="3" x2="15" y1="9" y2="9"></line> <line class="ql-stroke" x1="3" x2="13" y1="14" y2="14"></line> <line class="ql-stroke" x1="3" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="center"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="14" x2="4" y1="14" y2="14"></line> <line class="ql-stroke" x1="12" x2="6" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="right"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="5" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="9" y1="4" y2="4"></line> </svg></span><span tabindex="0" role="button" class="ql-picker-item" data-value="justify"><svg viewBox="0 0 18 18"> <line class="ql-stroke" x1="15" x2="3" y1="9" y2="9"></line> <line class="ql-stroke" x1="15" x2="3" y1="14" y2="14"></line> <line class="ql-stroke" x1="15" x2="3" y1="4" y2="4"></line> </svg></span></span></span><select class="ql-align" style="display: none;"><option selected="selected"></option><option value="center"></option><option value="right"></option><option value="justify"></option></select>
+                      </span>
+                      <span class="ql-formats">
+                        <button class="ql-image" type="button"><svg viewBox="0 0 18 18"> <rect class="ql-stroke" height="10" width="12" x="3" y="4"></rect> <circle class="ql-fill" cx="6" cy="7" r="1"></circle> <polyline class="ql-even ql-fill" points="5 12 5 11 7 9 8 10 11 7 13 9 13 12 5 12"></polyline> </svg></button>
+                        <button class="ql-video" type="button"><svg viewBox="0 0 18 18"> <rect class="ql-stroke" height="12" width="12" x="3" y="3"></rect> <rect class="ql-fill" height="12" width="1" x="5" y="3"></rect> <rect class="ql-fill" height="12" width="1" x="12" y="3"></rect> <rect class="ql-fill" height="2" width="8" x="5" y="8"></rect> <rect class="ql-fill" height="1" width="3" x="3" y="5"></rect> <rect class="ql-fill" height="1" width="3" x="3" y="7"></rect> <rect class="ql-fill" height="1" width="3" x="3" y="10"></rect> <rect class="ql-fill" height="1" width="3" x="3" y="12"></rect> <rect class="ql-fill" height="1" width="3" x="12" y="5"></rect> <rect class="ql-fill" height="1" width="3" x="12" y="7"></rect> <rect class="ql-fill" height="1" width="3" x="12" y="10"></rect> <rect class="ql-fill" height="1" width="3" x="12" y="12"></rect> </svg></button>
+                        <button type="button" id="ql-giphy">GIPHY</button>
+                      </span>
+                      <span class="ql-formats">
+                        <button type="button" id="ql-insert-table">Table</button>
+                        <button type="button" id="ql-add-row">+ Row</button>
+                        <button type="button" id="ql-add-col">+ Col</button>
+                        <button type="button" id="ql-del-row">- Row</button>
+                        <button type="button" id="ql-del-col">- Col</button>
+                        <button type="button" id="ql-hr">HR</button>
+                      </span>
+                    <input type="file" accept="image/png, image/gif, image/jpeg, image/bmp, image/x-icon" class="ql-image"></div>
+                    <div id="m-editor-area" class="m-editor-area ql-container ql-snow"><div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Write your musing…"><p><em>changelog:</em></p><ul><li>restructured the files and folders</li><li>standardized naming conventions</li><li>optimized images</li><li>fixed cursor issues</li></ul></div><div class="ql-clipboard" contenteditable="true" tabindex="-1"></div><div class="ql-tooltip ql-hidden"><a class="ql-preview" rel="noopener noreferrer" target="_blank" href="about:blank"></a><input type="text" data-formula="e=mc^2" data-link="https://quilljs.com" data-video="Embed URL"><a class="ql-action"></a><a class="ql-remove"></a></div></div>
+                  </div>
+                  <div class="m-editor-actions">
+                    <button id="m-editor-cancel" type="button">Cancel</button>
+                    <button id="m-editor-save" type="button">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- Reminder modal -->
+      <div id="m-reminder-modal" class="m-admin-modal" style="display: none;">
+        <div class="m-admin-backdrop" id="m-reminder-backdrop"></div>
+        <div class="m-admin-dialog">
+          <button class="m-admin-close" id="m-reminder-close" aria-label="Close">Close</button>
+          <div class="m-editor" style="display:block;">
+            <p>To make changes permanent, replace /Users/adrian/Projects/AC Website/musings/index.html with the downloaded file.<br>No backend writes happen; this is a manual export of the live DOM.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Giphy modal -->
+      <div id="giphy-modal" class="giphy-modal" style="display: none;">
+        <div class="giphy-backdrop" id="giphy-backdrop"></div>
+        <div class="giphy-dialog">
+          <button class="giphy-close" id="giphy-close">Close</button>
+          <div class="giphy-head">
+            <input id="giphy-query" placeholder="Search GIFs… (e.g., celebration)">
+            <button id="giphy-search" class="m-inline-btn" type="button">Search</button>
+          </div>
+          <div id="giphy-grid" class="giphy-grid"><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/kMV3yI5LySQdW/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1DTBGm5Rfgymk/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/NfzERYyiWcXU4/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/BMR4cgypuglVu/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/W8krmZSDxPIfm/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/14d8Aj81ffgnQY/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Rznz8HjrKQAOQ/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/7SfAXqgRgh0li/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/S5h4gvxxc1qlG/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lck9f0L8jPjRtkigYy/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/96suQaNpBRyE/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/rgAd7jWyJyo8M/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/MziKDo6gO7x8A/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1FkCqpyObTuo0/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/bt8FwKXiNKRkQ/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/6FjaNxfq8vHSQI0aVm/giphy.gif"></div><div class="giphy-item"><img src="https://media1.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/QhcEyAbugCpIAGy1QT/giphy.gif"></div><div class="giphy-item"><img src="https://media0.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/LkfG4aqCjm8WC9YjTC/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1d1aR5MshLzbO/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ToCRja2miF3Xi/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/uEnzove3L1p9XCu2iq/giphy.gif"></div><div class="giphy-item"><img src="https://media3.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lXxTIsrjKqzO2b0CAs/giphy.gif"></div><div class="giphy-item"><img src="https://media2.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/FLMYGjKCEZoYTF8qRP/giphy.gif"></div><div class="giphy-item"><img src="https://media4.giphy.com/media/v1.Y2lkPWZiMjU4YTkxMjBzOTFrNW5wZnVueHA0bTB3YW1yZXhxeGhhdncxeHl4OWZ6d3B4YSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4J4F61F1XSzjW/giphy.gif"></div></div>
+        </div>
+      </div>
+    </main>
+    <script src="/src/cursor.js?t=1757658640709&amp;v=1.2.0"></script>
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script>
+      // Auto-generate left date list and scroll-sync
+      (function() {
+        function regenerateDatesList() {
+          const list = document.getElementById('musingsList')
+          if (!list) return
+          list.innerHTML = ''
+          const entries = Array.from(document.querySelectorAll('.m-entry'))
+          entries.forEach(entry => {
+            const id = entry.id
+            const dateEl = entry.querySelector('.m-date')
+            const dateText = dateEl ? dateEl.textContent.trim() : id
+            const li = document.createElement('li')
+            const a = document.createElement('a')
+            a.href = `#${id}`
+            const span = document.createElement('span')
+            span.className = 'musings-date'
+            span.textContent = dateText
+            a.appendChild(span)
+            li.appendChild(a)
+            list.appendChild(li)
+          })
+          bindScrollSync()
+        }
+
+        let io
+        function bindScrollSync() {
+          const links = Array.from(document.querySelectorAll('#musingsList a'))
+          const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean)
+          const byId = Object.fromEntries(links.map(a => [a.getAttribute('href').slice(1), a]))
+          if (io) io.disconnect()
+          io = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              const id = entry.target.id
+              const link = byId[id]
+              if (!link) return
+              if (entry.isIntersecting) {
+                links.forEach(l => l.classList.remove('active'))
+                link.classList.add('active')
+              }
+            })
+          }, { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0.1 })
+          sections.forEach(sec => io.observe(sec))
+          links.forEach(a => a.addEventListener('click', () => {
+            links.forEach(l => l.classList.remove('active'))
+            a.classList.add('active')
+          }))
+        }
+
+        // Secret key handling and modal controls
+        let typedKeys = ''
+        const SECRET = 'ajubalembam'
+        const modal = () => document.getElementById('m-admin-modal')
+        const showModal = () => { const m = modal(); if (!m) return; m.style.display = 'block'; buildAdmin() }
+        const hideModal = () => { const m = modal(); if (!m) return; m.style.display = 'none' }
+        const showReminder = () => { const r = document.getElementById('m-reminder-modal'); if (!r) return; r.style.display = 'block' }
+        const hideReminder = () => { const r = document.getElementById('m-reminder-modal'); if (!r) return; r.style.display = 'none' }
+
+        function mmddyyyyToDisplay(dateStr) {
+          // input yyyy-mm-dd -> output JAN 12 2025
+          if (!dateStr) return ''
+          const [y,m,d] = dateStr.split('-')
+          const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+          const mon = months[Number(m)-1] || ''
+          return `${mon} ${String(Number(d)).padStart(2,'0')} ${y}`
+        }
+
+        function displayToISO(dateStr) {
+          // accepts "JAN 12 2025" or "01.12.2025" -> returns yyyy-mm-dd
+          if (!dateStr) return ''
+          const m1 = dateStr.trim().match(/^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\s+(\d{1,2})\s+(\d{4})$/i)
+          if (m1) {
+            const months = {JAN:1,FEB:2,MAR:3,APR:4,MAY:5,JUN:6,JUL:7,AUG:8,SEP:9,OCT:10,NOV:11,DEC:12}
+            const mon = String(months[m1[1].toUpperCase()]).padStart(2,'0')
+            const day = String(Number(m1[2])).padStart(2,'0')
+            const yr = m1[3]
+            return `${yr}-${mon}-${day}`
+          }
+          const m2 = dateStr.trim().match(/^(\d{2})\.(\d{2})\.(\d{4})$/)
+          if (m2) {
+            return `${m2[3]}-${m2[1]}-${m2[2]}`
+          }
+          return ''
+        }
+
+        function buildAdmin() {
+          const admin = document.getElementById('m-admin')
+          if (!admin) return
+          admin.style.display = 'block'
+          const list = document.getElementById('m-list')
+          const entries = Array.from(document.querySelectorAll('.m-entry'))
+          list.innerHTML = ''
+          entries.forEach((entry) => {
+            const li = document.createElement('li')
+            li.className = 'm-admin-item'
+            const date = (entry.querySelector('.m-date')?.textContent || '').trim()
+            const excerpt = (entry.querySelector('p')?.textContent || '').trim().slice(0, 120)
+            li.innerHTML = `
+              <div class="m-admin-item-header">
+                <span class="m-admin-label">${date}</span>
+                <span class="m-admin-buttons">
+                  <button data-act="edit" data-id="${entry.id}">Edit</button>
+                  <button data-act="del" data-id="${entry.id}">Delete</button>
+                </span>
+              </div>
+              <div class="m-admin-excerpt">${excerpt}${excerpt.length >= 120 ? '...' : ''}</div>`
+            list.appendChild(li)
+          })
+
+          const editor = document.getElementById('m-editor')
+          const dateInput = document.getElementById('m-editor-date')
+          const btnToday = document.getElementById('m-editor-today')
+          const area = document.getElementById('m-editor-area')
+          const btnSave = document.getElementById('m-editor-save')
+          const btnCancel = document.getElementById('m-editor-cancel')
+
+          let editingId = null
+
+          list.onclick = (e) => {
+            const btn = e.target.closest('button')
+            if (!btn) return
+            const act = btn.getAttribute('data-act')
+            const id = btn.getAttribute('data-id')
+            const entry = document.getElementById(id)
+            if (!entry) return
+            if (act === 'del') {
+              entry.remove()
+              buildAdmin()
+              regenerateDatesList()
+            } else if (act === 'edit') {
+              editingId = id
+              const dateEl = entry.querySelector('.m-date')
+              const iso = displayToISO((dateEl?.textContent||'').trim())
+              dateInput.value = iso
+              editor.style.display = 'block'
+              document.getElementById('m-editor-placeholder').style.display = 'none'
+              const temp = document.createElement('div')
+              Array.from(entry.children).forEach((child) => {
+                if (!child.classList.contains('m-date')) temp.appendChild(child.cloneNode(true))
+              })
+              ensureQuill(); bindQuillExtras();
+              quill.setContents([])
+              quill.clipboard.dangerouslyPasteHTML(temp.innerHTML)
+            }
+          }
+
+          document.getElementById('m-add').onclick = () => {
+            editingId = null
+            dateInput.value = ''
+            area.innerHTML = ''
+            editor.style.display = 'block'
+            document.getElementById('m-editor-placeholder').style.display = 'none'
+            ensureQuill(); bindQuillExtras();
+            quill.setContents([])
+          }
+
+          // Initialize Quill
+          let quill = null
+          function quillImageHandler() {
+            const q = this.quill
+            const range = q.getSelection(true)
+            const url = prompt('Image URL (https://… .gif/.jpg/.png). Leave empty to upload:')
+            if (url) {
+              const ok = /\.(gif|png|jpe?g|webp|bmp|ico)(\?.*)?$/i.test(url)
+              if (!ok) {
+                alert('That URL does not look like a direct image link. Please use a URL ending in .gif/.jpg/.png or upload the file instead.')
+                return
+              }
+              q.insertEmbed(range ? range.index : q.getLength(), 'image', url, Quill.sources.USER)
+              return
+            }
+            const input = document.createElement('input')
+            input.type = 'file'
+            input.accept = 'image/*'
+            input.onchange = () => {
+              const file = input.files && input.files[0]
+              if (!file) return
+              const reader = new FileReader()
+              reader.onload = () => {
+                q.insertEmbed(range ? range.index : q.getLength(), 'image', reader.result, Quill.sources.USER)
+              }
+              reader.readAsDataURL(file)
+            }
+            input.click()
+          }
+
+          function ensureQuill() {
+            if (quill) return quill
+            quill = new Quill('#m-editor-area', {
+              theme: 'snow',
+              placeholder: 'Write your musing…',
+              modules: {
+                toolbar: { container: '#m-quill-toolbar', handlers: { image: quillImageHandler } },
+              }
+            })
+            return quill
+          }
+
+          // Extra buttons (table + HR) using simple HTML injections
+          function bindQuillExtras() {
+            const q = ensureQuill()
+            const btnTable = document.getElementById('ql-insert-table')
+            const btnAddRow = document.getElementById('ql-add-row')
+            const btnAddCol = document.getElementById('ql-add-col')
+            const btnDelRow = document.getElementById('ql-del-row')
+            const btnDelCol = document.getElementById('ql-del-col')
+            const btnHR = document.getElementById('ql-hr')
+
+            function insertHTML(html) {
+              const range = q.getSelection(true)
+              if (!range) return
+              q.clipboard.dangerouslyPasteHTML(range.index, html)
+            }
+
+            if (btnTable) btnTable.onclick = () => {
+              const rows = parseInt(prompt('Rows?', '2') || '2', 10)
+              const cols = parseInt(prompt('Columns?', '2') || '2', 10)
+              if (!rows || !cols) return
+              let html = '<table><tbody>'
+              for (let r = 0; r < rows; r++) {
+                html += '<tr>'
+                for (let c = 0; c < cols; c++) {
+                  html += r === 0 ? '<th></th>' : '<td></td>'
+                }
+                html += '</tr>'
+              }
+              html += '</tbody></table>'
+              insertHTML(html)
+            }
+            function getFocusedCell() {
+              const sel = window.getSelection()
+              if (!sel || sel.rangeCount === 0) return null
+              let el = sel.anchorNode
+              while (el && el.nodeType === 3) el = el.parentNode
+              while (el && el.tagName && !['TD','TH','TR','TBODY','TABLE'].includes(el.tagName)) el = el.parentNode
+              return el
+            }
+            if (btnAddRow) btnAddRow.onclick = () => {
+              const cell = getFocusedCell(); if (!cell) return
+              const row = cell.closest('tr'); if (!row) return
+              const clone = row.cloneNode(true)
+              clone.querySelectorAll('th').forEach(th => { const td = document.createElement('td'); td.innerHTML = th.innerHTML; th.replaceWith(td) })
+              row.after(clone)
+            }
+            if (btnDelRow) btnDelRow.onclick = () => {
+              const cell = getFocusedCell(); if (!cell) return
+              const row = cell.closest('tr'); if (!row) return
+              const table = row.closest('table'); if (!table) return
+              if (table.rows.length > 1) row.remove()
+            }
+            if (btnAddCol) btnAddCol.onclick = () => {
+              const cell = getFocusedCell(); if (!cell) return
+              const row = cell.closest('tr'); if (!row) return
+              const table = row.closest('table'); if (!table) return
+              const colIndex = Array.from(row.children).indexOf(cell)
+              Array.from(table.rows).forEach((r, i) => {
+                const cellType = i === 0 && r.querySelector('th') ? 'th' : 'td'
+                const newCell = document.createElement(cellType)
+                newCell.innerHTML = ''
+                r.insertBefore(newCell, r.children[colIndex + 1] || null)
+              })
+            }
+            if (btnDelCol) btnDelCol.onclick = () => {
+              const cell = getFocusedCell(); if (!cell) return
+              const row = cell.closest('tr'); if (!row) return
+              const table = row.closest('table'); if (!table) return
+              const colIndex = Array.from(row.children).indexOf(cell)
+              Array.from(table.rows).forEach(r => {
+                if (r.children.length > 1 && r.children[colIndex]) r.children[colIndex].remove()
+              })
+            }
+            if (btnHR) btnHR.onclick = () => insertHTML('<hr/>')
+
+            // Giphy integration
+            const gBtn = document.getElementById('ql-giphy')
+            const gModal = document.getElementById('giphy-modal')
+            const gClose = document.getElementById('giphy-close')
+            const gBackdrop = document.getElementById('giphy-backdrop')
+            const gSearch = document.getElementById('giphy-search')
+            const gQuery = document.getElementById('giphy-query')
+            const gGrid = document.getElementById('giphy-grid')
+
+            function showGiphy() { if (gModal) gModal.style.display = 'block' }
+            function hideGiphy() { if (gModal) gModal.style.display = 'none' }
+            function renderGifs(items) {
+              if (!gGrid) return
+              gGrid.innerHTML = ''
+              items.forEach(it => {
+                const url = it.images && (it.images.original?.url || it.images.preview_gif?.url || it.images.downsized?.url)
+                if (!url) return
+                const d = document.createElement('div')
+                d.className = 'giphy-item'
+                const img = document.createElement('img')
+                img.src = url
+                d.appendChild(img)
+                d.onclick = () => {
+                  const range = q.getSelection(true) || { index: q.getLength() }
+                  q.insertEmbed(range.index, 'image', url, Quill.sources.USER)
+                  hideGiphy()
+                }
+                gGrid.appendChild(d)
+              })
+            }
+
+            async function searchGifs() {
+              const qtext = (gQuery?.value || '').trim() || 'trending'
+              const apiKey = (window.localStorage && localStorage.getItem('GIPHY_API_KEY')) || '9SRzHchydeMDzrboij7equHqktifgX87'
+              try { if (window.localStorage && !localStorage.getItem('GIPHY_API_KEY')) localStorage.setItem('GIPHY_API_KEY', apiKey) } catch(e) {}
+              const endpoint = `https://api.giphy.com/v1/gifs/search?api_key=${encodeURIComponent(apiKey)}&q=${encodeURIComponent(qtext)}&limit=24&rating=g&lang=en`
+              try {
+                const res = await fetch(endpoint)
+                const data = await res.json()
+                renderGifs(data.data || [])
+              } catch (e) {
+                alert('Giphy search failed')
+              }
+            }
+
+            if (gBtn) gBtn.onclick = () => { showGiphy(); if (gQuery) gQuery.focus() }
+            if (gClose) gClose.onclick = hideGiphy
+            if (gBackdrop) gBackdrop.onclick = hideGiphy
+            if (gSearch) gSearch.onclick = searchGifs
+            if (gQuery) gQuery.onkeydown = (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); searchGifs() } }
+          }
+
+          btnCancel.onclick = () => {
+            editor.style.display = 'none'
+            document.getElementById('m-editor-placeholder').style.display = 'block'
+            editingId = null
+          }
+
+          if (btnToday) {
+            btnToday.onclick = () => {
+              const now = new Date()
+              const yyyy = now.getFullYear()
+              const mm = String(now.getMonth()+1).padStart(2,'0')
+              const dd = String(now.getDate()).padStart(2,'0')
+              dateInput.value = `${yyyy}-${mm}-${dd}`
+            }
+          }
+
+          btnSave.onclick = () => {
+            const iso = dateInput.value
+            if (!iso) { alert('Please select a date'); return }
+            const display = mmddyyyyToDisplay(iso)
+            ensureQuill()
+            const html = area.querySelector('.ql-editor') ? area.querySelector('.ql-editor').innerHTML : area.innerHTML
+            if (!html.trim()) { alert('Please write something'); return }
+
+            if (editingId) {
+              const entry = document.getElementById(editingId)
+              if (!entry) return
+              const d = entry.querySelector('.m-date')
+              if (d) d.textContent = display
+              Array.from(entry.children).forEach((child)=>{ if (!child.classList.contains('m-date')) child.remove() })
+              const temp = document.createElement('div')
+              temp.innerHTML = html
+              Array.from(temp.childNodes).forEach((node)=>{ entry.appendChild(node) })
+            } else {
+              const id = `m-${Date.now()}`
+              const art = document.createElement('article')
+              art.className = 'm-entry'
+              art.id = id
+              const d = document.createElement('div')
+              d.className = 'm-date'
+              d.textContent = display
+              art.appendChild(d)
+              const temp = document.createElement('div')
+              temp.innerHTML = html
+              Array.from(temp.childNodes).forEach((node)=>{ art.appendChild(node) })
+              document.getElementById('musingsContent').prepend(art)
+            }
+
+            editor.style.display = 'none'
+            document.getElementById('m-editor-placeholder').style.display = 'block'
+            editingId = null
+            buildAdmin()
+            regenerateDatesList()
+          }
+
+          document.getElementById('m-download').onclick = () => {
+            const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html' })
+            const a = document.createElement('a')
+            a.href = URL.createObjectURL(blob)
+            a.download = 'musings.html'
+            document.body.appendChild(a)
+            a.click()
+            a.remove()
+            showReminder()
+          }
+
+          document.getElementById('m-auto-commit').onclick = async () => {
+            const button = document.getElementById('m-auto-commit')
+            const originalText = button.textContent
+            button.textContent = 'Deploying...'
+            button.disabled = true
+            
+            try {
+              // Get the updated HTML content
+              const htmlContent = document.documentElement.outerHTML
+              
+              // Create a data URL for the HTML content
+              const dataUrl = 'data:text/html;charset=utf-8,' + encodeURIComponent(htmlContent)
+              
+              // Open a new window with instructions
+              const instructions = `
+                <html>
+                  <head><title>Auto Deploy Instructions</title></head>
+                  <body style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
+                    <h2>🚀 Auto Deploy Instructions</h2>
+                    <p>To automatically deploy your musings changes:</p>
+                    <ol>
+                      <li>Copy the HTML content below</li>
+                      <li>Replace the content of <code>pages/musings.html</code> in your project</li>
+                      <li>Commit and push to GitHub</li>
+                    </ol>
+                    <textarea style="width: 100%; height: 300px; font-family: monospace; font-size: 12px;">${htmlContent}</textarea>
+                    <p><strong>Or use this one-liner command:</strong></p>
+                    <code style="background: #f5f5f5; padding: 10px; display: block; word-break: break-all;">
+                      echo '${htmlContent.replace(/'/g, "\\'")}' > pages/musings.html && git add pages/musings.html && git commit -m "Update musings" && git push
+                    </code>
+                  </body>
+                </html>
+              `
+              
+              const newWindow = window.open('', '_blank')
+              newWindow.document.write(instructions)
+              
+            } catch (error) {
+              alert('Error: ' + error.message)
+            } finally {
+              button.textContent = originalText
+              button.disabled = false
+            }
+          }
+        }
+
+        // Initialize
+        regenerateDatesList()
+        // Force-hide modals on load in case inline styles were saved as visible
+        try { const m = document.getElementById('m-admin-modal'); if (m) m.style.display = 'none' } catch {}
+        try { const r = document.getElementById('m-reminder-modal'); if (r) r.style.display = 'none' } catch {}
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') { hideModal(); hideReminder(); return }
+          if (e.metaKey || e.ctrlKey || e.altKey) return
+          if (e.key && e.key.length === 1) {
+            typedKeys = (typedKeys + e.key).toLowerCase().slice(-SECRET.length)
+            if (typedKeys === SECRET) { showModal(); typedKeys = '' }
+          }
+        })
+        const backdrop = document.getElementById('m-backdrop')
+        const closeBtn = document.getElementById('m-close')
+        if (backdrop) backdrop.addEventListener('click', hideModal)
+        if (closeBtn) closeBtn.addEventListener('click', hideModal)
+        const rBackdrop = document.getElementById('m-reminder-backdrop')
+        const rClose = document.getElementById('m-reminder-close')
+        if (rBackdrop) rBackdrop.addEventListener('click', hideReminder)
+        if (rClose) rClose.addEventListener('click', hideReminder)
+      })()
+    </script>
+  
+  
+
+<div id="give-freely-root-mbnbehikldjhnfehhnaidhjhoofhpehk" class="give-freely-root" data-extension-id="mbnbehikldjhnfehhnaidhjhoofhpehk" data-extension-name="CSS Peeper" style="display: block;"></div><canvas id="cursor-canvas" width="3024" height="1722" style="position: fixed; top: 0px; left: 0px; width: 1512px; height: 861px; z-index: 999999; pointer-events: none; display: block; visibility: visible;"></canvas></body></html>

@@ -13,7 +13,7 @@ class CustomCursor {
     this.canvas.style.left = '0'
     this.canvas.style.width = '100vw'
     this.canvas.style.height = '100vh'
-    this.canvas.style.zIndex = '100001'
+    this.canvas.style.zIndex = '999999'
     this.canvas.style.pointerEvents = 'none'
     
     document.body.appendChild(this.canvas)
@@ -32,15 +32,37 @@ class CustomCursor {
     this.resize()
     window.addEventListener('resize', () => this.resize())
     
-    // Hide default cursor only after confirming canvas is working
+    // Hide default cursor only after confirming canvas is working and visible
     setTimeout(() => {
       if (this.canvas && this.ctx) {
-        document.body.style.cursor = 'none'
+        // Force canvas to be visible and properly sized
+        this.canvas.style.display = 'block'
+        this.canvas.style.visibility = 'visible'
+        
+        // Double-check that canvas is actually visible
+        const rect = this.canvas.getBoundingClientRect()
+        
+        if (rect.width > 0 && rect.height > 0) {
+          document.body.style.cursor = 'none'
+          this.isInitialized = true
+        } else {
+          // Force initialization even if rect check fails
+          document.body.style.cursor = 'none'
+          this.isInitialized = true
+        }
+      } else {
+        // Canvas failed to initialize, restore system cursor
+        this.restoreSystemCursor()
       }
-    }, 100)
+    }, 200) // Increased delay to ensure canvas is fully ready
 
     // Disable native context menu globally
     document.addEventListener('contextmenu', (e) => e.preventDefault())
+    
+    // Add visibility check every 5 seconds
+    this.visibilityCheckInterval = setInterval(() => {
+      this.checkCursorVisibility()
+    }, 5000)
   }
 
   resize() {
@@ -261,9 +283,93 @@ class CustomCursor {
     this.ctx.restore()
   }
 
+  checkCursorVisibility() {
+    // Check if cursor is still working properly
+    if (!this.canvas || !this.ctx || !this.isInitialized) {
+      this.restoreSystemCursor()
+      return
+    }
+    
+    // Check if canvas is still visible
+    const rect = this.canvas.getBoundingClientRect()
+    if (rect.width === 0 || rect.height === 0) {
+      this.restoreSystemCursor()
+      return
+    }
+    
+    // Check if canvas is still in DOM
+    if (!document.body.contains(this.canvas)) {
+      this.restoreSystemCursor()
+      return
+    }
+  }
+  
+  restoreSystemCursor() {
+    // Restore system cursor immediately
+    document.body.style.cursor = 'auto'
+    document.documentElement.style.cursor = 'auto'
+    
+    // Clear any intervals
+    if (this.visibilityCheckInterval) {
+      clearInterval(this.visibilityCheckInterval)
+    }
+    
+    // Mark as not initialized
+    this.isInitialized = false
+    
+    // Try to reinitialize after a delay
+    setTimeout(() => {
+      if (!this.isInitialized) {
+        this.attemptReinitialization()
+      }
+    }, 2000)
+  }
+  
+  attemptReinitialization() {
+    try {
+      // Remove existing canvas
+      if (this.canvas && this.canvas.parentNode) {
+        this.canvas.parentNode.removeChild(this.canvas)
+      }
+      
+      // Try to create new cursor
+      this.canvas = document.createElement('canvas')
+      this.canvas.id = 'cursor-canvas'
+      this.canvas.style.position = 'fixed'
+      this.canvas.style.top = '0'
+      this.canvas.style.left = '0'
+      this.canvas.style.width = '100vw'
+      this.canvas.style.height = '100vh'
+      this.canvas.style.zIndex = '100001'
+      this.canvas.style.pointerEvents = 'none'
+      
+      document.body.appendChild(this.canvas)
+      this.ctx = this.canvas.getContext('2d')
+      
+      if (this.ctx) {
+        this.init()
+        this.bindEvents()
+        this.animate()
+      } else {
+        // Canvas context failed, keep system cursor
+        document.body.style.cursor = 'auto'
+      }
+    } catch (error) {
+      // Reinitialization failed, keep system cursor
+      document.body.style.cursor = 'auto'
+    }
+  }
+
   animate() {
+    // Check if cursor is still initialized before animating
+    if (!this.isInitialized || !this.canvas || !this.ctx) {
+      requestAnimationFrame(() => this.animate())
+      return
+    }
+    
     // Clear canvas (use logical dimensions, not physical pixels)
     this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    
     
     // Check if we're in an image viewer with cursor direction classes
     const imageViewer = document.querySelector('.image-viewer.active')
@@ -350,11 +456,18 @@ class CustomCursor {
   
   // Method to clean up and restore default cursor
   destroy() {
+    // Clear visibility check interval
+    if (this.visibilityCheckInterval) {
+      clearInterval(this.visibilityCheckInterval)
+    }
+    
     if (this.canvas && this.canvas.parentNode) {
       this.canvas.parentNode.removeChild(this.canvas)
     }
+    
     document.body.style.cursor = 'auto'
     document.documentElement.style.cursor = 'auto'
+    this.isInitialized = false
   }
 }
 
@@ -363,7 +476,6 @@ function initializeCursor() {
   try {
     // Check if we're in a browser environment
     if (typeof window === 'undefined' || typeof document === 'undefined') {
-      console.warn('Custom cursor: Not in browser environment')
       return
     }
     
@@ -373,11 +485,6 @@ function initializeCursor() {
                          window.matchMedia('(pointer: coarse)').matches
     
     if (isTouchDevice) {
-      // Only log once to avoid spam
-      if (!window.touchDeviceLogged) {
-        console.log('Custom cursor: Touch device detected, disabling custom cursor')
-        window.touchDeviceLogged = true
-      }
       // Ensure default cursor is restored on touch devices
       document.body.style.cursor = 'auto'
       document.documentElement.style.cursor = 'auto'
@@ -387,7 +494,6 @@ function initializeCursor() {
     // Check if canvas is supported
     const canvas = document.createElement('canvas')
     if (!canvas.getContext || !canvas.getContext('2d')) {
-      console.warn('Custom cursor: Canvas not supported, falling back to default cursor')
       // Restore default cursor
       document.body.style.cursor = 'auto'
       document.documentElement.style.cursor = 'auto'
@@ -395,9 +501,7 @@ function initializeCursor() {
     }
     
     window.customCursor = new CustomCursor()
-    console.log('Custom cursor initialized successfully')
   } catch (error) {
-    console.error('Custom cursor failed to initialize:', error)
     // Fallback: restore default cursor
     document.body.style.cursor = 'auto'
     document.documentElement.style.cursor = 'auto'
@@ -427,18 +531,19 @@ function initializeCursor() {
       }
     }
     
-    // Add a debug function to check element visibility
-    window.debugElements = function() {
-      console.log('=== Element Debug Info ===')
-      console.log('Draggable boxes:', document.querySelectorAll('.draggable-box').length)
-      console.log('Projects container:', document.querySelector('.projects-container') ? 'Found' : 'Missing')
-      console.log('Scatter button:', document.querySelector('.scatter') ? 'Found' : 'Missing')
-      console.log('Cursor canvas:', document.getElementById('cursor-canvas') ? 'Found' : 'Missing')
-      console.log('Body cursor style:', document.body.style.cursor)
-      console.log('Document cursor style:', document.documentElement.style.cursor)
-      console.log('Window width:', window.innerWidth)
-      console.log('Is mobile?', window.innerWidth <= 768)
+    // Add emergency cursor restoration on any user interaction
+    const emergencyRestore = () => {
+      if (document.body.style.cursor === 'none' && !window.customCursor) {
+        document.body.style.cursor = 'auto'
+        document.documentElement.style.cursor = 'auto'
+      }
     }
+    
+    // Listen for any user interaction to restore cursor if needed
+    document.addEventListener('mousemove', emergencyRestore, { once: true })
+    document.addEventListener('click', emergencyRestore, { once: true })
+    document.addEventListener('keydown', emergencyRestore, { once: true })
+    
   }
 }
 
@@ -459,18 +564,15 @@ function ensureCursorInitialization() {
     try {
       initializeCursor()
       if (window.customCursor) {
-        console.log('Custom cursor initialized successfully on attempt', attempts)
         return
       }
     } catch (error) {
-      console.warn('Cursor initialization attempt', attempts, 'failed:', error)
     }
     
     // If not successful and we haven't reached max attempts, try again
     if (attempts < maxAttempts) {
       setTimeout(tryInitialize, 100 * attempts) // Increasing delay
     } else {
-      console.error('Failed to initialize custom cursor after', maxAttempts, 'attempts')
       // Force fallback cursor
       document.body.style.cursor = 'auto'
       document.documentElement.style.cursor = 'auto'
@@ -490,7 +592,42 @@ if (document.readyState === 'loading') {
 // Additional fallback - try again after a short delay
 setTimeout(() => {
   if (!window.customCursor && !window.cursorInitializationAttempted) {
-    console.log('Retrying cursor initialization as fallback')
     ensureCursorInitialization()
   }
 }, 500)
+
+// Global cursor visibility monitor - emergency fallback
+let cursorVisibilityMonitor = null
+function startCursorVisibilityMonitor() {
+  if (cursorVisibilityMonitor) return
+  
+  cursorVisibilityMonitor = setInterval(() => {
+    // Check if cursor is hidden but no custom cursor is active
+    if (document.body.style.cursor === 'none' && 
+        (!window.customCursor || !window.customCursor.isInitialized)) {
+      
+      // Emergency restore system cursor
+      document.body.style.cursor = 'auto'
+      document.documentElement.style.cursor = 'auto'
+      
+      // Try to reinitialize custom cursor
+      if (!window.customCursor) {
+        setTimeout(() => {
+          if (!window.customCursor) {
+            ensureCursorInitialization()
+          }
+        }, 1000)
+      }
+    }
+  }, 2000) // Check every 2 seconds
+}
+
+// Start the monitor after a delay
+setTimeout(startCursorVisibilityMonitor, 3000)
+
+// Stop monitor when page unloads
+window.addEventListener('beforeunload', () => {
+  if (cursorVisibilityMonitor) {
+    clearInterval(cursorVisibilityMonitor)
+  }
+})

@@ -1,13 +1,14 @@
 class DraggableBoxes {
   constructor() {
     this.boxes = Array.from(document.querySelectorAll('.draggable-box'))
-    if (!this.boxes.length) return
+    if (!this.boxes.length) {
+      return
+    }
     
     // Cache DOM elements for better performance
     this.container = document.querySelector('.projects-container')
     this.tooltip = document.getElementById('tooltip')
     this.scatterButton = document.querySelector('.scatter')
-    
     
     // If scatter button not found, try to find it after a short delay
     if (!this.scatterButton) {
@@ -24,15 +25,15 @@ class DraggableBoxes {
     
     // Project data array for better performance
     this.projectData = [
-      { title: 'DX10', heroImage: 'projects/assets/project-0/gallery/dx10 cover.jpg' },
-      { title: 'Terb', heroImage: 'projects/assets/project-1/gallery/terb cover.gif' },
-      { title: 'National Media Office', heroImage: 'projects/assets/project-2/gallery/nmo cover.jpg' },
-      { title: 'The Founders Office', heroImage: 'projects/assets/project-3/gallery/tfo cover.jpg' },
-      { title: 'Sheikh Zayed', heroImage: 'projects/assets/project-4/gallery/zayed cover.jpg' },
-      { title: 'Kojinn', heroImage: 'projects/assets/project-5/gallery/kojinn cover.jpg' },
-      { title: 'Hotaling & Co.', heroImage: 'projects/assets/project-6/gallery/hc cover.gif' },
-      { title: 'Farm Sanctuary', heroImage: 'projects/assets/project-7/gallery/fs cover.jpg' },
-      { title: 'Relief International', heroImage: 'projects/assets/project-8/gallery/ri-cover.jpg' }
+      { title: 'DX10', heroImage: '/assets/images/work/project-0/gallery/dx10 cover.jpg' },
+      { title: 'Terb', heroImage: '/assets/images/work/project-1/gallery/terb cover.gif' },
+      { title: 'National Media Office', heroImage: '/assets/images/work/project-2/gallery/nmo cover.jpg' },
+      { title: 'The Founders Office', heroImage: '/assets/images/work/project-3/gallery/tfo cover.jpg' },
+      { title: 'Sheikh Zayed', heroImage: '/assets/images/work/project-4/gallery/zayed cover.jpg' },
+      { title: 'Kojinn', heroImage: '/assets/images/work/project-5/gallery/kojinn cover.jpg' },
+      { title: 'Hotaling & Co.', heroImage: '/assets/images/work/project-6/gallery/hc cover.gif' },
+      { title: 'Farm Sanctuary', heroImage: '/assets/images/work/project-7/gallery/fs cover.jpg' },
+      { title: 'Relief International', heroImage: '/assets/images/work/project-8/gallery/ri-cover.jpg' }
     ]
     
     this.draggedBox = null
@@ -62,31 +63,46 @@ class DraggableBoxes {
     document.addEventListener('mouseup', (e) => this.stopDrag(e))
     
     // Add global scroll handler for the projects container
-    document.addEventListener('wheel', (e) => this.handleScroll(e))
+    document.addEventListener('wheel', (e) => this.handleScroll(e), { passive: false })
     
     // Add window resize handler to recalculate project sizes
     window.addEventListener('resize', () => this.setBoxSizes())
   }
   
   bindScatterButton() {
-    if (this.scatterButton) {
-      this.scatterButton.addEventListener('click', (e) => {
+    if (!this.scatterButton) {
+      return
+    }
+    
+    this.scatterButton.addEventListener('click', (e) => {
         e.preventDefault()
         
-        const isScattered = this.boxes.some(box => {
-          const left = parseFloat(box.style.left) || 80
-          return Math.abs(left - 80) > 5
+        const isScattered = this.boxes.some((box, index) => {
+          // Skip hidden project 10 (index 9)
+          if (index === 9) return false
+          
+          // Simple detection: check if transform contains scale(0.7) or rotation
+          const transform = box.style.transform || ''
+          const hasScale = transform.includes('scale(0.7)')
+          const hasRotation = transform.includes('rotate(')
+          
+          // Also check if left position is not 80vw (organized position)
+          const left = box.style.left || ''
+          const isNotOrganized = !left.includes('80vw')
+          
+          const isBoxScattered = hasScale || hasRotation || isNotOrganized
+          
+          return isBoxScattered
         })
         
-        
         if (isScattered) {
+          // Boxes are scattered, so clean them up
           this.putBackBoxes()
         } else {
+          // Boxes are organized, so scatter them
           this.scatterBoxes()
         }
       })
-    } else {
-    }
   }
   
   handleBoxClick(e, box) {
@@ -99,9 +115,9 @@ class DraggableBoxes {
     
     // Navigate to project page and scroll to specific project
     setTimeout(() => {
-      // All projects are now on the same page (projects.html)
+      // All projects are now on the same page (work.html)
       // Map boxIndex to correct project ID (0-based indexing)
-      window.location.href = `projects/projects.html#project-${boxIndex}`
+      window.location.href = `/pages/work.html#project-${boxIndex}`
     }, 50)
   }
   
@@ -302,6 +318,15 @@ class DraggableBoxes {
             this.positionBoxesInOrder(boxDimensions)
           }
         }
+        img.onerror = () => {
+          // Fallback for failed images
+          boxDimensions[index] = { width: finalWidth, height: finalWidth }
+          loadedCount++
+          
+          if (loadedCount === totalBoxes) {
+            this.positionBoxesInOrder(boxDimensions)
+          }
+        }
         img.src = projectData.heroImage
       } else {
         // Fallback for boxes without images - use square size
@@ -336,6 +361,31 @@ class DraggableBoxes {
         currentTop += dimensions.height + 12
       }
     })
+    
+    // Update button text after initial positioning
+    this.updateButtonText()
+    
+    // Force boxes into organized state if they're not already
+    setTimeout(() => {
+      const isScattered = this.boxes.some((box, index) => {
+        if (index === 9) return false
+        
+        // Simple detection: check if transform contains scale(0.7) or rotation
+        const transform = box.style.transform || ''
+        const hasScale = transform.includes('scale(0.7)')
+        const hasRotation = transform.includes('rotate(')
+        
+        // Also check if left position is not 80vw (organized position)
+        const left = box.style.left || ''
+        const isNotOrganized = !left.includes('80vw')
+        
+        return hasScale || hasRotation || isNotOrganized
+      })
+      
+      if (isScattered) {
+        this.putBackBoxes()
+      }
+    }, 100)
   }
   
   scatterBoxes() {
@@ -438,8 +488,18 @@ class DraggableBoxes {
         // Skip hidden project 10 (index 9)
         if (index === 9) return false
         
-        const left = parseFloat(box.style.left) || 80
-        return Math.abs(left - 80) > 5 // Check if boxes are not in original position
+        // Simple detection: check if transform contains scale(0.7) or rotation
+        const transform = box.style.transform || ''
+        const hasScale = transform.includes('scale(0.7)')
+        const hasRotation = transform.includes('rotate(')
+        
+        // Also check if left position is not 80vw (organized position)
+        const left = box.style.left || ''
+        const isNotOrganized = !left.includes('80vw')
+        
+        const boxIsScattered = hasScale || hasRotation || isNotOrganized
+        
+        return boxIsScattered
       })
       
       this.scatterButton.textContent = isScattered ? 'Clean up' : 'Scatter'
@@ -468,8 +528,10 @@ class DraggableBoxes {
       box.style.left = `${xPosition}vw`
       box.style.top = `${yPosition}px`
       box.style.transform = `translateX(-50%) scale(1)` // Center the box and return to original size
+      box.style.zIndex = '' // Reset z-index
     })
     
+    // Update button text after all boxes are reset
     this.updateButtonText()
   }
   
@@ -486,24 +548,14 @@ class DraggableBoxes {
     
     // Scatter button event listener cleanup removed since musings button was removed
   }
-  
-
 }
 
 // Initialize draggable boxes when DOM is loaded with robust error handling
 function initializeDraggableBoxes() {
   try {
-    // Check if we're on mobile - don't initialize draggable boxes on mobile
-    const isMobile = window.innerWidth <= 768
-    if (isMobile) {
-      console.log('Mobile device detected, skipping draggable boxes initialization')
-      return
-    }
-    
     // Check if projects container exists
     const projectsContainer = document.querySelector('.projects-container')
     if (!projectsContainer) {
-      console.warn('Projects container not found, retrying in 100ms')
       setTimeout(initializeDraggableBoxes, 100)
       return
     }
@@ -511,22 +563,21 @@ function initializeDraggableBoxes() {
     // Check if draggable boxes exist
     const draggableBoxes = document.querySelectorAll('.draggable-box')
     if (draggableBoxes.length === 0) {
-      console.warn('No draggable boxes found, retrying in 100ms')
       setTimeout(initializeDraggableBoxes, 100)
       return
     }
     
+    // Check if scatter button exists
+    const scatterButton = document.querySelector('.scatter')
+    
     window.draggableBoxes = new DraggableBoxes()
-    console.log('Draggable boxes initialized successfully with', draggableBoxes.length, 'boxes')
   } catch (error) {
-    console.error('Draggable boxes failed to initialize:', error)
     // Retry once after a delay
     setTimeout(() => {
       try {
         window.draggableBoxes = new DraggableBoxes()
-        console.log('Draggable boxes initialized successfully on retry')
       } catch (retryError) {
-        console.error('Draggable boxes failed on retry:', retryError)
+        // Silent fail on retry
       }
     }, 200)
   }
@@ -542,18 +593,15 @@ function ensureDraggableBoxesInitialization() {
     try {
       initializeDraggableBoxes()
       if (window.draggableBoxes) {
-        console.log('Draggable boxes initialized successfully on attempt', attempts)
         return
       }
     } catch (error) {
-      console.warn('Draggable boxes initialization attempt', attempts, 'failed:', error)
+      // Silent fail
     }
     
     // If not successful and we haven't reached max attempts, try again
     if (attempts < maxAttempts) {
       setTimeout(tryInitialize, 150 * attempts) // Increasing delay
-    } else {
-      console.error('Failed to initialize draggable boxes after', maxAttempts, 'attempts')
     }
   }
   
@@ -568,8 +616,7 @@ if (document.readyState === 'loading') {
 
 // Additional fallback - try again after a short delay
 setTimeout(() => {
-  if (!window.draggableBoxes && window.innerWidth > 768) {
-    console.log('Retrying draggable boxes initialization as fallback')
+  if (!window.draggableBoxes) {
     ensureDraggableBoxesInitialization()
   }
 }, 1000)

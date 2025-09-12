@@ -1,14 +1,18 @@
-/* Top bar container */
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
+/* Modern CSS Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
 }
 
 /* Hide cursor on all elements - will be overridden by cursor fallback if needed */
 * {
   cursor: none !important;
 }
-html, body { height: 100%; overflow: hidden; }
+
+html, body { 
+  height: 100%; 
+  overflow: hidden; 
+}
 
 /* Allow scrolling on mobile */
 @media (max-width: 768px) {
@@ -18,540 +22,218 @@ html, body { height: 100%; overflow: hidden; }
     height: auto;
   }
 }
+
 body { 
   font-family: 'Guyot Press', 'Georgia', serif; 
-  background-color: #F8F3E7; /* Cream background */
+  background-color: #F8F3E7;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Desktop homepage left column blue background */
-.split .col-left {
-  background-color: #0002AA !important;
+/* CSS Custom Properties - Design System */
+:root {
+  /* Colors */
+  --color-primary: #0002AA;
+  --color-primary-hover: #85774B;
+  --color-background: #F8F3E7;
+  --color-white: #ffffff;
+  --color-text-primary: #111111;
+  --color-text-secondary: rgba(255, 255, 255, 0.9);
+  --color-text-muted: rgba(255, 255, 255, 0.85);
+  
+  /* Typography */
+  --font-primary: 'Guyot Press', 'Georgia', serif;
+  --font-display: 'Nautica', 'Arial', sans-serif;
+  --font-headline: 'Guyot Headline', 'Georgia', serif;
+  
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 36px;
+  --font-size-3xl: 64px;
+  --font-size-4xl: 80px;
+  --font-size-5xl: 110px;
+  
+  /* Font Weights */
+  --font-weight-light: 200;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 60px;
+  
+  /* Layout */
+  --layout-max-width: 1200px;
+  --layout-sidebar-width: 40%;
+  --layout-main-width: 60%;
+  --layout-gap: 32px;
+  
+  /* Z-Index Scale */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1000;
+  --z-index-fixed: 1000;
+  --z-index-modal-backdrop: 10000;
+  --z-index-modal: 10001;
+  --z-index-popover: 10002;
+  --z-index-tooltip: 10000;
+  --z-index-scatter-button: 99999;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.8s ease-out;
+  --transition-bounce: 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  
+  /* Border Radius */
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  
+  /* Breakpoints (for reference in JS) */
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1200px;
 }
 
-/* Scatter button always on top */
-.scatter {
-  z-index: 99999 !important;
-  position: relative;
-}
-
-
-
+/* Typography System */
 @font-face {
   font-family: 'Nautica';
-  src: url('./fonts/Nautica Medium.otf') format('opentype');
-  font-weight: 500;
+  src: url('/assets/fonts/Nautica Medium.otf') format('opentype');
+  font-weight: var(--font-weight-medium);
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Guyot Press';
-  src: url('./fonts/Guyot Press v1.000/GuyotPress-Regular1.otf') format('opentype');
-  font-weight: 400;
+  src: url('/assets/fonts/Guyot Press v1.000/GuyotPress-Regular1.otf') format('opentype');
+  font-weight: var(--font-weight-normal);
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Guyot Press';
-  src: url('./fonts/Guyot Press v1.000/GuyotPress-RegularItalic1.otf') format('opentype');
-  font-weight: 400;
+  src: url('/assets/fonts/Guyot Press v1.000/GuyotPress-RegularItalic1.otf') format('opentype');
+  font-weight: var(--font-weight-normal);
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Regular.otf') format('opentype');
-  font-weight: 400;
+  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-Regular.otf') format('opentype');
+  font-weight: var(--font-weight-normal);
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-RegularItalic.otf') format('opentype');
-  font-weight: 400;
+  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-RegularItalic.otf') format('opentype');
+  font-weight: var(--font-weight-normal);
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Bold.otf') format('opentype');
-  font-weight: 700;
+  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-Bold.otf') format('opentype');
+  font-weight: var(--font-weight-bold);
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Guyot Headline';
-  src: url('./fonts/Guyot Headline v2.000/GuyotHeadline-Light.otf') format('opentype');
-  font-weight: 300;
+  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-Light.otf') format('opentype');
+  font-weight: var(--font-weight-light);
   font-style: normal;
   font-display: block;
 }
 
-.split { display: grid; grid-template-columns: 60% 40%; width: 100vw; height: 100dvh; }
+/* Accessibility Styles */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles for better accessibility */
+*:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Grid Layout System */
+.split { 
+  display: grid; 
+  grid-template-columns: var(--layout-main-width) var(--layout-sidebar-width); 
+  width: 100vw; 
+  height: 100dvh; 
+}
+
 .col-left { 
   background: transparent; 
   position: relative; 
 }
 
-
 .col-right { 
-  background: #F8F3E7; 
+  background: var(--color-background); 
   position: fixed;
   top: 0;
   right: 0;
-  width: 40%;
+  width: var(--layout-sidebar-width);
   height: 100vh;
 }
 
-
-/* Project Divider styles */
-.project-divider {
-  width: 100%;
-  height: 1px;
-  background-color: #ddd;
-  margin: 60px 0;
+/* Desktop homepage left column blue background */
+.split .col-left {
+  background-color: var(--color-primary) !important;
 }
 
-/* Tooltip styles */
-.tooltip {
-  position: fixed;
-  color: white;
-  background-color: #0002AA;
-  padding: 0 2px;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 14px;
-  font-weight: 400;
-  font-style: italic;
-  text-transform: uppercase;
-  pointer-events: none;
-  z-index: 10000;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.tooltip.visible {
-  opacity: 1;
-}
-
-
-.right-categories {
-  padding: 40px;
-}
-.col-right .cat-title { color: #111; }
-.col-right .cat-text { color: #111; opacity: 0.9; }
-
-.right-content {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 40%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  padding: 40px;
-  color: #111;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-
-.right-content.fade-in {
-  opacity: 1;
-}
-
-.right-content .scatter { 
-  background: none;
-  border: none;
-  text-decoration: none; 
-  font-style: italic; 
-  text-transform: uppercase; 
-  padding: 10px;
-  margin: -10px;
-  color: #00022a;
-  transition: color 0.2s ease;
-  position: relative;
-  z-index: 10001;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: inherit;
-}
-
-.right-content .scatter:hover { 
-  color: #85774B; 
-}
-
-.left-top-bar {
-  position: relative;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 40px 40px 0 40px;
-  color: #ffffff;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 1.4;
-  opacity: 0;
-  transition: opacity 1s ease-out;
-  transform: translateX(0);
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  box-sizing: border-box;
-}
-
-.left-top-bar.fade-in {
-  opacity: 1;
-}
-
-
-.left-top-bar #clock { 
-  position: relative;
-  left: 0;
-  opacity: 0.95;
-}
-
-.left-top-bar .location { 
-  position: relative;
-  right: 0;
-  opacity: 0.95;
-}
-
-
-
-/* .left-stack positioning is now handled by flexbox above */
-
-
-.name,
-.tagline,
-.bio,
-.left-categories {
-  opacity: 0 !important;
-  transition: opacity 0.4s ease-out !important;
-}
-
-.name.fade-in {
-  opacity: 1 !important;
-}
-
-
-.tagline.fade-in,
-.bio.fade-in,
-.left-categories.fade-in {
-  opacity: 1 !important;
-}
-.left-stack .name {
-  color: #ffffff;
-  font-family: 'Nautica', 'Arial', sans-serif;
-  font-size: 110px;
-  line-height: 0.8;
-  font-weight: 500;
-  letter-spacing: 0px;
-  text-align: center;
-  width: 100%;
-  pointer-events: auto;
-  transition: color 0.25s ease;
-  position: relative;
-  z-index: 1;
-  font-feature-settings: "liga" 1, "dlig" 1;
-  font-variant-ligatures: common-ligatures discretionary-ligatures;
-  margin-top: 40px;
-}
-.left-stack .name:hover { color: #85774B; }
-.container-identity .tagline,
-.left-stack .tagline {
-  margin-top: -25px;
-  padding-top: 20px;
-  color: #ffffff;
-  opacity: 0.9;
-  text-align: center;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.2;
-  position: relative;
-  z-index: 2; /* above the name */
-}
-.container-bio .bio,
-.left-stack .bio {
-  max-width: 900px;
-  color: #ffffff;
-  opacity: 0.9;
-  font-family: 'Guyot Press', 'Georgia', serif; /* same as clock */
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.3;
-  text-align: left;
-  margin: 40px 0 0 0;
-}
-.left-stack .bio, .left-categories { pointer-events: auto; }
-.left-stack .bio a {
-  color: #ffffff;
-  font-style: italic;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  position: relative;
-}
-.left-stack .bio a:hover { color: #85774B; }
-.left-stack .bio a::after,
-.cat-text a::after {
-  content: "↗";
-  position: absolute;
-  top: 0;
-  left: 100%;
-  margin-left: 6px;
-  color: currentColor;
-  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  font-weight: 600;
-  opacity: 0;
-  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-.left-stack .bio a:hover::after,
-.cat-text a:hover::after {
-  opacity: 1;
-}
-
-/* Ensure bio links shift following text to make space for hover arrow */
-.left-stack .bio a:hover,
-.left-stack .bio a:focus {
-  padding-right: 20px;
-}
-
-/* Keep arrow visually in place while text shifts to make room */
-.left-stack .bio a:hover::after,
-.left-stack .bio a:focus::after {
-  transform: translateX(-20px);
-}
-
-.container-categories .left-categories,
-.left-categories {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto;
-  gap: 16px 32px;
-  max-width: 900px;
-  margin: 40px 0 0 0;
-}
-
-/* Row 1 */
-.left-categories .cat-things { grid-column: 1; grid-row: 1; }
-.left-categories .cat-elsewhere { grid-column: 2; grid-row: 1; }
-
-/* Row 2: Selected (span 2 columns) */
-.left-categories .cat-selected { grid-column: 1 / span 2; grid-row: 2; }
-
-/* Row 3: USA left, UAE right */
-.left-categories .cat-usa { grid-column: 1; grid-row: 3; }
-.left-categories .cat-uae { grid-column: 2; grid-row: 3; }
-.cat-title {
-  color: #ffffff;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 200;
-  font-style: italic;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-.cat-title.no-uppercase { text-transform: none; }
-
-.cat-text {
-  color: #ffffff;
-  opacity: 0.9;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.3;
-}
-.cat-text a { color: inherit; text-decoration: underline; transition: color 0.2s ease; position: relative; }
-.col-right .cat-text a { color: #111; }
-.cat-text a:hover { color: #85774B; }
-
-/* Global nav (shared by projects & musings) */
-.nav {
-  position: sticky;
-  top: 0;
-  background: transparent;
-  padding: 40px 50px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-  min-width: 0;
-  overflow: visible;
-  z-index: 1000;
-}
-
-.nav-name {
-  font-family: 'Nautica', 'Arial', sans-serif;
-  font-size: clamp(36px, 8vw, 64px);
-  color: #0002AA;
-  text-decoration: none;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-  white-space: nowrap;
-  display: inline-block;
-  overflow: visible;
-  padding: 0 24px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.nav-name:hover { opacity: 0.5; }
-
-.nav-email {
-  color: #0002AA;
-  text-decoration: none;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 16px;
-  font-weight: 500;
-  font-style: italic;
-  text-transform: uppercase;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
-.nav-email:hover { opacity: 0.5; }
-
-/* Nav left links (upper-left) */
-.nav-left {
-  position: absolute;
-  left: 50px;
-  display: flex;
-  gap: 32px;
-}
-.nav-left a {
-  color: #0002AA;
-  text-decoration: none;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 16px;
-  font-weight: 500;
-  font-style: italic;
-  text-transform: uppercase;
-  opacity: 0.9;
-  transition: color 0.2s ease;
-  position: relative;
-}
-.nav-left a:hover { color: #85774B; }
-.nav-left a.active {
-  opacity: 1;
-}
-.nav-left a.active::after {
-  content: '';
-  position: absolute;
-  bottom: 0px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background-color: #0002AA;
-}
-
-/* Mobile navigation - stack name first, then links below */
-@media (max-width: 768px) {
-  .nav {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 1000 !important;
-    background: #F8F3E7 !important;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 20px;
-    gap: 15px;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-  
-  .nav-name {
-    position: static;
-    transform: none;
-    order: 1;
-  }
-  
-  .nav-left {
-    position: static;
-    order: 2;
-    justify-content: center;
-    gap: 24px;
-  }
-  
-  .nav-email {
-    display: none;
-  }
-}
-
-/* Responsive reorder: show Things I Do above Selected Clients on narrow screens */
-@media (max-width: 900px) {
-  .left-categories {
-    grid-template-columns: 1fr;
-  }
-  .left-categories .right-col {
-    grid-row: 1;
-  }
-  .left-categories .left-col {
-    grid-row: 2;
-  }
-}
-
-/* Navigation buttons */
-.container-musings .about-button,
-.about-button,
-.work-button,
-.container-musings .musings-button,
-.musings-button {
-  display: inline-block;
-  margin: 0;
-  color: #ffffff;
-  text-decoration: none;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-style: italic;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: 16px;
-  transition: color 0.2s ease;
-  position: relative;
-  pointer-events: auto;
-}
-.about-button:hover, .work-button:hover, .musings-button:hover { color: #85774B; }
-
-.about-button::after, .work-button::after, .musings-button::after {
-  content: "↗";
-  position: absolute;
-  top: 0;
-  left: 100%;
-  margin-left: 6px;
-  color: currentColor;
-  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-  font-weight: 600;
-  opacity: 0;
-  transition: opacity 0.2s ease, color 0.2s ease;
-}
-.about-button:hover::after, .work-button:hover::after, .musings-button:hover::after { opacity: 1; }
-
-/* Fixed bottom placement for About/Work/Musings and Copyright - now handled by flexbox above */
-.container-bottom .bottom-left .about-button { margin-right: 32px; }
-.container-bottom .bottom-left .work-button { margin-right: 32px; }
-.container-bottom .bottom-left .musings-button { margin-right: 32px; }
-
-/* Remove horizontal margins in responsive layout */
-@media (max-width: 1200px) {
-  .container-bottom .bottom-left .about-button,
-  .container-bottom .bottom-left .work-button,
-  .container-bottom .bottom-left .musings-button {
-    margin-right: 0;
-  }
-}
-.container-bottom .bottom-right .footer-note { margin: 0; }
-
-/* Column alignment containers - now handled by flexbox above */
-
+/* Column alignment containers */
 .col-left { 
   display: flex; 
   flex-direction: column; 
@@ -564,39 +246,15 @@ body {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 20px 40px 40px 40px;
+  padding: var(--spacing-xl) var(--spacing-4xl) var(--spacing-4xl) var(--spacing-4xl);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 0; /* Important for flex child to shrink */
+  min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
   position: relative;
-}
-
-/* Gradient overlays for smooth scroll edges - positioned on the containers themselves */
-.container-topbar::after,
-.container-bottom::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 30px;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Top gradient - at the bottom of the topbar container */
-.container-topbar::after {
-  bottom: -30px; /* Position below the topbar */
-  background: linear-gradient(to bottom, #0002AA 0%, rgba(0, 2, 170, 0.8) 50%, transparent 100%);
-}
-
-/* Bottom gradient - at the top of the bottom container */
-.container-bottom::before {
-  top: -30px; /* Position above the bottom container */
-  background: linear-gradient(to top, #0002AA 0%, rgba(0, 2, 170, 0.8) 50%, transparent 100%);
 }
 
 /* When content overflows, change to flex-start for proper scrolling */
@@ -610,10 +268,422 @@ body {
   top: 0; 
   left: 0; 
   right: 0; 
-  padding: 0 0 20px 0; 
+  padding: var(--spacing-4xl) var(--spacing-4xl) 0 var(--spacing-4xl); 
   z-index: 2; 
   flex-shrink: 0;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: var(--color-white);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  box-sizing: border-box;
+}
+
+/* Bottom section - fixed at bottom */
+.container-bottom { 
+  position: relative;
+  flex-shrink: 0;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+  padding: 0 var(--spacing-4xl) var(--spacing-4xl) var(--spacing-4xl); 
+}
+
+.container-identity, .container-bio, .container-categories { 
+  width: 100%; 
+}
+
+.left-stack { 
+  row-gap: var(--spacing-2xl); 
+}
+
+/* Navigation Component */
+.nav {
+  position: sticky;
+  top: 0;
+  background: transparent;
+  padding: var(--spacing-4xl) 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+  z-index: var(--z-index-sticky);
+}
+
+.nav-name {
+  font-family: var(--font-display);
+  font-size: clamp(var(--font-size-2xl), 8vw, var(--font-size-3xl));
+  color: var(--color-primary);
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity var(--transition-fast);
+  white-space: nowrap;
+  display: inline-block;
+  overflow: visible;
+  padding: 0 var(--spacing-2xl);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-name:hover { 
+  opacity: 0.5; 
+}
+
+.nav-email {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  font-style: italic;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: opacity var(--transition-fast);
+}
+
+.nav-email:hover { 
+  opacity: 0.5; 
+}
+
+/* Nav left links (upper-left) */
+.nav-left {
+  position: absolute;
+  left: 50px;
+  display: flex;
+  gap: var(--spacing-3xl);
+}
+
+.nav-left a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  font-style: italic;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.nav-left a:hover { 
+  color: var(--color-primary-hover); 
+}
+
+.nav-left a.active {
+  opacity: 1;
+}
+
+.nav-left a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color-primary);
+}
+
+/* Mobile navigation links */
+.mobile-nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 15px var(--spacing-xl) 0px var(--spacing-xl);
+  background: var(--color-background);
+}
+
+.mobile-nav-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  font-style: italic;
+  text-transform: uppercase;
+  opacity: 0.9;
+  transition: opacity var(--transition-fast);
+  position: relative;
+}
+
+.mobile-nav-link:hover {
+  opacity: 0.5;
+}
+
+/* Homepage Specific Styles */
+
+.container-topbar #clock { 
+  position: relative;
+  left: 0;
+  opacity: 0.95;
+  flex: 1;
+}
+
+.container-topbar .location { 
+  position: relative;
+  right: 0;
+  opacity: 0.95;
+  text-align: right;
+}
+
+/* Elements are now visible by default - no initial opacity hiding needed */
+
+/* Elements are now visible by default - no fade-in animations needed */
+
+.left-stack .name {
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-size: var(--font-size-5xl);
+  line-height: 0.8;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0px;
+  text-align: center;
+  width: 100%;
+  pointer-events: auto;
+  transition: color var(--transition-fast);
+  position: relative;
+  z-index: 1;
+  font-feature-settings: "liga" 1, "dlig" 1;
+  font-variant-ligatures: common-ligatures discretionary-ligatures;
+  margin-top: var(--spacing-4xl);
+}
+
+.left-stack .name:hover { 
+  color: var(--color-primary-hover); 
+}
+
+.container-identity .tagline,
+.left-stack .tagline {
+  margin-top: -25px;
+  padding-top: var(--spacing-xl);
+  color: var(--color-white);
+  opacity: 0.9;
+  text-align: center;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  line-height: 1.2;
+  position: relative;
+  z-index: 2;
+}
+
+.container-bio .bio,
+.left-stack .bio {
+  max-width: 900px;
+  color: var(--color-white);
+  opacity: 0.9;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
+  line-height: 1.3;
+  text-align: left;
+  margin: var(--spacing-4xl) 0 0 0;
+}
+
+.left-stack .bio, .left-categories { 
+  pointer-events: auto; 
+}
+
+.left-stack .bio a {
+  color: var(--color-white);
+  font-style: italic;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.left-stack .bio a:hover { 
+  color: var(--color-primary-hover); 
+}
+
+.left-stack .bio a::after,
+.cat-text a::after {
+  content: "↗";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  color: currentColor;
+  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.left-stack .bio a:hover::after,
+.cat-text a:hover::after {
+  opacity: 1;
+}
+
+.left-stack .bio a:hover,
+.left-stack .bio a:focus {
+  padding-right: 20px;
+}
+
+.left-stack .bio a:hover::after,
+.left-stack .bio a:focus::after {
+  transform: translateX(-20px);
+}
+
+.container-categories .left-categories,
+.left-categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: var(--spacing-lg) var(--spacing-3xl);
+  max-width: 900px;
+  margin: var(--spacing-4xl) 0 0 0;
+}
+
+/* Row 1 */
+.left-categories .cat-things { grid-column: 1; grid-row: 1; }
+.left-categories .cat-elsewhere { grid-column: 2; grid-row: 1; }
+
+/* Row 2: Selected (span 2 columns) */
+.left-categories .cat-selected { grid-column: 1 / span 2; grid-row: 2; }
+
+/* Row 3: USA left, UAE right */
+.left-categories .cat-usa { grid-column: 1; grid-row: 3; }
+.left-categories .cat-uae { grid-column: 2; grid-row: 3; }
+
+.cat-title {
+  color: var(--color-white);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-light);
+  font-style: italic;
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.cat-title.no-uppercase { 
+  text-transform: none; 
+}
+
+.cat-text {
+  color: var(--color-white);
+  opacity: 0.9;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
+  line-height: 1.3;
+}
+
+.cat-text a { 
+  color: inherit; 
+  text-decoration: underline; 
+  transition: color var(--transition-fast); 
+  position: relative; 
+}
+
+.col-right .cat-text a { 
+  color: var(--color-text-primary); 
+}
+
+.cat-text a:hover { 
+  color: var(--color-primary-hover); 
+}
+
+/* Navigation buttons */
+.container-musings .about-button,
+.about-button,
+.work-button,
+.container-musings .musings-button,
+.musings-button {
+  display: inline-block;
+  margin: 0;
+  color: var(--color-white);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-style: italic;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  transition: color var(--transition-fast);
+  position: relative;
+  pointer-events: auto;
+}
+
+.about-button:hover, .work-button:hover, .musings-button:hover { 
+  color: var(--color-primary-hover); 
+}
+
+.about-button::after, .work-button::after, .musings-button::after {
+  content: "↗";
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 6px;
+  color: currentColor;
+  font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity var(--transition-fast), color var(--transition-fast);
+}
+
+.about-button:hover::after, .work-button:hover::after, .musings-button:hover::after { 
+  opacity: 1; 
+}
+
+.container-bottom .bottom-left .about-button { 
+  margin-right: var(--spacing-3xl); 
+}
+
+.container-bottom .bottom-left .work-button { 
+  margin-right: var(--spacing-3xl); 
+}
+
+.container-bottom .bottom-left .musings-button { 
+  margin-right: var(--spacing-3xl); 
+}
+
+.container-bottom .bottom-right .footer-note { 
+  margin: 0; 
+}
+
+/* Footer note */
+.container-copyright .footer-note,
+.footer-note {
+  margin: var(--spacing-md) var(--spacing-4xl) 0 var(--spacing-4xl);
+  color: var(--color-white);
+  opacity: 0.85;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Gradient overlays for smooth scroll edges */
+.container-topbar::after,
+.container-bottom::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 30px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.container-topbar::after {
+  bottom: -30px;
+  background: linear-gradient(to bottom, var(--color-primary) 0%, rgba(0, 2, 170, 0.8) 50%, transparent 100%);
+}
+
+.container-bottom::before {
+  top: -30px;
+  background: linear-gradient(to top, var(--color-primary) 0%, rgba(0, 2, 170, 0.8) 50%, transparent 100%);
 }
 
 /* Custom scrollbar for webkit browsers */
@@ -627,115 +697,30 @@ body {
 
 .left-stack::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
 }
 
 .left-stack::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Bottom section - fixed at bottom */
-.container-bottom { 
-  position: relative;
-  flex-shrink: 0;
-  display: flex; 
-  justify-content: space-between; 
-  align-items: flex-end; 
-  padding: 0 40px 40px 40px; 
-}
-
-/* Responsive bottom layout for smaller desktop screens */
-@media (max-width: 1200px) {
-  .container-bottom {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .container-bottom .bottom-left {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .container-bottom .bottom-right {
-    order: 2;
-  }
-}
-
-/* Even more compact layout for very narrow desktop screens */
-@media (max-width: 1000px) {
-  .container-bottom {
-    padding: 0 20px 40px 20px;
-  }
-}
-
-.container-identity, .container-bio, .container-categories { width: 100%; }
-.left-stack { row-gap: 24px; }
-
-/* Footer note under MUSINGS */
-.container-copyright .footer-note,
-.footer-note {
-  margin: 12px 40px 0 40px;
-  color: #ffffff;
-  opacity: 0.85;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* Debug outlines removed */
-
-/* CMS Integration Styles */
-.social-links {
-  margin-top: 20px;
-}
-
-.social-links a {
-  color: #ffffff;
-  font-style: italic;
-  text-transform: uppercase;
-  text-decoration: none;
-  margin-right: 20px;
-  transition: color 0.2s ease;
-}
-
-.social-links a:hover {
-  color: #85774B;
-}
-
-.cat-section {
-  margin-bottom: 30px;
-}
-
+/* Draggable Boxes Component */
 .draggable-box {
   position: absolute;
   cursor: grab;
   user-select: none;
-  z-index: 1000;
+  z-index: var(--z-index-dropdown);
   left: 80vw;
-  opacity: 0;
-  transform: translateX(-50%) translateY(30px);
-  transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.draggable-box.fade-in {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+  transition: opacity var(--transition-bounce);
 }
+
+/* Draggable boxes are now visible by default - no fade-in animations needed */
 
 .draggable-box.dragging {
   transition: none;
 }
-
-/* Ensure rotation has no easing */
-.draggable-box {
-  transition: opacity 0.4s ease-out;
-}
-
-
 
 .projects-container {
   position: fixed;
@@ -748,7 +733,7 @@ body {
   overflow: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding: 40px;
+  padding: var(--spacing-4xl);
   padding-bottom: 500px;
 }
 
@@ -772,10 +757,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Guyot Headline', 'Georgia', serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #ffffff;
+  font-family: var(--font-headline);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
   cursor: pointer;
   background: #808080;
@@ -812,8 +797,157 @@ body {
   outline: none;
 }
 
+/* Scatter button always on top */
+.scatter {
+  z-index: var(--z-index-scatter-button) !important;
+  position: relative;
+}
 
-/* Hide custom cursor on mobile */
+.right-content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--layout-sidebar-width);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding: var(--spacing-4xl);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  opacity: 1;
+  transition: opacity var(--transition-slow);
+}
+
+/* Right content is now visible by default - no fade-in animations needed */
+
+.right-content .scatter { 
+  background: none;
+  border: none;
+  text-decoration: none; 
+  font-style: italic; 
+  text-transform: uppercase; 
+  padding: 10px;
+  margin: -10px;
+  color: var(--color-primary);
+  transition: color var(--transition-fast);
+  position: relative;
+  z-index: var(--z-index-modal);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.right-content .scatter:hover { 
+  color: var(--color-primary-hover); 
+}
+
+/* Custom Cursor Component */
+.tooltip {
+  position: fixed;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  padding: 0 2px;
+  font-family: var(--font-primary);
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  pointer-events: none;
+  z-index: var(--z-index-tooltip);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}
+
+/* Responsive Design System */
+
+/* Mobile navigation - stack name first, then links below */
+@media (max-width: 768px) {
+  .nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: var(--z-index-sticky) !important;
+    background: var(--color-background) !important;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px var(--spacing-xl);
+    gap: 15px;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  
+  .nav-name {
+    position: static;
+    transform: none;
+    order: 1;
+  }
+  
+  .nav-left {
+    position: static;
+    order: 2;
+    justify-content: center;
+    gap: var(--spacing-2xl);
+  }
+  
+  .nav-email {
+    display: none;
+  }
+}
+
+/* Responsive reorder: show Things I Do above Selected Clients on narrow screens */
+@media (max-width: 900px) {
+  .left-categories {
+    grid-template-columns: 1fr;
+  }
+  .left-categories .right-col {
+    grid-row: 1;
+  }
+  .left-categories .left-col {
+    grid-row: 2;
+  }
+}
+
+/* Responsive bottom layout for smaller desktop screens */
+@media (max-width: 1200px) {
+  .container-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xl);
+  }
+  
+  .container-bottom .bottom-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+  
+  .container-bottom .bottom-right {
+    order: 2;
+  }
+}
+
+/* Even more compact layout for very narrow desktop screens */
+@media (max-width: 1000px) {
+  .container-bottom {
+    padding: 0 var(--spacing-xl) var(--spacing-4xl) var(--spacing-xl);
+  }
+}
+
+/* Remove horizontal margins in responsive layout */
+@media (max-width: 1200px) {
+  .container-bottom .bottom-left .about-button,
+  .container-bottom .bottom-left .work-button,
+  .container-bottom .bottom-left .musings-button {
+    margin-right: 0;
+  }
+}
 
 /* Mobile Header (iPhone SE to iPad Mini) */
 .mobile-header {
@@ -824,37 +958,73 @@ body {
   right: 0;
   height: 60px;
   background: transparent;
-  z-index: 1000;
+  z-index: var(--z-index-sticky);
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 0 20px 10px 0;
+  padding: 0 var(--spacing-xl) 10px 0;
 }
 
 /* Mobile Body Content */
 .mobile-body {
   display: none;
   padding: 0;
-  background: #F8F3E7;
+  background: var(--color-background);
   min-height: 100vh;
   margin-top: -60px;
 }
 
+/* Show mobile header only on iPhone SE to iPad Mini */
+@media (max-width: 768px) {
+  .mobile-header {
+    display: flex;
+  }
+  
+  .mobile-body {
+    display: block;
+  }
+  
+  .mobile-sticky-menu {
+    display: block;
+  }
+  
+  /* Hide all desktop content on mobile */
+  .split {
+    display: none;
+  }
+  
+  /* Hide the fixed right column (projects) on mobile */
+  .col-right {
+    display: none;
+  }
+  
+  /* Hide the projects container on mobile */
+  .projects-container {
+    display: none;
+  }
+  
+  /* No padding needed since mobile body handles positioning */
+  body {
+    padding-top: 0;
+  }
+}
+
+/* Mobile specific styles */
 .mobile-cream-section {
-  background: #F8F3E7;
+  background: var(--color-background);
   height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  padding: var(--spacing-xl) 0;
 }
 
 .mobile-name-cream {
-  font-family: 'Nautica', sans-serif;
-  font-size: 80px;
-  font-weight: 500;
-  color: #0002AA;
-  margin: 40px 0 20px 0;
+  font-family: var(--font-display);
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin: var(--spacing-4xl) 0 var(--spacing-xl) 0;
   text-align: center;
   letter-spacing: 0px;
   font-feature-settings: "liga" 1, "kern" 1;
@@ -866,7 +1036,7 @@ body {
 }
 
 .mobile-blue-content {
-  background: #0002AA;
+  background: var(--color-primary);
   padding: 30px 0;
 }
 
@@ -875,7 +1045,7 @@ body {
   overflow-x: auto;
   overflow-y: hidden;
   gap: 10px;
-  padding: 0 40px;
+  padding: 0 var(--spacing-4xl);
   width: 100%;
   max-width: 100vw;
   scroll-behavior: smooth;
@@ -898,7 +1068,7 @@ body {
   width: 300px;
   height: 500px;
   overflow: hidden;
-  transition: transform 0.2s ease;
+  transition: transform var(--transition-fast);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -926,16 +1096,16 @@ body {
 }
 
 .mobile-project-title {
-  background: #F8F3E7;
-  color: #0002AA;
-  font-family: 'Guyot Headline', 'Georgia', serif;
-  font-weight: 400;
-  font-size: 18px;
+  background: var(--color-background);
+  color: var(--color-primary);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: 14px;
   font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   text-align: center;
-  padding: 12px 0 0 0;
+  padding: var(--spacing-md) 0 0 0;
   margin: 0;
   flex-shrink: 0;
   display: flex;
@@ -945,14 +1115,14 @@ body {
 }
 
 .mobile-project-year {
-  background: #F8F3E7;
+  background: var(--color-background);
   color: #666;
-  font-family: 'Guyot Headline', 'Georgia', serif;
-  font-size: 12px;
-  font-weight: 400;
+  font-family: var(--font-headline);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
   font-style: italic;
   text-align: center;
-  padding: 4px 0 12px 0;
+  padding: var(--spacing-xs) 0 var(--spacing-md) 0;
   margin: 0;
   flex-shrink: 0;
   letter-spacing: normal;
@@ -963,13 +1133,13 @@ body {
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 20px;
-  color: #0002AA;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 400;
-  font-size: 14px;
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-primary);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-sm);
   line-height: 1.4;
-  padding: 10px 20px 0 20px;
+  padding: 10px var(--spacing-xl) 0 var(--spacing-xl);
 }
 
 .mobile-top-bar #mobile-clock {
@@ -981,70 +1151,30 @@ body {
   opacity: 0.95;
 }
 
-.mobile-name-header {
-  font-family: 'Nautica', 'Arial', sans-serif;
-  font-size: 24px;
-  font-weight: 500;
-  color: #0002AA;
-  margin: 0;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  letter-spacing: 0px;
-  font-feature-settings: "liga" 1, "dlig" 1;
-  font-variant-ligatures: common-ligatures discretionary-ligatures;
-}
-
-.mobile-name {
-  font-family: 'Nautica', 'Arial', sans-serif;
-  font-size: 80px;
-  font-weight: 500;
-  color: #ffffff;
-  margin: 40px 10px 40px 10px;
-  text-align: center;
-  letter-spacing: 0px;
-  font-feature-settings: "liga" 1, "dlig" 1;
-  font-variant-ligatures: common-ligatures discretionary-ligatures;
-  line-height: 0.8;
-}
-
-.mobile-tagline {
-  margin-top: 20px;
-  padding-top: 10px;
-  color: #ffffff;
-  opacity: 0.9;
-  text-align: center;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.2;
-  margin-left: 10px;
-  margin-right: 10px;
-}
 
 .mobile-bio {
-  color: #ffffff;
+  color: var(--color-white);
   opacity: 0.9;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 400;
-  font-size: 16px;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
   line-height: 1.3;
   text-align: justify;
-  text-indent: 40px;
+  text-indent: var(--spacing-4xl);
   margin: 5px 10px 0 10px;
 }
 
 .mobile-bio a {
-  color: #ffffff;
+  color: var(--color-white);
   font-style: italic;
   text-transform: uppercase;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);
   position: relative;
 }
 
 .mobile-bio a:hover {
-  color: #85774B;
+  color: var(--color-primary-hover);
 }
 
 .mobile-bio a::after {
@@ -1057,7 +1187,7 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   font-weight: 600;
   opacity: 0;
-  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: opacity var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
 .mobile-bio a:hover::after {
@@ -1079,15 +1209,15 @@ body {
 }
 
 .mobile-cat {
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .mobile-cat-title {
-  color: #ffffff;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 200;
+  color: var(--color-white);
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-light);
   font-style: italic;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-bottom: 2px;
@@ -1098,23 +1228,23 @@ body {
 }
 
 .mobile-cat-text {
-  color: #ffffff;
+  color: var(--color-white);
   opacity: 0.9;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-weight: 400;
-  font-size: 16px;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--font-size-base);
   line-height: 1.3;
 }
 
 .mobile-cat-text a {
   color: inherit;
   text-decoration: underline;
-  transition: color 0.2s ease;
+  transition: color var(--transition-fast);
   position: relative;
 }
 
 .mobile-cat-text a:hover {
-  color: #85774B;
+  color: var(--color-primary-hover);
 }
 
 .mobile-cat-text a::after {
@@ -1127,7 +1257,7 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
   font-weight: 600;
   opacity: 0;
-  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  transition: opacity var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
 .mobile-cat-text a:hover::after {
@@ -1144,132 +1274,18 @@ body {
   transform: translateX(-20px);
 }
 
-/* Mobile Sticky Menu */
-.mobile-sticky-menu {
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.mobile-menu-link {
-  display: inline-block;
-  padding: 12px 20px;
-  background: #0002AA;
-  color: #ffffff;
-  text-decoration: none;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 16px;
-  font-weight: 500;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.mobile-menu-link:hover {
-  background: #85774B;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
 
 .mobile-footer {
   text-align: center;
-  padding: 20px 0;
+  padding: var(--spacing-xl) 0;
 }
 
 .mobile-footer-note {
-  color: #ffffff;
+  color: var(--color-white);
   opacity: 0.85;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 12px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-xs);
   line-height: 1.6;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
-
-.mobile-nav-links {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  padding: 15px 20px 0px 20px;
-  background: #F8F3E7;
-}
-
-.mobile-nav-link {
-  color: #0002AA;
-  text-decoration: none;
-  font-family: 'Guyot Press', 'Georgia', serif;
-  font-size: 16px;
-  font-weight: 500;
-  font-style: italic;
-  text-transform: uppercase;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-  position: relative;
-}
-
-.mobile-nav-link:hover {
-  opacity: 0.5;
-}
-
-.mobile-menu-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-left: auto;
-}
-
-.mobile-menu-btn span {
-  width: 20px;
-  height: 2px;
-  background: #0002AA;
-  transition: all 0.2s ease;
-}
-
-.mobile-menu-btn:hover span {
-  opacity: 0.5;
-}
-
-/* Show mobile header only on iPhone SE to iPad Mini */
-@media (max-width: 768px) {
-  .mobile-header {
-    display: flex;
-  }
-  
-  .mobile-body {
-    display: block;
-  }
-  
-  .mobile-sticky-menu {
-    display: block;
-  }
-  
-  /* Hide all desktop content on mobile - will add back one by one */
-  .split {
-    display: none;
-  }
-  
-  /* Hide the fixed right column (projects) on mobile */
-  .col-right {
-    display: none;
-  }
-  
-  /* Hide the projects container on mobile */
-  .projects-container {
-    display: none;
-  }
-  
-  /* No padding needed since mobile body handles positioning */
-  body {
-    padding-top: 0;
-  }
-}
-
-
-
-
