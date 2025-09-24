@@ -29,11 +29,8 @@ export default defineConfig(({ command }) => ({
         manualChunks: {
           vendor: ['sharp'],
           modules: [
-            './src/modules/DraggableBoxes.js',
-            './src/modules/CustomCursor.js',
-            './src/modules/ImageViewer.js',
-            './src/modules/Clock.js',
-            './src/modules/Utils.js'
+            './src/cursor.js',
+            './src/draggable.js'
           ]
         },
         assetFileNames: (assetInfo) => {
