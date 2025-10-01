@@ -271,11 +271,14 @@
         background: #F8F3E7;
         overflow-x: auto;
         overflow-y: hidden;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
       }
       
-      /* Custom scrollbar styling */
+      /* Custom scrollbar styling - hidden by default */
       .photo-gallery::-webkit-scrollbar {
         height: 2px;
+        display: none; /* Hidden by default */
       }
       
       .photo-gallery::-webkit-scrollbar-track {
@@ -283,18 +286,27 @@
       }
       
       .photo-gallery::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.3);
         border-radius: 0;
         opacity: 0;
         transition: opacity 0.3s ease;
       }
       
       .photo-gallery::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.4);
       }
       
-      .photo-gallery.scrolling::-webkit-scrollbar-thumb {
+      /* Show scrollbar when dragging */
+      .photo-gallery.show-scrollbars::-webkit-scrollbar {
+        display: block;
+      }
+      
+      .photo-gallery.show-scrollbars::-webkit-scrollbar-thumb {
         opacity: 1;
+      }
+      
+      .photo-gallery.hide-scrollbars::-webkit-scrollbar-thumb {
+        opacity: 0;
       }
       
       .gallery-container {
@@ -786,7 +798,8 @@
       <img id="viewerImage" src="" alt="" />
     </div>
     
-    <script src="/src/cursor.js?v=1.2.0" type="module"></script>
+    <script src="/src/cursor.js?v=1.2.0"></script>
+    <script src="/src/drag-scroll.js?v=1.2.0"></script>
     <script src="/clean-urls.js?v=1.2.0" type="module"></script>
     
     <script>
@@ -807,39 +820,117 @@
         projectImageGroups.push(media);
       });
       
-      // Add click event to all gallery images and GIFs
+      // Add click and hold event to all gallery images and GIFs
       galleryImages.forEach((media, globalIndex) => {
         media.style.cursor = 'pointer';
-        media.addEventListener('click', function() {
-          // Find which project this media belongs to
-          let projectIndex = -1;
-          let localIndex = -1;
+        
+        let holdTimer = null;
+        let isHolding = false;
+        const holdDelay = 500; // 500ms hold time
+        
+        // Mouse events for click and hold
+        media.addEventListener('mousedown', function(e) {
+          if (e.button !== 0) return; // Only left mouse button
           
-          projectImageGroups.forEach((projectMedia, pIndex) => {
-            const foundIndex = projectMedia.indexOf(this);
-            if (foundIndex !== -1) {
-              projectIndex = pIndex;
-              localIndex = foundIndex;
-            }
-          });
+          // Visual feedback
+          this.style.opacity = '0.8';
           
-          if (projectIndex !== -1 && localIndex !== -1) {
-            currentProjectImages = projectImageGroups[projectIndex];
-            currentImageIndex = localIndex;
-            
-            // Handle images and GIFs
-            viewerImage.src = this.src;
-            viewerImage.alt = this.alt;
-            viewerImage.controls = false;
-            
-            // Reset zoom when opening viewer
-            resetZoom();
-            
-            imageViewer.classList.add('active');
-            document.body.style.overflow = 'hidden';
+          // Start cursor hold animation
+          if (window.customCursor && window.customCursor.startHoldAnimation) {
+            window.customCursor.startHoldAnimation();
+          }
+          
+          isHolding = false;
+          holdTimer = setTimeout(() => {
+            isHolding = true;
+            openImageViewer(this);
+          }, holdDelay);
+        });
+        
+        media.addEventListener('mouseup', function(e) {
+          // Reset visual feedback
+          this.style.opacity = '1';
+          
+          // Clear cursor hold animation
+          if (window.customCursor && window.customCursor.clearTooltip) {
+            window.customCursor.clearTooltip();
+          }
+          
+          if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+          }
+        });
+        
+        media.addEventListener('mouseleave', function(e) {
+          // Reset visual feedback
+          this.style.opacity = '1';
+          
+          // Clear cursor hold animation
+          if (window.customCursor && window.customCursor.clearTooltip) {
+            window.customCursor.clearTooltip();
+          }
+          
+          if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+          }
+        });
+        
+        // Touch events for mobile click and hold
+        media.addEventListener('touchstart', function(e) {
+          isHolding = false;
+          holdTimer = setTimeout(() => {
+            isHolding = true;
+            openImageViewer(this);
+          }, holdDelay);
+        });
+        
+        media.addEventListener('touchend', function(e) {
+          if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+          }
+        });
+        
+        media.addEventListener('touchmove', function(e) {
+          if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
           }
         });
       });
+      
+      // Function to open image viewer
+      function openImageViewer(mediaElement) {
+        // Find which project this media belongs to
+        let projectIndex = -1;
+        let localIndex = -1;
+        
+        projectImageGroups.forEach((projectMedia, pIndex) => {
+          const foundIndex = projectMedia.indexOf(mediaElement);
+          if (foundIndex !== -1) {
+            projectIndex = pIndex;
+            localIndex = foundIndex;
+          }
+        });
+        
+        if (projectIndex !== -1 && localIndex !== -1) {
+          currentProjectImages = projectImageGroups[projectIndex];
+          currentImageIndex = localIndex;
+          
+          // Handle images and GIFs
+          viewerImage.src = mediaElement.src;
+          viewerImage.alt = mediaElement.alt;
+          viewerImage.controls = false;
+          
+          // Reset zoom when opening viewer
+          resetZoom();
+          
+          imageViewer.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        }
+      }
       
       // Function to show image/GIF by index within current project
       function showImage(index) {

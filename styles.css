@@ -781,11 +781,11 @@ body {
   color: var(--color-white);
   text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
   cursor: pointer;
-  background: #808080;
+  background-color: #808080;
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
-  background-size: cover !important;
+  background-size: contain !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-clip: padding-box !important;

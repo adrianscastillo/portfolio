@@ -23,6 +23,13 @@ class CustomCursor {
     this.trail = []
     this.maxTrailLength = 40
     
+    // Tooltip and hold animation properties
+    this.tooltipTimeout = null
+    this.showTooltip = false
+    this.holdStartTime = null
+    this.holdProgress = 0
+    this.isHolding = false
+    
     this.init()
     this.bindEvents()
     this.animate()
@@ -97,6 +104,27 @@ class CustomCursor {
     
     document.addEventListener('mouseleave', () => {
       this.trail = []
+      this.clearTooltip()
+    })
+    
+    // Add mouse events for gallery images
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.classList.contains('gallery-photo')) {
+        this.startTooltipTimer()
+      }
+    })
+    
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.classList.contains('gallery-photo')) {
+        this.clearTooltip()
+      }
+    })
+    
+    // Add mouse events for drag scroll areas
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.hasAttribute('data-drag-scroll')) {
+        this.clearTooltip()
+      }
     })
     
     // Reset trail on click
@@ -134,6 +162,16 @@ class CustomCursor {
     // Special handling for Scatter button
     if (element.classList.contains('scatter')) {
       return 'black'
+    }
+    
+    // Special handling for drag scroll areas
+    if (element.hasAttribute('data-drag-scroll')) {
+      const dragState = element.getAttribute('data-drag-state')
+      if (dragState === 'grabbing') {
+        return 'black'
+      } else {
+        return 'black' // Show grab cursor as black for visibility
+      }
     }
     
     // Look for text elements first
@@ -283,6 +321,187 @@ class CustomCursor {
     this.ctx.restore()
   }
 
+  drawGrabCursor(x, y) {
+    this.ctx.save()
+    
+    // Draw a simple grab cursor (open hand)
+    this.ctx.lineWidth = 2
+    this.ctx.strokeStyle = 'black'
+    this.ctx.fillStyle = 'white'
+    
+    // Draw hand outline
+    this.ctx.beginPath()
+    this.ctx.arc(x, y, 8, 0, Math.PI * 2)
+    this.ctx.stroke()
+    this.ctx.fill()
+    
+    // Draw fingers
+    this.ctx.beginPath()
+    this.ctx.moveTo(x - 4, y - 6)
+    this.ctx.lineTo(x - 2, y - 8)
+    this.ctx.moveTo(x - 1, y - 6)
+    this.ctx.lineTo(x + 1, y - 8)
+    this.ctx.moveTo(x + 2, y - 6)
+    this.ctx.lineTo(x + 4, y - 8)
+    this.ctx.stroke()
+    
+    this.ctx.restore()
+  }
+
+    drawGrabbingCursor(x, y) {
+      this.ctx.save()
+      
+      // Draw a grabbing cursor (closed hand)
+      this.ctx.lineWidth = 2
+      this.ctx.strokeStyle = 'black'
+      this.ctx.fillStyle = 'white'
+      
+      // Draw closed fist
+      this.ctx.beginPath()
+      this.ctx.arc(x, y, 8, 0, Math.PI * 2)
+      this.ctx.stroke()
+      this.ctx.fill()
+      
+      // Draw closed fingers (lines across the circle)
+      this.ctx.beginPath()
+      this.ctx.moveTo(x - 6, y - 2)
+      this.ctx.lineTo(x + 6, y - 2)
+      this.ctx.moveTo(x - 6, y + 2)
+      this.ctx.lineTo(x + 6, y + 2)
+      this.ctx.stroke()
+      
+      this.ctx.restore()
+    }
+
+    drawDragScrollCursor(x, y) {
+      this.ctx.save()
+      
+      // Draw circle in center
+      this.ctx.lineWidth = 1
+      this.ctx.beginPath()
+      this.ctx.arc(x, y, 8, 0, Math.PI * 2)
+      this.ctx.stroke()
+      
+      // Draw left arrow (<)
+      this.ctx.beginPath()
+      this.ctx.moveTo(x - 16, y)
+      this.ctx.lineTo(x - 12, y - 4)
+      this.ctx.lineTo(x - 12, y)
+      this.ctx.lineTo(x - 12, y + 4)
+      this.ctx.closePath()
+      this.ctx.fill()
+      
+      // Draw right arrow (>)
+      this.ctx.beginPath()
+      this.ctx.moveTo(x + 16, y)
+      this.ctx.lineTo(x + 12, y - 4)
+      this.ctx.lineTo(x + 12, y)
+      this.ctx.lineTo(x + 12, y + 4)
+      this.ctx.closePath()
+      this.ctx.fill()
+      
+      this.ctx.restore()
+    }
+
+    drawGalleryImageCursor(x, y) {
+      this.ctx.save()
+      
+      // Draw left arrow (<)
+      this.ctx.beginPath()
+      this.ctx.moveTo(x - 16, y)
+      this.ctx.lineTo(x - 12, y - 4)
+      this.ctx.lineTo(x - 12, y)
+      this.ctx.lineTo(x - 12, y + 4)
+      this.ctx.closePath()
+      this.ctx.fill()
+      
+      // Draw right arrow (>)
+      this.ctx.beginPath()
+      this.ctx.moveTo(x + 16, y)
+      this.ctx.lineTo(x + 12, y - 4)
+      this.ctx.lineTo(x + 12, y)
+      this.ctx.lineTo(x + 12, y + 4)
+      this.ctx.closePath()
+      this.ctx.fill()
+      
+      // Draw hold animation if holding
+      if (this.isHolding && this.holdProgress > 0) {
+        this.ctx.lineWidth = 1
+        this.ctx.strokeStyle = this.getColorAtPosition(x, y) || 'white'
+        this.ctx.beginPath()
+        this.ctx.arc(x, y, 8, -Math.PI / 2, -Math.PI / 2 + (this.holdProgress * Math.PI * 2))
+        this.ctx.stroke()
+      } else {
+        // Draw circle outline only when not holding
+        this.ctx.lineWidth = 1
+        this.ctx.beginPath()
+        this.ctx.arc(x, y, 8, 0, Math.PI * 2)
+        this.ctx.stroke()
+      }
+      
+      // Draw tooltip if showing
+      if (this.showTooltip) {
+        this.drawTooltip(x, y)
+      }
+      
+      this.ctx.restore()
+    }
+
+    drawTooltip(x, y) {
+      this.ctx.save()
+      
+      // Set tooltip style
+      this.ctx.font = '12px Arial'
+      this.ctx.textAlign = 'center'
+      this.ctx.textBaseline = 'middle'
+      this.ctx.fillStyle = 'black'
+      
+      const text = 'hold'
+      const tooltipY = y + 25
+      
+      // Draw tooltip text (no background)
+      this.ctx.fillText(text, x, tooltipY)
+      
+      this.ctx.restore()
+    }
+
+    startTooltipTimer() {
+      this.clearTooltip()
+      this.tooltipTimeout = setTimeout(() => {
+        this.showTooltip = true
+      }, 1000) // 1000ms delay
+    }
+
+    clearTooltip() {
+      if (this.tooltipTimeout) {
+        clearTimeout(this.tooltipTimeout)
+        this.tooltipTimeout = null
+      }
+      this.showTooltip = false
+      this.isHolding = false
+      this.holdProgress = 0
+      this.holdStartTime = null
+    }
+
+    startHoldAnimation() {
+      this.isHolding = true
+      this.holdStartTime = Date.now()
+      this.holdProgress = 0
+    }
+
+    updateHoldAnimation() {
+      if (this.isHolding && this.holdStartTime) {
+        const elapsed = Date.now() - this.holdStartTime
+        this.holdProgress = Math.min(elapsed / 500, 1) // 500ms duration to match hold delay
+        
+        if (this.holdProgress >= 1) {
+          this.isHolding = false
+          this.holdProgress = 0
+          this.holdStartTime = null
+        }
+      }
+    }
+
   checkCursorVisibility() {
     // Check if cursor is still working properly
     if (!this.canvas || !this.ctx || !this.isInitialized) {
@@ -417,6 +636,13 @@ class CustomCursor {
     const computedCursor = element ? window.getComputedStyle(element).cursor : ''
     const isHoverable = !!(element && (isInteractiveTag || isRoleInteractive || element.onclick || computedCursor === 'pointer'))
     
+    // Check for drag scroll areas
+    const isDragScrollArea = element && element.hasAttribute('data-drag-scroll')
+    const dragState = isDragScrollArea ? element.getAttribute('data-drag-state') : null
+    
+    // Check for gallery images
+    const isGalleryImage = element && element.classList.contains('gallery-photo')
+    
     this.ctx.save()
     this.ctx.strokeStyle = cursorColor
     this.ctx.fillStyle = cursorColor
@@ -437,6 +663,12 @@ class CustomCursor {
       // Draw X for closing image viewer
       const size = 24
       this.drawX(this.mouse.x, this.mouse.y, size)
+    } else if (isDragScrollArea) {
+      // Draw drag scroll cursor with arrows
+      this.drawDragScrollCursor(this.mouse.x, this.mouse.y)
+    } else if (isGalleryImage) {
+      // Draw circle outline for gallery images with hold animation
+      this.drawGalleryImageCursor(this.mouse.x, this.mouse.y)
     } else if (isHoverable) {
       // Draw circle outline when hovering over clickable elements
       this.ctx.beginPath()
@@ -450,6 +682,9 @@ class CustomCursor {
     }
     
     this.ctx.restore()
+    
+    // Update hold animation
+    this.updateHoldAnimation()
     
     requestAnimationFrame(() => this.animate())
   }
@@ -502,6 +737,7 @@ function initializeCursor() {
     
     window.customCursor = new CustomCursor()
   } catch (error) {
+    console.error('Custom cursor initialization failed:', error)
     // Fallback: restore default cursor
     document.body.style.cursor = 'auto'
     document.documentElement.style.cursor = 'auto'

@@ -249,31 +249,6 @@
     <script src="/src/draggable.js?v=1.2.0"></script>
     <script src="/clean-urls.js?v=1.2.0"></script>
     
-    <!-- Debug and troubleshooting script -->
-    <script>
-      // Global debug function to check site status
-      window.debugSite = function() {
-        console.log('=== SITE DEBUG INFO ===')
-        console.log('Window width:', window.innerWidth)
-        console.log('Is mobile?', window.innerWidth <= 768)
-        console.log('Custom cursor:', window.customCursor ? 'Initialized' : 'Not initialized')
-        console.log('Draggable boxes:', window.draggableBoxes ? 'Initialized' : 'Not initialized')
-        console.log('Projects container:', document.querySelector('.projects-container') ? 'Found' : 'Missing')                                                                                                       
-        console.log('Draggable boxes count:', document.querySelectorAll('.draggable-box').length)
-        console.log('Scatter button:', document.querySelector('.scatter') ? 'Found' : 'Missing')
-        console.log('Body cursor style:', document.body.style.cursor)
-        console.log('Document ready state:', document.readyState)
-        console.log('========================')
-      }
-      
-      // Auto-debug after page load
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          console.log('Auto-debug after page load:')
-          window.debugSite()
-        }, 2000)
-      })
-    </script>
     
     
     

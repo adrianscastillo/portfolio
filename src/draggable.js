@@ -319,6 +319,9 @@ class DraggableBoxes {
           }
         }
         img.onerror = () => {
+          console.error(`Failed to load image: ${projectData.heroImage}`)
+          // Ensure background image is still set even if preloading fails
+          box.style.backgroundImage = `url('${projectData.heroImage}')`
           // Fallback for failed images
           boxDimensions[index] = { width: finalWidth, height: finalWidth }
           loadedCount++
