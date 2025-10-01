@@ -1,0 +1,26 @@
+{
+  "name": "Adrian Castillo - Designer",
+  "short_name": "Adrian Castillo",
+  "description": "A multi-disciplinary designer based in Los Angeles.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8F3E7",
+  "theme_color": "#0002AA",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/images/global/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/global/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["design", "portfolio", "creative"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
