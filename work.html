@@ -829,8 +829,16 @@
         const holdDelay = 500; // 500ms hold time
         
         // Mouse events for click and hold
+        let startX = 0;
+        let startY = 0;
+        const movementThreshold = 10; // pixels - if mouse moves more than this, cancel hold
+        
         media.addEventListener('mousedown', function(e) {
           if (e.button !== 0) return; // Only left mouse button
+          
+          // Store initial mouse position
+          startX = e.clientX;
+          startY = e.clientY;
           
           // Visual feedback
           this.style.opacity = '0.8';
@@ -845,6 +853,26 @@
             isHolding = true;
             openImageViewer(this);
           }, holdDelay);
+        });
+        
+        media.addEventListener('mousemove', function(e) {
+          // Check if we're in the middle of a hold attempt
+          if (holdTimer) {
+            const deltaX = Math.abs(e.clientX - startX);
+            const deltaY = Math.abs(e.clientY - startY);
+            const totalMovement = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            
+            // If mouse moved beyond threshold, cancel the hold
+            if (totalMovement > movementThreshold) {
+              clearTimeout(holdTimer);
+              holdTimer = null;
+              
+              // Clear cursor hold animation
+              if (window.customCursor && window.customCursor.clearTooltip) {
+                window.customCursor.clearTooltip();
+              }
+            }
+          }
         });
         
         media.addEventListener('mouseup', function(e) {
@@ -878,7 +906,14 @@
         });
         
         // Touch events for mobile click and hold
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
         media.addEventListener('touchstart', function(e) {
+          const touch = e.touches[0];
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+          
           isHolding = false;
           holdTimer = setTimeout(() => {
             isHolding = true;
@@ -895,8 +930,16 @@
         
         media.addEventListener('touchmove', function(e) {
           if (holdTimer) {
-            clearTimeout(holdTimer);
-            holdTimer = null;
+            const touch = e.touches[0];
+            const deltaX = Math.abs(touch.clientX - touchStartX);
+            const deltaY = Math.abs(touch.clientY - touchStartY);
+            const totalMovement = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            
+            // If touch moved beyond threshold, cancel the hold
+            if (totalMovement > movementThreshold) {
+              clearTimeout(holdTimer);
+              holdTimer = null;
+            }
           }
         });
       });
