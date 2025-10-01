@@ -25,15 +25,15 @@ class DraggableBoxes {
     
     // Project data array for better performance
     this.projectData = [
-      { title: 'DX10', heroImage: '/assets/images/work/project-0/gallery/dx10 cover.jpg' },
-      { title: 'Terb', heroImage: '/assets/images/work/project-1/gallery/terb cover.gif' },
-      { title: 'National Media Office', heroImage: '/assets/images/work/project-2/gallery/nmo cover.jpg' },
-      { title: 'The Founders Office', heroImage: '/assets/images/work/project-3/gallery/tfo cover.jpg' },
-      { title: 'Sheikh Zayed', heroImage: '/assets/images/work/project-4/gallery/zayed cover.jpg' },
-      { title: 'Kojinn', heroImage: '/assets/images/work/project-5/gallery/kojinn cover.jpg' },
-      { title: 'Hotaling & Co.', heroImage: '/assets/images/work/project-6/gallery/hc cover.gif' },
-      { title: 'Farm Sanctuary', heroImage: '/assets/images/work/project-7/gallery/fs cover.jpg' },
-      { title: 'Relief International', heroImage: '/assets/images/work/project-8/gallery/ri-cover.jpg' }
+      { title: 'DX10', heroImage: '/assets/images/dx10 cover-CMCuynen.jpg' },
+      { title: 'Terb', heroImage: '/assets/images/terb cover-h_QUVJyr.gif' },
+      { title: 'National Media Office', heroImage: '/assets/images/nmo cover-C14L-Tp_.jpg' },
+      { title: 'The Founders Office', heroImage: '/assets/images/tfo cover-BIASUizX.jpg' },
+      { title: 'Sheikh Zayed', heroImage: '/assets/images/zayed cover-D8pDKJav.jpg' },
+      { title: 'Kojinn', heroImage: '/assets/images/kojinn cover-CN2NiazX.jpg' },
+      { title: 'Hotaling & Co.', heroImage: '/assets/images/hc cover-Csbse1z4.gif' },
+      { title: 'Farm Sanctuary', heroImage: '/assets/images/fs cover-6t3d6SLl.jpg' },
+      { title: 'Relief International', heroImage: '/assets/images/ri-cover-BwIK5Nl6.jpg' }
     ]
     
     this.draggedBox = null
