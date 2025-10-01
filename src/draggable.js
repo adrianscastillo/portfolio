@@ -274,6 +274,15 @@ class DraggableBoxes {
     const minWidth = 200
     const maxWidth = 400
     const finalWidth = Math.max(minWidth, Math.min(maxWidth, targetWidth))
+    
+    // Debug logging
+    console.log('setBoxSizes debug:', {
+      viewportWidth: window.innerWidth,
+      creamColumnWidth,
+      targetWidth,
+      finalWidth,
+      isMobile: window.innerWidth <= 768
+    })
 
     // Store box dimensions for proper ordering
     const boxDimensions = []
@@ -297,6 +306,14 @@ class DraggableBoxes {
         box.style.backgroundSize = 'contain' // Show full image without cropping
         box.style.backgroundRepeat = 'no-repeat'
         box.style.backgroundPosition = 'center'
+        
+        // Debug logging
+        console.log(`Setting background for box ${index}:`, {
+          projectTitle: projectData.title,
+          heroImage: projectData.heroImage,
+          backgroundImage: box.style.backgroundImage,
+          viewportWidth: window.innerWidth
+        })
         
         // Create image element to get natural dimensions
         const img = new Image()
