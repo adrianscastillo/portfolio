@@ -54,16 +54,25 @@ export default defineConfig(({ command }) => ({
     cssCodeSplit: true,
     chunkSizeWarningLimit: 1000
   },
-        server: {
-          host: true,
-          port: 5173,
-          open: false,
-          headers: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-          }
-        },
+  server: {
+    host: true,
+    port: 5173,
+    open: '/',
+    strictPort: false,
+    cors: true,
+    headers: {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    },
+    hmr: {
+      overlay: true
+    },
+    watch: {
+      usePolling: false,
+      interval: 100
+    }
+  },
   preview: {
     host: true,
     port: 4173

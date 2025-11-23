@@ -34,7 +34,7 @@ html, body {
 }
 
 body { 
-  font-family: 'Guyot Press', 'Georgia', serif; 
+  font-family: "guyot-press-1", serif; 
   background-color: #F8F3E7;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -53,9 +53,9 @@ body {
   --color-text-muted: rgba(255, 255, 255, 0.85);
   
   /* Typography */
-  --font-primary: 'Guyot Press', 'Georgia', serif;
+  --font-primary: "guyot-press-1", serif;
   --font-display: 'Nautica', 'Arial', sans-serif;
-  --font-headline: 'Guyot Headline', 'Georgia', serif;
+  --font-headline: "guyot-headline", sans-serif;
   
   /* Font Sizes */
   --font-size-xs: 12px;
@@ -124,6 +124,7 @@ body {
 }
 
 /* Typography System */
+/* Nautica font - still self-hosted */
 @font-face {
   font-family: 'Nautica';
   src: url('/assets/fonts/Nautica Medium.otf') format('opentype');
@@ -132,53 +133,7 @@ body {
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Guyot Press';
-  src: url('/assets/fonts/Guyot Press v1.000/GuyotPress-Regular1.otf') format('opentype');
-  font-weight: var(--font-weight-normal);
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Guyot Press';
-  src: url('/assets/fonts/Guyot Press v1.000/GuyotPress-RegularItalic1.otf') format('opentype');
-  font-weight: var(--font-weight-normal);
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Guyot Headline';
-  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-Regular.otf') format('opentype');
-  font-weight: var(--font-weight-normal);
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Guyot Headline';
-  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-RegularItalic.otf') format('opentype');
-  font-weight: var(--font-weight-normal);
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Guyot Headline';
-  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-Bold.otf') format('opentype');
-  font-weight: var(--font-weight-bold);
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Guyot Headline';
-  src: url('/assets/fonts/Guyot Headline v2.000/GuyotHeadline-Light.otf') format('opentype');
-  font-weight: var(--font-weight-light);
-  font-style: normal;
-  font-display: block;
-}
+/* Guyot fonts are now loaded via Adobe Fonts (Typekit) - see HTML head section */
 
 /* Accessibility Styles */
 .sr-only {

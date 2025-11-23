@@ -15,7 +15,7 @@ const STATIC_ASSETS = [
   '/pages/about.html',
   '/pages/musings.html',
   '/styles.css',
-  '/assets/fonts/Guyot Press v1.000/GuyotPress-Regular1.otf',
+  // Guyot fonts are now loaded via Adobe Fonts (Typekit), no longer self-hosted
   '/assets/fonts/Nautica Medium.otf',
   '/assets/images/global/favicon.svg',
   '/assets/images/global/og-image.jpg'
